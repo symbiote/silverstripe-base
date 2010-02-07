@@ -1,0 +1,60 @@
+######################################################################## 
+# 
+# When starting a new project, this file MUST be set up for use as
+# how it should be used on the continuous integration server.   
+#
+########################################################################
+
+
+# Where should the modules be retrieved from? 
+# This reads and loads the modules one by one to remove any problems
+# with dependencies between modules. Just make sure they're 
+# in the file in the order they should be loaded...
+modules.depends.file=scripts/dependent-modules
+
+# The core modules for silverstripe
+modules.core.file=scripts/core-modules
+
+db.config=configs/silverstripe/db.conf.sample.php
+testing.config=configs/silverstripe/testing.conf.sample.php
+htaccess.config=configs/silverstripe/htaccess.sample
+
+# change this to the value that appears AFTER the TLD in your url 
+# the below matches http://localhost/bootstrap_env  
+rewrite.base=/bootstrap_env
+
+# DB information
+db.type=MySQLDatabase
+db.user=dbuser
+db.pass=dbpass
+db.name=silverstripe
+db.host=localhost
+
+# Configuration details for the testing database. It is expected
+# that all other properties are the same
+testing.db.name=silverstripe_testing
+
+# Configuration details for how the output of the testing should be managed - PhingXMLPHPUnit3ResultFormatter
+testing.reporter=CliTestReporter
+testing.logdir=ssautesting/logs
+testing.logfile=testsuite.xml
+
+# The default username/password to use for the administrator
+admin.username=admin@changethis.org
+admin.password=admin
+
+devbuild.url=http://localhost${rewrite.base}/dev/build?username=${admin.username}&amp;password=${admin.password}
+
+testcase=
+
+# Module package information
+module.name=${phing.project.name}
+module.version=0.1.0-a
+module.file=scripts/${module.name}-${module.version}.tar.gz
+
+
+# The name of the tarball to create when packaging
+# Note that these are output to the scripts folder so they are inaccessible from the web
+# via .htaccess rules
+package.name=scripts/${phing.project.name}.${DSTAMP}tar.gz
+database_dump.name=scripts/${phing.project.name}.sql

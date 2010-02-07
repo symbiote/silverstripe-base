@@ -1,0 +1,13 @@
+# Examples
+# Note - putting 'false' at the end of the line means a 'dev/build' will NOT
+# be run for this module when it is loaded
+#  
+# blog/ http://svn.silverstripe.com/open/modules/blog/trunk
+# external-content https://ssaurimu/svn/modules/external-content/trunk
+
+
+cms/ http://svn.silverstripe.com/open/modules/cms/branches/2.4 false
+jsparty/ http://svn.silverstripe.com/open/modules/jsparty/branches/2.4 false
+sapphire/ http://svn.silverstripe.com/open/modules/sapphire/branches/2.4
+
+ssautesting http://silverstripe.com.au/repo/modules/ssautesting/trunk
