@@ -6,8 +6,8 @@
 # external-content https://ssaurimu/svn/modules/external-content/trunk
 
 
-cms/ http://svn.silverstripe.com/open/modules/cms/branches/2.4 false
-jsparty/ http://svn.silverstripe.com/open/modules/jsparty/branches/2.4 false
-sapphire/ http://svn.silverstripe.com/open/modules/sapphire/branches/2.4
+cms/ http://svn.silverstripe.com/open/modules/cms/tags/beta/2.4.0-beta1 false
+jsparty/ http://svn.silverstripe.com/open/modules/jsparty/tags/beta/2.4.0-beta1 false
+sapphire/ http://svn.silverstripe.com/open/modules/sapphire/tags/beta/2.4.0-beta1
 
 ssautesting http://silverstripe.com.au/repo/modules/ssautesting/trunk
