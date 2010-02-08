@@ -21,6 +21,9 @@ OF SUCH DAMAGE.
  
 */
 
+/**
+ * A simple helper function to deal with DB quoting. 
+ */
 if (!defined('SSAU_QUOTE_CHAR')) {
 
 	define('SSAU_QUOTE_CHAR', defined('DB::USE_ANSI_SQL') ? '"' : '');
@@ -43,7 +46,25 @@ if (!defined('SSAU_QUOTE_CHAR')) {
 		foreach ($filter as $field => $value) {
 			// first break the field up into its two components
 			list($field, $operator) = explode(' ', trim($field));
-			$string .= $sep . SSAU_QUOTE_CHAR . $field . SSAU_QUOTE_CHAR . " $operator '" . Convert::raw2sql($value) . "'";
+			if (is_array($value)) {
+				// quote each individual one into a string
+				$ins = '';
+				$insep = '';
+				foreach ($value as $v) {
+					$ins .= $insep . Convert::raw2sql($v);
+					$insep = ',';
+				}
+				$value = '('.$ins.')';
+			} else {
+				$value = "'" . Convert::raw2sql($value) . "'";
+			}
+			
+			if (strpos($field, '.')) {
+				list($tb, $fl) = explode('.', $field);
+				$string .= $sep . SSAU_QUOTE_CHAR . $tb . SSAU_QUOTE_CHAR . '.' . SSAU_QUOTE_CHAR . $fl . SSAU_QUOTE_CHAR . " $operator " . $value;
+			} else {
+				$string .= $sep . SSAU_QUOTE_CHAR . $field . SSAU_QUOTE_CHAR . " $operator " . $value;
+			}
 			$sep = $join;
 		}
 
