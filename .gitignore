@@ -17,3 +17,5 @@ simplewiki/
 ssautesting/
 mysite/db.conf.php
 mysite/error.log
+scripts/*.tar.gz
+scripts/build.properties
