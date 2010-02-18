@@ -11,3 +11,10 @@ jsparty/ http://svn.silverstripe.com/open/modules/jsparty/tags/beta/2.4.0-beta1 
 sapphire/ http://svn.silverstripe.com/open/modules/sapphire/tags/beta/2.4.0-beta1
 
 ssautesting http://silverstripe.com.au/repo/modules/ssautesting/trunk
+
+# For the standard base install, uncomment the following
+# securefiles http://svn.silverstripe.com/open/modules/securefiles/trunk
+# versionedfiles git://github.com/ajshort/silverstripe-versionedfiles.git 
+# memberprofiles git://github.com/ajshort/silverstripe-memberprofiles.git
+# listingpage git@github.com:nyeholt/silverstripe-listingpage.git
+# taggable git@github.com:nyeholt/silverstripe-taggable.git
