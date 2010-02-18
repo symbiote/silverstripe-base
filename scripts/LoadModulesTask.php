@@ -101,6 +101,14 @@ class LoadModulesTask extends Task
 				echo `svn co $svnUrl $moduleName`;
 			}
 
+			// make sure to append it to the .gitignore file
+			if (file_exists('.gitignore')) {
+				$gitIgnore = file_get_contents('.gitignore');
+				if (strpos($gitIgnore, $moduleName) === false) {
+					`echo $moduleName >> .gitignore`;
+				}
+			}
+
 		} else {
 			echo "Updating $moduleName from $svnUrl\n";
 			if ($git) {
