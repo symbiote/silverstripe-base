@@ -17,3 +17,4 @@ ssautesting http://silverstripe.com.au/repo/modules/ssautesting/trunk
 # memberprofiles git://github.com/ajshort/silverstripe-memberprofiles.git
 # listingpage git@github.com:nyeholt/silverstripe-listingpage.git
 # taggable git@github.com:nyeholt/silverstripe-taggable.git
+# frontend-editing git@github.com:nyeholt/silverstripe-frontend-editing.git

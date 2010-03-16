@@ -28,7 +28,7 @@
 	        <a class="prev" href="$Results.PrevLink" title="View the previous page">Prev</a>
 	      <% end_if %>
 	      <span>
-	        <% control Results.SummaryPagination(5) %>
+	        <% control Results.PaginationSummary(5) %>
 	          <% if CurrentBool %>
 	            $PageNum
 	          <% else %>

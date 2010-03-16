@@ -56,5 +56,5 @@ module.file=scripts/${module.name}-${module.version}.tar.gz
 # The name of the tarball to create when packaging
 # Note that these are output to the scripts folder so they are inaccessible from the web
 # via .htaccess rules
-package.name=scripts/${phing.project.name}.${DSTAMP}tar.gz
+package.name=scripts/${phing.project.name}.${DSTAMP}.tar.gz
 database_dump.name=scripts/${phing.project.name}.sql
