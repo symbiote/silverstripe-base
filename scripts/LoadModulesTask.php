@@ -90,6 +90,11 @@ class LoadModulesTask extends Task
 	protected function loadModule($moduleName, $svnUrl, $devBuild = true)
 	{
 		$git = strrpos($svnUrl, '.git') == (strlen($svnUrl) - 4);
+		$gitBranch = null;
+		if (strpos($moduleName, '/') > 0) {
+			$gitBranch = substr($moduleName, strpos($moduleName, '/') + 1);
+			$moduleName = substr($moduleName, 0, strpos($moduleName, '/'));
+		}
 
 		// check the module out if it doesn't exist
 		if (!file_exists($moduleName)) {
@@ -97,10 +102,14 @@ class LoadModulesTask extends Task
 			// check whether it's git or svn
 			if ($git) {
 				echo `git clone $svnUrl $moduleName`;
+				if ($gitBranch) {
+					// need to make sure we've pulled from the correct branch also
+					`cd $moduleName && git checkout -b $gitBranch && git pull origin $gitBranch && cd ..`;
+				}
 			} else {
 				echo `svn co $svnUrl $moduleName`;
 			}
-
+			
 			// make sure to append it to the .gitignore file
 			if (file_exists('.gitignore')) {
 				$gitIgnore = file_get_contents('.gitignore');
@@ -108,15 +117,16 @@ class LoadModulesTask extends Task
 					`echo $moduleName >> .gitignore`;
 				}
 			}
-
 		} else {
-			echo "Updating $moduleName from $svnUrl\n";
+			echo "Updating $moduleName $gitBranch from $svnUrl\n";
 			if ($git) {
-				echo `cd $moduleName && git pull origin && cd ..`;
+				echo `cd $moduleName && git pull origin $gitBranch && cd ..`;
 			} else {
 				echo `svn up $moduleName`;
 			}
 		}
+
+
 
 		if ($devBuild && file_exists('sapphire/cli-script.php')) {
 			echo "Running dev/build\n";
