@@ -15,9 +15,9 @@ ssautesting http://silverstripe.com.au/repo/modules/ssautesting/trunk
 # securefiles http://svn.silverstripe.com/open/modules/securefiles/trunk
 # versionedfiles git://github.com/ajshort/silverstripe-versionedfiles.git 
 # memberprofiles git://github.com/ajshort/silverstripe-memberprofiles.git
-# listingpage git@github.com:nyeholt/silverstripe-listingpage.git
-# taggable git@github.com:nyeholt/silverstripe-taggable.git
+# listingpage git://github.com/nyeholt/silverstripe-listingpage.git
+# taggable git://github.com/nyeholt/silverstripe-taggable.git
 # tagfield http://svn.silverstripe.com/open/modules/tagfield/trunk
-# frontend-editing git@github.com:nyeholt/silverstripe-frontend-editing.git
+# frontend-editing git://github.com:nyeholt/silverstripe-frontend-editing.git
 # userforms http://svn.silverstripe.com/open/modules/userforms/trunk/
 # newsletter http://svn.silverstripe.com/open/modules/newsletter/trunk/

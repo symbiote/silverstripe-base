@@ -168,12 +168,12 @@
 	<target name="backup">
 		<echo file="README.txt" append="false">
 To restore this backup:
-* Import the database file in scripts/${phing.project.name}.sql
+* Import the database file in configs/${phing.project.name}.sql
 * Copy configs/silverstripe/db.conf.php.sample to mysite/db.conf.php
 * Edit DB settings in db.conf as appropriate (typically, use MySQLDatabase as the db.type)
 * Run 'php sapphire/cli-script.php dev/build'
 		</echo>
-		<exec command="mysqldump -u${db.user} -p${db.pass} ${db.name} > scripts/${phing.project.name}.sql"></exec>
+		<exec command="mysqldump -u${db.user} -p${db.pass} ${db.name} > configs/${phing.project.name}.sql"></exec>
 		<phingcall target="package" />
 	</target>
 

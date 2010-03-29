@@ -104,7 +104,7 @@ class LoadModulesTask extends Task
 				echo `git clone $svnUrl $moduleName`;
 				if ($gitBranch) {
 					// need to make sure we've pulled from the correct branch also
-					`cd $moduleName && git checkout -b $gitBranch && git pull origin $gitBranch && cd ..`;
+					`cd $moduleName && git checkout -f -t origin/$gitBranch && cd ..`;
 				}
 			} else {
 				echo `svn co $svnUrl $moduleName`;
@@ -120,7 +120,7 @@ class LoadModulesTask extends Task
 		} else {
 			echo "Updating $moduleName $gitBranch from $svnUrl\n";
 			if ($git) {
-				echo `cd $moduleName && git pull origin $gitBranch && cd ..`;
+				echo `cd $moduleName && git checkout $gitBranch && git pull origin $gitBranch && cd ..`;
 			} else {
 				echo `svn up $moduleName`;
 			}
