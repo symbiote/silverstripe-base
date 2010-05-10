@@ -108,8 +108,7 @@
 	</target>
 	
 	<!-- Create a deployable package -->
-	<target name="package">
-		<delete file="${package.name}" />
+	<target name="package" depends="clean">
 		<copy file="${db.config}" tofile="mysite/${db.config}" />
 		<tar destfile="${package.name}" compression="gzip">
 			<fileset dir="${project.basedir}">
@@ -128,7 +127,7 @@
 
 	<!-- A package that doesn't include files that are commonly overridden
 	on remote sites -->
-	<target name="update-package">
+	<target name="update-package" depends="clean">
 		<!-- <delete file="${package.name}" />-->
 		<delete>
 			<fileset dir="scripts/">
@@ -173,7 +172,7 @@ To restore this backup:
 * Edit DB settings in db.conf as appropriate (typically, use MySQLDatabase as the db.type)
 * Run 'php sapphire/cli-script.php dev/build'
 		</echo>
-		<exec command="mysqldump -u${db.user} -p${db.pass} ${db.name} > configs/${phing.project.name}.sql"></exec>
+		<exec command="mysqldump -u${db.user} -p${db.pass} ${db.name} > ${database_dump.name}"></exec>
 		<phingcall target="package" />
 	</target>
 
@@ -192,6 +191,11 @@ To restore this backup:
 	</target>
 	
 	<target name="clean">
+		<delete>
+			<fileset dir="scripts/">
+			<include name="*.tar.gz" />
+			</fileset>
+		</delete>
 		<delete file="${package.name}"></delete>
 		<delete file="${database_dump.name}"></delete>
 	</target>

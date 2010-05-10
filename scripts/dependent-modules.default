@@ -6,10 +6,12 @@
 # external-content https://ssaurimu/svn/modules/external-content/trunk
 
 
-cms/ http://svn.silverstripe.com/open/modules/cms/tags/beta/2.4.0-beta1 false
-sapphire/ http://svn.silverstripe.com/open/modules/sapphire/tags/beta/2.4.0-beta1
+cms/ http://svn.silverstripe.com/open/modules/cms/tags/2.4.0 false
+sapphire/ http://svn.silverstripe.com/open/modules/sapphire/tags/2.4.0
 
 ssautesting http://silverstripe.com.au/repo/modules/ssautesting/trunk
+
+legacydatetimefields http://svn.silverstripe.com/open/modules/legacydatetimefields/trunk/
 
 # For the standard base install, uncomment the following
 # securefiles http://svn.silverstripe.com/open/modules/securefiles/trunk
@@ -18,6 +20,6 @@ ssautesting http://silverstripe.com.au/repo/modules/ssautesting/trunk
 # listingpage git://github.com/nyeholt/silverstripe-listingpage.git
 # taggable git://github.com/nyeholt/silverstripe-taggable.git
 # tagfield http://svn.silverstripe.com/open/modules/tagfield/trunk
-# frontend-editing git://github.com:nyeholt/silverstripe-frontend-editing.git
+# frontend-editing git://github.com/nyeholt/silverstripe-frontend-editing.git
 # userforms http://svn.silverstripe.com/open/modules/userforms/trunk/
 # newsletter http://svn.silverstripe.com/open/modules/newsletter/trunk/

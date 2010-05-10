@@ -57,4 +57,4 @@ module.file=scripts/${module.name}-${module.version}.tar.gz
 # Note that these are output to the scripts folder so they are inaccessible from the web
 # via .htaccess rules
 package.name=scripts/${phing.project.name}.${DSTAMP}.tar.gz
-database_dump.name=scripts/${phing.project.name}.sql
+database_dump.name=configs/${phing.project.name}.sql
