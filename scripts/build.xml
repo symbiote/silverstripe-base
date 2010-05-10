@@ -108,7 +108,15 @@
 	</target>
 	
 	<!-- Create a deployable package -->
-	<target name="package" depends="clean">
+	<target name="package">
+		<!-- package doesn't use the main clean, so that the db dump doesn't get wiped -->
+                <delete>
+                        <fileset dir="scripts/">
+                        <include name="*.tar.gz" />
+                        </fileset>
+                </delete>
+
+		<!-- creates a default config file -->
 		<copy file="${db.config}" tofile="mysite/${db.config}" />
 		<tar destfile="${package.name}" compression="gzip">
 			<fileset dir="${project.basedir}">
@@ -125,22 +133,35 @@
 		</tar>
 	</target>
 
+	<!-- a package that includes all items that the phing build normally downloads, which can 
+	be just extracted over the top of whatever is pulled out of git --> 
+        <target name="phing-package" depends="clean">
+                <tar destfile="${package.name}" compression="gzip">
+                        <fileset dir="${project.basedir}">
+                                <include name="**/**" />
+				<include name="**/.svn" />
+                                <exclude name="mysite/**" />
+				<exclude name="themes/**" />
+				<exclude name="scripts/**" />
+				<exclude name="configs/**" />
+                                <exclude name="nbproject/**" />
+                                <exclude name="**/.project" />
+                                <exclude name="**/.buildpath" />
+                                <exclude name="**/.settings" />
+                        </fileset>
+                </tar>
+        </target>
+
+
 	<!-- A package that doesn't include files that are commonly overridden
 	on remote sites -->
 	<target name="update-package" depends="clean">
-		<!-- <delete file="${package.name}" />-->
-		<delete>
-			<fileset dir="scripts/">
-			<include name="*.tar.gz" />
-			</fileset>
-		</delete>
-
 		<copy file="${db.config}" tofile="mysite/${db.config}" />
 		<tar destfile="${package.name}" compression="gzip">
 			<fileset dir="${project.basedir}">
 				<include name="**/**" />
 				<exclude name="mysite/db.conf.php" />
-				<exclude name="mysite/error.log" />
+				<exclude name="mysite/*.log" />
 				<exclude name="scripts/**" />
 				<exclude name=".htaccess" />
 				<exclude name="**/.svn" />
@@ -149,6 +170,8 @@
 				<exclude name="**/.buildpath" />
 				<exclude name="**/.settings" />
 				<exclude name="assets/**" />
+				<exclude name="cms/**" />
+				<exclude name="sapphire/**" />
 			</fileset>
 		</tar>
 	</target>
