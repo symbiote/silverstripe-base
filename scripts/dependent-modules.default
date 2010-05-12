@@ -9,8 +9,6 @@
 cms/ http://svn.silverstripe.com/open/modules/cms/tags/2.4.0 false
 sapphire/ http://svn.silverstripe.com/open/modules/sapphire/tags/2.4.0
 
-ssautesting http://silverstripe.com.au/repo/modules/ssautesting/trunk
-
 legacydatetimefields http://svn.silverstripe.com/open/modules/legacydatetimefields/trunk/
 
 # For the standard base install, uncomment the following
