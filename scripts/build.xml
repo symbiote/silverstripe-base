@@ -22,26 +22,9 @@
 	<taskdef name="sstest" classname="scripts.SilverStripeTestTask" />
 	<taskdef name="ssmodules" classname="scripts.LoadModulesTask" />
 
-	<target name="init" depends="non_interactive,check_properties,load_core">
+	<target name="init" depends="non_interactive,check_properties">
 	</target>
 
-	<!--
-	Makes sure that the SVN externals values are set properly. This has to be done
-	separately for every project to ensure that the SVN externals are committed 
-	correctly so that we're always updating from the remote locations. 
-	-->
-	<target name="load_core" unless="installed">
-		<phingcall target="set_externals" />
-		<!-- now do an update - assumption is that no authentication is required... for now -->
-		<exec command="svn up" />
-	</target>
-	
-	<!-- Set the svn:externals property for absolutely dependent modules -->
-	<target name="set_externals">
-		<!-- Add the svn:externals stuff -->
-		<exec command="svn propset svn:externals -F ${modules.core.file} ."></exec>
-	</target>
-	
 	<!-- Load modules where sensitive dependency exists -->
 	<target name="update_modules" depends="create_modules_file">
 		<ssmodules file="${modules.depends.file}" />
@@ -88,7 +71,7 @@
 		</copy>
 
 		<!-- Copy the configs to be used for testing. Set the required variables in the build.properties file -->
-		<copy tofile="ssautesting/testing.conf.php" file="${testing.config}" overwrite="true">
+		<copy tofile="ssautesting/testing.conf.php" file="${testing.config}" overwrite="false">
 			<filterchain>
 				<expandproperties />
 			</filterchain>
@@ -126,6 +109,7 @@
 				<exclude name="mysite/error.log" />
 				<exclude name="**/.svn" />
 				<exclude name="nbproject/**" />
+				<exclude name="**/.htaccess" />
 				<exclude name="**/.project" />
 				<exclude name="**/.buildpath" />
 				<exclude name="**/.settings" />
@@ -210,6 +194,12 @@ To restore this backup:
 	<target name="test">
 		<!-- Make sure the log directory exists -->
 		<mkdir dir="${testing.logdir}" />
+		<!-- Copy the configs - done so that we can override the reporter type from an exernal source -->
+		<copy tofile="ssautesting/testing.conf.php" file="${testing.config}" overwrite="true">
+			<filterchain>
+				<expandproperties />
+			</filterchain>
+		</copy>
 		<sstest module="${module}" testcase="${testcase}" />
 	</target>
 	

@@ -5,7 +5,7 @@
 # blog/ http://svn.silverstripe.com/open/modules/blog/trunk
 # external-content https://ssaurimu/svn/modules/external-content/trunk
 
-
+sqlite3/ http://svn.silverstripe.com/open/modules/sqlite3/trunk false
 cms/ http://svn.silverstripe.com/open/modules/cms/tags/2.4.0 false
 sapphire/ http://svn.silverstripe.com/open/modules/sapphire/tags/2.4.0
 

@@ -11,14 +11,16 @@ class SilverStripeTestTask extends Task
 	private $module = '';
 	private $testcase = '';
 	
-	public function setModule($v)
-	{
-		$this->module = $v;
+	public function setModule($v) {
+		if (!strpos($v, '$') === 0) {
+			$this->module = $v;
+		}
 	}
 	
-	public function setTestCase($v)
-	{
-		$this->testcase = $v;
+	public function setTestCase($v) {
+		if (!strpos($v, '$') === 0) {
+			$this->testcase = $v;
+		}
 	}
 
 	/**
@@ -46,14 +48,14 @@ TEXT;
 			$cleanup = true;
 		}
 		
-		$testCmd = '/dev/tests/all';
+		$testCmd = 'dev/tests/all';
 		
 		if ($this->module != '') {
-			$testCmd = '/dev/tests/module/'.$this->module;
+			$testCmd = 'dev/tests/module/'.$this->module;
 		}
 		
 		if ($this->testcase != '') {
-			$testCmd = '/dev/tests/'.$this->testcase;
+			$testCmd = 'dev/tests/'.$this->testcase;
 		} 
 
 		echo "Exec $testCmd\n";

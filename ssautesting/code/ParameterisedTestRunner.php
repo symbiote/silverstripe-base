@@ -91,7 +91,7 @@ class ParameterisedTestRunner extends TestRunner
 		$results = new PHPUnit_Framework_TestResult();		
 		$results->addListener($reporter);
 
-		if($coverage) {
+		if($coverage === true) {
 			$results->collectCodeCoverageInformation(true);
 			$suite->run($results);
 
@@ -133,7 +133,6 @@ class ParameterisedTestRunner extends TestRunner
 		
 		// Todo: we should figure out how to pass this data back through Director more cleanly
 		if(Director::is_cli() && ($results->failureCount() + $results->errorCount()) > 0) exit(2);
-		
 	}
 
 	function tearDown() {

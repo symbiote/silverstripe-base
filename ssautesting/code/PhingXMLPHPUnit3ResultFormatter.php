@@ -19,7 +19,7 @@
  * <http://phing.info>.
  */
 
-require_once 'PHPUnit/Util/Log/XML.php';
+require_once 'PHPUnit/Util/Log/JUnit.php';
 
 /**
  * Prints XML output of the test to a specified Writer
@@ -38,7 +38,7 @@ class PhingXMLPHPUnit3ResultFormatter extends PhingPHPUnit3ResultFormatter
 
 	function __construct()
 	{
-		$this->logger = new PHPUnit_Util_Log_XML(null, true);
+		$this->logger = new PHPUnit_Util_Log_JUnit(null, true);
 		$this->logger->setWriteDocument(false);
 	}
 
