@@ -5,7 +5,6 @@ $project = 'mysite';
 
 
 include_once dirname(__FILE__).'/db.conf.php';
-include_once dirname(__FILE__).'/helpers.php';
 
 // Sites running on the following servers will be
 // run in development mode. See

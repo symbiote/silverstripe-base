@@ -31,7 +31,7 @@ class ParameterisedTestRunner extends TestRunner
 		
 		$startTime = microtime(true);
 
-		if (isset($TESTING_CONFIG['database']) && $TESTING_CONFIG['database'] != 'silverstripe-testing') {
+		if (isset($TESTING_CONFIG['database']) && $TESTING_CONFIG['database'] != 'silverstripe_testing') {
 			global $databaseConfig;
 			$newConfig = $databaseConfig;
 			$newConfig['database'] = $TESTING_CONFIG['database'];
@@ -134,6 +134,14 @@ class ParameterisedTestRunner extends TestRunner
 		// Todo: we should figure out how to pass this data back through Director more cleanly
 		if(Director::is_cli() && ($results->failureCount() + $results->errorCount()) > 0) exit(2);
 		
+	}
+
+	function tearDown() {
+		global $TESTING_CONFIG;
+		if (!isset($TESTING_CONFIG['database'])) {
+			parent::tearDown();
+		}
+		DB::set_alternative_database_name(null);
 	}
 }
 ?>
