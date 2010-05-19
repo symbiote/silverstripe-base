@@ -30,11 +30,6 @@
 		<ssmodules file="${modules.depends.file}" />
 	</target>
 
-	<!-- 
-	Copy the sample module dependency file if it doesn't exist yet. We don't want this 
-	in SVN necessarily, but the .default file will contain those that the project
-	should have. 
-	 -->
 	<target name="create_modules_file" unless="modules_file_exists">
 		<copy file="${modules.depends.file}.default" tofile="${modules.depends.file}" />
 	</target>
@@ -58,7 +53,7 @@
 		<!-- we'll make sure that there's a build.properties file, even if we're just using the default  -->
 		<copy tofile="./scripts/build.properties" file="./scripts/build.properties.sample" />
 		<property name="properties_exist" value="true" override="true" />
-		<property file="./scripts/build.properties"></property>
+		<property file="${properties.prefix}./scripts/build.properties"></property>
 	</target>
 
 	<!-- Installs a freshly checked-out silverstripe project -->
@@ -93,11 +88,11 @@
 	<!-- Create a deployable package -->
 	<target name="package">
 		<!-- package doesn't use the main clean, so that the db dump doesn't get wiped -->
-                <delete>
-                        <fileset dir="scripts/">
-                        <include name="*.tar.gz" />
-                        </fileset>
-                </delete>
+		<delete>
+			<fileset dir="scripts/">
+				<include name="*.tar.gz" />
+			</fileset>
+		</delete>
 
 		<!-- creates a default config file -->
 		<copy file="${db.config}" tofile="mysite/${db.config}" />
@@ -119,22 +114,22 @@
 
 	<!-- a package that includes all items that the phing build normally downloads, which can 
 	be just extracted over the top of whatever is pulled out of git --> 
-        <target name="phing-package" depends="clean">
-                <tar destfile="${package.name}" compression="gzip">
-                        <fileset dir="${project.basedir}">
-                                <include name="**/**" />
+	<target name="phing-package" depends="clean">
+		<tar destfile="${package.name}" compression="gzip">
+			<fileset dir="${project.basedir}">
+				<include name="**/**" />
 				<include name="**/.svn" />
-                                <exclude name="mysite/**" />
+				<exclude name="mysite/**" />
 				<exclude name="themes/**" />
 				<exclude name="scripts/**" />
 				<exclude name="configs/**" />
-                                <exclude name="nbproject/**" />
-                                <exclude name="**/.project" />
-                                <exclude name="**/.buildpath" />
-                                <exclude name="**/.settings" />
-                        </fileset>
-                </tar>
-        </target>
+				<exclude name="nbproject/**" />
+				<exclude name="**/.project" />
+				<exclude name="**/.buildpath" />
+				<exclude name="**/.settings" />
+			</fileset>
+		</tar>
+	</target>
 
 
 	<!-- A package that doesn't include files that are commonly overridden
