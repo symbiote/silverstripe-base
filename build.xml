@@ -6,7 +6,7 @@
 	<tstamp />
 
 	<!-- Make sure properties are in existence -->
-	<available file="./scripts/build.properties" property="properties_exist" />
+	<available file="./build/build.properties" property="properties_exist" />
 	
 	<!-- Has the modules file been created? -->
 	<available file="${modules.depends.file}" property="modules_file_exists" />
@@ -14,13 +14,13 @@
 	<!-- have we been installed? -->
 	<available file="./mysite/db.conf.php" property="installed" />
 
-	<property file="./scripts/build.properties"></property>
+	<property file="./build/build.properties"></property>
 
 	<!-- Load in the custom tasks -->
-	<taskdef name="symlink" classname="scripts.SymlinkTask" />
-	<taskdef name="copyfolders" classname="scripts.CopyFoldersTask" />
-	<taskdef name="sstest" classname="scripts.SilverStripeTestTask" />
-	<taskdef name="ssmodules" classname="scripts.LoadModulesTask" />
+	<taskdef name="symlink" classname="build.SymlinkTask" />
+	<taskdef name="copyfolders" classname="build.CopyFoldersTask" />
+	<taskdef name="sstest" classname="build.SilverStripeTestTask" />
+	<taskdef name="ssmodules" classname="build.LoadModulesTask" />
 
 	<target name="init" depends="non_interactive,check_properties">
 	</target>
@@ -44,16 +44,16 @@
 
 	<!-- Ensures the build.properties file exists! -->
 	<target name="check_properties" unless="properties_exist">
-		<fail>!!Please create the scripts/build.properties file before continuing!!</fail>
+		<fail>!!Please create the build/build.properties file before continuing!!</fail>
 	</target>
 
 	<!-- A target that gets executed if the 'ni_build' parameter is set. This is done when 
 	the build is executed from a CI container -->
 	<target name="non_interactive" if="ni_build">
 		<!-- we'll make sure that there's a build.properties file, even if we're just using the default  -->
-		<copy tofile="./scripts/build.properties" file="./scripts/build.properties.sample" />
+		<copy tofile="./build/build.properties" file="./build/build.properties.sample" />
 		<property name="properties_exist" value="true" override="true" />
-		<property file="${properties.prefix}./scripts/build.properties"></property>
+		<property file="${properties.prefix}./build/build.properties"></property>
 	</target>
 
 	<!-- Installs a freshly checked-out silverstripe project -->
@@ -89,7 +89,7 @@
 	<target name="package">
 		<!-- package doesn't use the main clean, so that the db dump doesn't get wiped -->
 		<delete>
-			<fileset dir="scripts/">
+			<fileset dir="build/">
 				<include name="*.tar.gz" />
 			</fileset>
 		</delete>
@@ -99,7 +99,7 @@
 		<tar destfile="${package.name}" compression="gzip">
 			<fileset dir="${project.basedir}">
 				<include name="**/**" />
-				<exclude name="scripts/**" />
+				<exclude name="build/**" />
 				<exclude name="mysite/db.conf.php" />
 				<exclude name="mysite/error.log" />
 				<exclude name="**/.svn" />
@@ -121,7 +121,7 @@
 				<include name="**/.svn" />
 				<exclude name="mysite/**" />
 				<exclude name="themes/**" />
-				<exclude name="scripts/**" />
+				<exclude name="build/**" />
 				<exclude name="configs/**" />
 				<exclude name="nbproject/**" />
 				<exclude name="**/.project" />
@@ -141,7 +141,7 @@
 				<include name="**/**" />
 				<exclude name="mysite/db.conf.php" />
 				<exclude name="mysite/*.log" />
-				<exclude name="scripts/**" />
+				<exclude name="build/**" />
 				<exclude name=".htaccess" />
 				<exclude name="**/.svn" />
 				<exclude name="nbproject/**" />
@@ -200,7 +200,7 @@ To restore this backup:
 	
 	<target name="clean">
 		<delete>
-			<fileset dir="scripts/">
+			<fileset dir="build/">
 			<include name="*.tar.gz" />
 			</fileset>
 		</delete>
