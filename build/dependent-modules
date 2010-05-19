@@ -1,0 +1,23 @@
+# Examples
+# Note - putting 'false' at the end of the line means a 'dev/build' will NOT
+# be run for this module when it is loaded
+#  
+# blog/ http://svn.silverstripe.com/open/modules/blog/trunk
+# external-content https://ssaurimu/svn/modules/external-content/trunk
+
+sqlite3/ http://svn.silverstripe.com/open/modules/sqlite3/trunk false
+cms/ http://svn.silverstripe.com/open/modules/cms/tags/2.4.0 false
+sapphire/ http://svn.silverstripe.com/open/modules/sapphire/tags/2.4.0
+
+legacydatetimefields http://svn.silverstripe.com/open/modules/legacydatetimefields/trunk/
+
+# For the standard base install, uncomment the following
+# securefiles http://svn.silverstripe.com/open/modules/securefiles/trunk
+# versionedfiles git://github.com/ajshort/silverstripe-versionedfiles.git 
+# memberprofiles git://github.com/ajshort/silverstripe-memberprofiles.git
+# listingpage git://github.com/nyeholt/silverstripe-listingpage.git
+# taggable git://github.com/nyeholt/silverstripe-taggable.git
+# tagfield http://svn.silverstripe.com/open/modules/tagfield/trunk
+# frontend-editing git://github.com/nyeholt/silverstripe-frontend-editing.git
+# userforms http://svn.silverstripe.com/open/modules/userforms/trunk/
+# newsletter http://svn.silverstripe.com/open/modules/newsletter/trunk/
