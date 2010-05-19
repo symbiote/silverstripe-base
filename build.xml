@@ -185,6 +185,10 @@ To restore this backup:
 		</copy>
 	</target>
 
+	<target name="ci_test" depends="build">
+		<phingcall target="test" />
+	</target>
+
 	<!-- Execute all the test cases -->
 	<target name="test">
 		<!-- Make sure the log directory exists -->
