@@ -6,5 +6,3 @@ $TESTING_CONFIG = array(
 		"reporter" => "PhingXMLPHPUnit3ResultFormatter",
 		"logfile" => "ssautesting/logs/testsuite.xml"
 );
-
-?>

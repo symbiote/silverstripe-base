@@ -8,5 +8,3 @@ $databaseConfig = array(
         "password" => "{password}",
         "database" => "{dbname}",
 );
-
-?>

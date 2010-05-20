@@ -6,5 +6,3 @@ $TESTING_CONFIG = array(
 		"reporter" => "${testing.reporter}",
 		"logfile" => "${testing.logdir}/${testing.logfile}"
 );
-
-?>

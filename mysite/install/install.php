@@ -170,5 +170,3 @@ function ifset($array, $key, $default = null)
 {
 	return isset($array[$key]) ? $array[$key] : $default;
 }
-
-?>

@@ -14,4 +14,3 @@ class ParameterisedDevelopmentController extends DevelopmentAdmin
 		return new ParameterisedTestRunner();
 	}
 }
-?>

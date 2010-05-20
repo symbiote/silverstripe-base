@@ -6,5 +6,3 @@ Director::addRules(100, array(
 	'dev' => 'ParameterisedDevelopmentController',
 	'__generate' => 'ContentGeneratorController'
 ));
-
-?>

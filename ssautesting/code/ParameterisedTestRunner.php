@@ -143,4 +143,3 @@ class ParameterisedTestRunner extends TestRunner
 		DB::set_alternative_database_name(null);
 	}
 }
-?>
