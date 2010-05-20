@@ -12,7 +12,7 @@ class SilverStripeTestTask extends Task
 	private $testcase = '';
 	
 	public function setModule($v) {
-		if (!strpos($v, '$') === 0) {
+		if (strpos($v, '$') === false) {
 			$this->module = $v;
 		}
 	}

@@ -81,8 +81,6 @@
 
 		<phingcall target="update_modules" />
 
-		<phingcall target="runtime_modules" />
-
 		<!-- Trigger /dev/build for the new system -->
 		<exec command="php sapphire/cli-script.php /dev/build username=${admin.username} password=${admin.password}"></exec>
 	</target>
