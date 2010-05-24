@@ -45,7 +45,7 @@ testcase=
 # Module package information
 module.name=${phing.project.name}
 module.version=0.1.0-a
-module.file=build/${module.name}-${module.version}.tar.gz
+module.file=build/modules/${module.name}-${module.version}.tar.gz
 
 
 # The name of the tarball to create when packaging

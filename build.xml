@@ -156,12 +156,13 @@
 		</tar>
 	</target>
 
-	<target name="package-module" depends="build">
+	<target name="package-module">
 		<delete file="${module.file}" />
 		<tar destfile="${module.file}" compression="gzip">
 			<fileset dir="${project.basedir}">
 				<include name="${module.name}/**" />
 				<exclude name="**/.svn" />
+				<exclude name="**/.git" />
 			</fileset>
 		</tar>
 	</target>
