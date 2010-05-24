@@ -4,7 +4,7 @@ global $project;
 $project = 'mysite';
 
 
-include_once dirname(__FILE__).'/db.conf.php';
+include_once dirname(__FILE__).'/local.conf.php';
 
 // Sites running on the following servers will be
 // run in development mode. See

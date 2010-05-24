@@ -82,7 +82,7 @@
 		<phingcall target="update_modules" />
 
 		<!-- Trigger /dev/build for the new system -->
-		<exec command="php sapphire/cli-script.php /dev/build username=${admin.username} password=${admin.password}"></exec>
+		<exec command="php sapphire/cli-script.php dev/build"></exec>
 	</target>
 	
 	<!-- Create a deployable package -->
@@ -113,7 +113,8 @@
 	</target>
 
 	<!-- a package that includes all items that the phing build normally downloads, which can 
-	be just extracted over the top of whatever is pulled out of git --> 
+	be just extracted over the top of whatever is pulled out of git. This preserves all the
+	.svn files for dependent modules etc -->
 	<target name="phing-package" depends="clean">
 		<tar destfile="${package.name}" compression="gzip">
 			<fileset dir="${project.basedir}">
