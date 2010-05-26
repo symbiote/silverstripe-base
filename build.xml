@@ -161,8 +161,8 @@
 		<tar destfile="${module.file}" compression="gzip">
 			<fileset dir="${project.basedir}">
 				<include name="${module.name}/**" />
-				<exclude name="**/.svn" />
-				<exclude name="**/.git" />
+				<exclude name="**/.svn/" />
+				<exclude name="**/.git/" />
 			</fileset>
 		</tar>
 	</target>
