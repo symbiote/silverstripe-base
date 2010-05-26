@@ -89,7 +89,7 @@
 	<target name="package">
 		<!-- package doesn't use the main clean, so that the db dump doesn't get wiped -->
 		<delete>
-			<fileset dir="build/">
+			<fileset dir="${build.output.dir}">
 				<include name="*.tar.gz" />
 			</fileset>
 		</delete>
@@ -157,6 +157,7 @@
 	</target>
 
 	<target name="package-module">
+		<mkdir dir="${build.output.dir}" />
 		<delete file="${module.file}" />
 		<tar destfile="${module.file}" compression="gzip">
 			<fileset dir="${project.basedir}">
@@ -208,7 +209,7 @@ To restore this backup:
 	
 	<target name="clean">
 		<delete>
-			<fileset dir="build/">
+			<fileset dir="${build.output.dir}/">
 			<include name="*.tar.gz" />
 			</fileset>
 		</delete>
