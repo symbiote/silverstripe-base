@@ -45,8 +45,9 @@ build.output.dir=build
 
 # Module package information
 module.name=${phing.project.name}
-module.version=0.1.0-a
-module.file=${build.output.dir}/modules/${module.name}-${module.version}.tar.gz
+module.prefix=module-
+# assume that the module VERSION file exists - if not, this just has a blank for module.version
+module.file=${build.output.dir}/${module.prefix}${module.name}-${module.version}.tar.gz
 
 # The name of the tarball to create when packaging
 # Note that these are output to the scripts folder so they are inaccessible from the web

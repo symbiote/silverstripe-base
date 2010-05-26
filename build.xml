@@ -5,6 +5,8 @@
 	
 	<tstamp />
 
+	<php expression="trim(file_get_contents('${module.name}/VERSION'))" returnProperty="module.version" />
+
 	<!-- Make sure properties are in existence -->
 	<available file="./build/build.properties" property="properties_exist" />
 	
@@ -160,7 +162,6 @@
 	<target name="package-module">
 		<mkdir dir="${build.output.dir}" />
 		<delete file="${module.file}" />
-		<php expression="file_get_contents('${module.name}/VERSION')" returnProperty="module.version" />
 		<tar destfile="${module.file}" compression="gzip">
 			<fileset dir="${project.basedir}">
 				<include name="${module.name}/**" />
