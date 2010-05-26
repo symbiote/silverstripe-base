@@ -16,7 +16,7 @@ simplewiki/
 ssautesting/
 mysite/db.conf.php
 mysite/error.log
-scripts/*.tar.gz
-scripts/build.properties
+build/*.tar.gz
+build/build.properties
 sqlite3
 legacydatetimefields
