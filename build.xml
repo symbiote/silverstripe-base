@@ -14,7 +14,7 @@
 	<available file="${modules.depends.file}" property="modules_file_exists" />
 
 	<!-- have we been installed? -->
-	<available file="./mysite/db.conf.php" property="installed" />
+	<available file="./mysite/local.conf.php" property="installed" />
 
 	<property file="./build/build.properties"></property>
 
@@ -62,7 +62,7 @@
 	<!-- Installs a freshly checked-out silverstripe project -->
 	<target name="build" depends="init">
 		<!-- Copy the DB configs -->
-		<copy tofile="mysite/db.conf.php" file="${db.config}" overwrite="false">
+		<copy tofile="mysite/local.conf.php" file="${db.config}" overwrite="false">
 			<filterchain>
 				<expandproperties />
 			</filterchain>
@@ -103,8 +103,9 @@
 			<fileset dir="${project.basedir}">
 				<include name="**/**" />
 				<exclude name="build/**" />
+				<exclude name="mysite/local.conf.php" />
 				<exclude name="mysite/db.conf.php" />
-				<exclude name="mysite/error.log" />
+				<exclude name="mysite/*.log" />
 				<exclude name="**/.svn" />
 				<exclude name="nbproject/**" />
 				<exclude name="**/.htaccess" />
@@ -144,6 +145,7 @@
 			<fileset dir="${project.basedir}">
 				<include name="**/**" />
 				<exclude name="mysite/db.conf.php" />
+				<exclude name="mysite/local.conf.php" />
 				<exclude name="mysite/*.log" />
 				<exclude name="build/**" />
 				<exclude name=".htaccess" />
@@ -176,8 +178,8 @@
 		<echo file="README.txt" append="false">
 To restore this backup:
 * Import the database file in configs/${phing.project.name}.sql
-* Copy configs/silverstripe/db.conf.php.sample to mysite/db.conf.php
-* Edit DB settings in db.conf as appropriate (typically, use MySQLDatabase as the db.type)
+* Copy configs/silverstripe/local.conf.php.sample to mysite/local.conf.php
+* Edit DB settings in local.conf as appropriate (typically, use MySQLDatabase as the db.type)
 * Run 'php sapphire/cli-script.php dev/build'
 		</echo>
 		<exec command="mysqldump -u${db.user} -p${db.pass} ${db.name} > ${database_dump.name}"></exec>
@@ -220,3 +222,4 @@ To restore this backup:
 		<delete file="${database_dump.name}"></delete>
 	</target>
 </project>
+
