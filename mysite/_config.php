@@ -15,12 +15,11 @@ Director::set_dev_servers(array(
 	'127.0.0.1',
 ));
 
-if (!defined('SS_LOG_PREFIX')) {
-	define('SS_LOG_PREFIX', '/var/log/silverstripe/'.basename(dirname(dirname(__FILE__))));
+if (!defined('SS_LOG_FILE')) {
+	define('SS_LOG_FILE', '/var/log/silverstripe/'.basename(dirname(dirname(__FILE__))).'.log');
 }
 
-SS_Log::add_writer(new SS_LogFileWriter(SS_LOG_PREFIX.'.error.log'), SS_Log::ERR);
-SS_Log::add_writer(new SS_LogFileWriter(SS_LOG_PREFIX.'.notice.log'), SS_Log::NOTICE);
+SS_Log::add_writer(new SS_LogFileWriter(SS_LOG_FILE), SS_Log::ERR, '<=');
 
 // This line set's the current theme. More themes can be
 // downloaded from http://www.silverstripe.com/themes/
