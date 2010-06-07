@@ -15,4 +15,6 @@ $databaseConfig = array(
         "database" => "${db.name}",
 );
 
+
+// Security::setDefaultAdmin('admin', 'admin');
 // Email::setAdminEmail('admin@example.org');
