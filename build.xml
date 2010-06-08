@@ -209,6 +209,7 @@ To restore this backup:
 				<expandproperties />
 			</filterchain>
 		</copy>
+		<exec command="php sapphire/cli-script.php dev/build"></exec>
 		<sstest module="${module}" testcase="${testcase}" />
 	</target>
 	
