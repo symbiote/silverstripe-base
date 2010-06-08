@@ -19,7 +19,7 @@ if (!defined('SS_LOG_FILE')) {
 	define('SS_LOG_FILE', '/var/log/silverstripe/'.basename(dirname(dirname(__FILE__))).'.log');
 }
 
-SS_Log::add_writer(new SS_LogFileWriter(SS_LOG_FILE), SS_Log::ERR, '<=');
+SS_Log::add_writer(new SS_LogFileWriter(SS_LOG_FILE), SS_Log::NOTICE, '<=');
 
 // This line set's the current theme. More themes can be
 // downloaded from http://www.silverstripe.com/themes/
@@ -27,3 +27,6 @@ SSViewer::set_theme('blackcandy');
 
 // enable nested URLs for this site (e.g. page/sub-page/)
 SiteTree::enable_nested_urls();
+
+singleton('SiteUtils')->log("Writing log message", SS_Log::ERR);
+singleton('SiteUtils')->log("Writing log notice", SS_Log::NOTICE);
