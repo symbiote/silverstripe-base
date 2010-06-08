@@ -203,6 +203,7 @@ To restore this backup:
 	<target name="test">
 		<!-- Make sure the log directory exists -->
 		<mkdir dir="${testing.logdir}" />
+		<mkdir dir="assets" />
 		<!-- Copy the configs - done so that we can override the reporter type from an exernal source -->
 		<copy tofile="ssautesting/testing.conf.php" file="${testing.config}" overwrite="true">
 			<filterchain>
