@@ -54,6 +54,10 @@
 	<target name="non_interactive" if="ni_build">
 		<!-- we'll make sure that there's a build.properties file, even if we're just using the default  -->
 		<delete file="./build/build.properties" />
+		<delete file="./mysite/local.conf.php" />
+		<delete file="./ssautesting/testing.conf.php" />
+		<delete dir="assets" />
+
 		<copy tofile="./build/build.properties" file="./build/build.properties.sample" />
 		<property name="properties_exist" value="true" override="true" />
 		<property file="./build/build.properties"></property>
