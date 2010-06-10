@@ -25,6 +25,7 @@
 	<taskdef name="ssmodules" classname="build.LoadModulesTask" />
 
 	<target name="init" depends="non_interactive,check_properties">
+		<mkdir dir="${build.output.dir}" />
 	</target>
 
 	<!-- Load modules where sensitive dependency exists -->
@@ -123,7 +124,7 @@
 	<!-- a package that includes all items that the phing build normally downloads, which can 
 	be just extracted over the top of whatever is pulled out of git. This preserves all the
 	.svn files for dependent modules etc -->
-	<target name="phing-package" depends="clean">
+	<target name="phing-package" depends="init,clean">
 		<tar destfile="${package.name}" compression="gzip">
 			<fileset dir="${project.basedir}">
 				<include name="**/**" />
