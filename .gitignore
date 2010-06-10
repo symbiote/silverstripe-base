@@ -13,7 +13,8 @@ securefiles/
 sapphire/
 silverstripe-connector/
 simplewiki/
-ssautesting/
+ssautesting/logs/
+ssautesting/testing.conf.php
 mysite/db.conf.php
 mysite/error.log
 build/*.tar.gz
