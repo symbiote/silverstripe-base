@@ -42,6 +42,7 @@ testing.logfile=testsuite.xml
 testcase=
 
 build.output.dir=build
+patches.dir=build/patches
 
 # Module package information
 module.name=${phing.project.name}

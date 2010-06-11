@@ -23,6 +23,7 @@
 	<taskdef name="copyfolders" classname="build.CopyFoldersTask" />
 	<taskdef name="sstest" classname="build.SilverStripeTestTask" />
 	<taskdef name="ssmodules" classname="build.LoadModulesTask" />
+	<taskdef name="sspatches" classname="build.ApplyPatchesTask" />
 
 	<target name="init" depends="non_interactive,check_properties">
 		<mkdir dir="${build.output.dir}" />
@@ -95,8 +96,14 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 
 		<phingcall target="update_modules" />
 
+		<phingcall target="apply_patches" />
+
 		<!-- Trigger /dev/build for the new system -->
 		<exec command="php sapphire/cli-script.php dev/build"></exec>
+	</target>
+
+	<target name="apply_patches">
+		<sspatches patchdir="${patches.dir}" />
 	</target>
 
 	<!-- Create a deployable package -->
@@ -132,7 +139,9 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 	.svn files for dependent modules etc -->
 	<target name="phing-package" depends="clean,build">
 		<!-- make sure we're on master... hudson kinda screws this up! -->
-		<exec command="git checkout master && git pull origin master"></exec>
+		<exec command="git checkout master"></exec>
+		<exec command="git pull origin master"></exec>
+
 		<tar destfile="${package.name}" compression="gzip">
 			<fileset dir="${project.basedir}">
 				<include name="**/**" />
@@ -224,10 +233,10 @@ To restore this backup:
 	</target>
 
 	<target name="clean">
-
+		<mkdir dir="${build.output.dir}" />
 		<delete>
 			<fileset dir="${build.output.dir}/">
-			<include name="*.tar.gz" />
+				<include name="*.tar.gz" />
 			</fileset>
 		</delete>
 		<delete file="${package.name}"></delete>
