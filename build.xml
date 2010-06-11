@@ -103,6 +103,7 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 	</target>
 
 	<target name="apply_patches">
+		<mkdir dir="${patches.dir}" />
 		<sspatches patchdir="${patches.dir}" />
 	</target>
 
