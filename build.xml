@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- Rename this project to something relevant! -->
-<project name="bootstrap-rename-me" default="build" basedir=".">
-	
+<project name="rename-me" default="build" basedir=".">
+
 	<tstamp />
 
 	<php expression="trim(file_get_contents('${module.name}/VERSION'))" returnProperty="module.version" />
 
 	<!-- Make sure properties are in existence -->
 	<available file="./build/build.properties" property="properties_exist" />
-	
+
 	<!-- Has the modules file been created? -->
 	<available file="${modules.depends.file}" property="modules_file_exists" />
 
@@ -36,36 +36,42 @@
 	<target name="create_modules_file" unless="modules_file_exists">
 		<copy file="${modules.depends.file}.default" tofile="${modules.depends.file}" />
 	</target>
-	
-	<!-- 
+
+	<!--
 	Add a new module to the system. Run from the commandline, you can pass
 	in the details of the module as phing add_module -Dmodule=blog -Dmodurl=http://path/to/svn
 	-->
 	<target name="add_module">
 		<ssmodules name="${module}" url="${modurl}" />
-	</target> 
+	</target>
 
 	<!-- Ensures the build.properties file exists! -->
 	<target name="check_properties" unless="properties_exist">
 		<fail>!!Please create the build/build.properties file before continuing!!</fail>
 	</target>
 
-	<!-- A target that gets executed if the 'ni_build' parameter is set. This is done when 
+	<!-- A target that gets executed if the 'ni_build' parameter is set. This is done when
 	the build is executed from a CI container -->
 	<target name="non_interactive" if="ni_build">
 		<!-- we'll make sure that there's a build.properties file, even if we're just using the default  -->
 		<delete file="./build/build.properties" />
+		<copy tofile="./build/build.properties" file="./build/build.properties.sample" />
+		<delete dir="assets" />
 		<delete file="./mysite/local.conf.php" />
 		<delete file="./ssautesting/testing.conf.php" />
-		<delete dir="assets" />
-
-		<copy tofile="./build/build.properties" file="./build/build.properties.sample" />
 		<property name="properties_exist" value="true" override="true" />
 		<property file="./build/build.properties"></property>
 	</target>
 
 	<!-- Installs a freshly checked-out silverstripe project -->
 	<target name="build" depends="init">
+		<!-- if it doesn't exist, create it and the default .htaccess -->
+		<mkdir dir="assets" />
+		<echo file="assets/.htaccess" append="false">
+RemoveHandler .php .phtml .php3 .php4 .php5 .inc
+RemoveType .php .phtml .php3 .php4 .php5 .inc
+		</echo>
+
 		<!-- Copy the DB configs -->
 		<copy tofile="mysite/local.conf.php" file="${db.config}" overwrite="false">
 			<filterchain>
@@ -92,7 +98,7 @@
 		<!-- Trigger /dev/build for the new system -->
 		<exec command="php sapphire/cli-script.php dev/build"></exec>
 	</target>
-	
+
 	<!-- Create a deployable package -->
 	<target name="package">
 		<!-- package doesn't use the main clean, so that the db dump doesn't get wiped -->
@@ -121,26 +127,24 @@
 		</tar>
 	</target>
 
-	<!-- a package that includes all items that the phing build normally downloads, which can 
+	<!-- a package that includes all items that the phing build normally downloads, which can
 	be just extracted over the top of whatever is pulled out of git. This preserves all the
 	.svn files for dependent modules etc -->
-	<target name="phing-package" depends="init,clean">
+	<target name="phing-package" depends="clean,build">
+		<!-- make sure we're on master... hudson kinda screws this up! -->
+		<exec command="git checkout master && git pull origin master"></exec>
 		<tar destfile="${package.name}" compression="gzip">
 			<fileset dir="${project.basedir}">
 				<include name="**/**" />
 				<include name="**/.svn" />
-				<exclude name="mysite/**" />
-				<exclude name="themes/**" />
-				<exclude name="build/**" />
-				<exclude name="configs/**" />
 				<exclude name="nbproject/**" />
 				<exclude name="**/.project" />
 				<exclude name="**/.buildpath" />
 				<exclude name="**/.settings" />
 			</fileset>
 		</tar>
+		<chmod file="${package.name}" mode="0664" />
 	</target>
-
 
 	<!-- A package that doesn't include files that are commonly overridden
 	on remote sites -->
@@ -218,8 +222,9 @@ To restore this backup:
 		<exec command="php sapphire/cli-script.php dev/build"></exec>
 		<sstest module="${module}" testcase="${testcase}" />
 	</target>
-	
+
 	<target name="clean">
+
 		<delete>
 			<fileset dir="${build.output.dir}/">
 			<include name="*.tar.gz" />
@@ -229,4 +234,3 @@ To restore this backup:
 		<delete file="${database_dump.name}"></delete>
 	</target>
 </project>
-
