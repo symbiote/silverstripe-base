@@ -54,5 +54,6 @@ module.file=${build.output.dir}/${module.prefix}${module.name}-${module.version}
 # Note that these are output to the scripts folder so they are inaccessible from the web
 # via .htaccess rules
 package.name=${build.output.dir}/${phing.project.name}.${DSTAMP}.tar.gz
+phing-package.name=${build.output.dir}/${phing.project.name}-development.${DSTAMP}.tar.gz
 update-package.name=${build.output.dir}/${phing.project.name}-update.${DSTAMP}.tar.gz
 database_dump.name=configs/${phing.project.name}.sql
