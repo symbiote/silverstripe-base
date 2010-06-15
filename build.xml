@@ -178,6 +178,7 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 				<exclude name="sapphire/**" />
 			</fileset>
 		</tar>
+		<chmod file="${update-package.name}" mode="0664" />
 	</target>
 
 	<target name="package-module">
