@@ -158,9 +158,9 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 
 	<!-- A package that doesn't include files that are commonly overridden
 	on remote sites -->
-	<target name="update-package" depends="clean">
+	<target name="update-package">
 		<copy file="${db.config}" tofile="mysite/${db.config}" />
-		<tar destfile="${package.name}" compression="gzip">
+		<tar destfile="${update-package.name}" compression="gzip">
 			<fileset dir="${project.basedir}">
 				<include name="**/**" />
 				<exclude name="mysite/db.conf.php" />
