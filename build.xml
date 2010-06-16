@@ -73,7 +73,7 @@ RemoveHandler .php .phtml .php3 .php4 .php5 .inc
 RemoveType .php .phtml .php3 .php4 .php5 .inc
 		</echo>
 
-		<echo file="mysite/VERSION" append="false">Build ${DSTAMP}</echo>
+		<echo file="mysite/BUILD_NUMBER" append="false">Build ${DSTAMP}</echo>
 
 		<!-- Copy the DB configs -->
 		<copy tofile="mysite/local.conf.php" file="${db.config}" overwrite="false">
@@ -193,6 +193,8 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 		<property name="currentpackage" value="${module.file}" />
 		<property name="packagetype" value="module" />
 		<phingcall target="archive-package" />
+
+		<echo file="${module.name}/BUILD_NUMBER" append="false">Build ${DSTAMP}</echo>
 
 		<mkdir dir="${build.output.dir}" />
 		<delete file="${module.file}" />
