@@ -30,6 +30,9 @@ db.pass=dbpass
 db.name=silverstripe
 db.host=localhost
 
+admin.username=admin
+admin.password=admin
+
 # Configuration details for the testing database. It is expected
 # that all other properties are the same
 testing.db.name=silverstripe_testing
@@ -42,18 +45,19 @@ testing.logfile=testsuite.xml
 testcase=
 
 build.output.dir=build
+build.archive.dir=${build.output.dir}/archive
 patches.dir=build/patches
 
 # Module package information
 module.name=${phing.project.name}
-module.prefix=module-
+module.prefix=
 # assume that the module VERSION file exists - if not, this just has a blank for module.version
-module.file=${build.output.dir}/${module.prefix}${module.name}-${module.version}.tar.gz
+module.file=${build.output.dir}/${module.prefix}${module.name}-${module.version}-module.${DSTAMP}.tar.gz
 
 # The name of the tarball to create when packaging
 # Note that these are output to the scripts folder so they are inaccessible from the web
 # via .htaccess rules
-package.name=${build.output.dir}/${phing.project.name}.${DSTAMP}.tar.gz
+package.name=${build.output.dir}/${phing.project.name}-deploy.${DSTAMP}.tar.gz
 phing-package.name=${build.output.dir}/${phing.project.name}-development.${DSTAMP}.tar.gz
 update-package.name=${build.output.dir}/${phing.project.name}-update.${DSTAMP}.tar.gz
 database_dump.name=configs/${phing.project.name}.sql
