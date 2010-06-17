@@ -30,3 +30,6 @@ SiteTree::enable_nested_urls();
 
 singleton('SiteUtils')->log("Writing log message", SS_Log::ERR);
 singleton('SiteUtils')->log("Writing log notice", SS_Log::NOTICE);
+
+// necessary for now
+SQLite3Database::$vacuum = false;
