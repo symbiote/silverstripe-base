@@ -73,6 +73,8 @@ RemoveHandler .php .phtml .php3 .php4 .php5 .inc
 RemoveType .php .phtml .php3 .php4 .php5 .inc
 		</echo>
 
+		<echo file="mysite/BUILD_NUMBER" append="false">Build ${DSTAMP}</echo>
+
 		<!-- Copy the DB configs -->
 		<copy tofile="mysite/local.conf.php" file="${db.config}" overwrite="false">
 			<filterchain>
@@ -107,14 +109,12 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 		<sspatches patchdir="${patches.dir}" />
 	</target>
 
-	<!-- Create a deployable package -->
-	<target name="package">
-		<!-- package doesn't use the main clean, so that the db dump doesn't get wiped -->
-		<delete>
-			<fileset dir="${build.output.dir}">
-				<include name="*.tar.gz" />
-			</fileset>
-		</delete>
+	<!-- Create a deployable package to use as the base for installing a new site. Please use the 
+	update-package target for creating a package to use for an update -->
+	<target name="package" depends="build">
+		<property name="currentpackage" value="${package.name}" />
+		<property name="packagetype" value="deploy" />
+		<phingcall target="archive-package" />
 
 		<!-- creates a default config file -->
 		<copy file="${db.config}" tofile="mysite/${db.config}" />
@@ -139,6 +139,10 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 	be just extracted over the top of whatever is pulled out of git. This preserves all the
 	.svn files for dependent modules etc -->
 	<target name="phing-package" depends="clean,build">
+		<property name="currentpackage" value="${phing-package.name}" />
+		<property name="packagetype" value="development" />
+		<phingcall target="archive-package" />
+
 		<!-- make sure we're on master... hudson kinda screws this up! -->
 		<exec command="git checkout master"></exec>
 		<exec command="git pull origin master"></exec>
@@ -159,6 +163,10 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 	<!-- A package that doesn't include files that are commonly overridden
 	on remote sites -->
 	<target name="update-package">
+		<property name="currentpackage" value="${update-package.name}" />
+		<property name="packagetype" value="update" />
+		<phingcall target="archive-package" />
+
 		<copy file="${db.config}" tofile="mysite/${db.config}" />
 		<tar destfile="${update-package.name}" compression="gzip">
 			<fileset dir="${project.basedir}">
@@ -182,6 +190,12 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 	</target>
 
 	<target name="package-module">
+		<property name="currentpackage" value="${module.file}" />
+		<property name="packagetype" value="module" />
+		<phingcall target="archive-package" />
+
+		<echo file="${module.name}/BUILD_NUMBER" append="false">Build ${DSTAMP}</echo>
+
 		<mkdir dir="${build.output.dir}" />
 		<delete file="${module.file}" />
 		<tar destfile="${module.file}" compression="gzip">
@@ -234,14 +248,22 @@ To restore this backup:
 		<sstest module="${module}" testcase="${testcase}" />
 	</target>
 
-	<target name="clean">
-		<mkdir dir="${build.output.dir}" />
+	<target name="archive-package">
+		<copy todir="${build.archive.dir}">
+			<fileset dir="${build.output.dir}">
+				<include name="*-${packagetype}*.tar.gz" />
+			</fileset>
+		</copy>
+		<!-- delete all similar files from the output -->
 		<delete>
-			<fileset dir="${build.output.dir}/">
-				<include name="*.tar.gz" />
+			<fileset dir="${build.output.dir}">
+				<include name="*-${packagetype}*.tar.gz" />	
 			</fileset>
 		</delete>
-		<delete file="${package.name}"></delete>
+	</target>
+
+	<target name="clean">
+		<mkdir dir="${build.output.dir}" />
 		<delete file="${database_dump.name}"></delete>
 	</target>
 </project>
