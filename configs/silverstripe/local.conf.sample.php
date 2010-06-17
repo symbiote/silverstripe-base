@@ -18,3 +18,4 @@ $databaseConfig = array(
 
 // Security::setDefaultAdmin('admin', 'admin');
 // Email::setAdminEmail('admin@example.org');
+define('SS_LOG_FILE', dirname(__FILE__).'/'.basename(dirname(dirname(__FILE__))).'.log');
