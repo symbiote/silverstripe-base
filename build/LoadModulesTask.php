@@ -90,7 +90,7 @@ class LoadModulesTask extends Task
 	protected function loadModule($moduleName, $svnUrl, $devBuild = true)
 	{
 		$git = strrpos($svnUrl, '.git') == (strlen($svnUrl) - 4);
-		$gitBranch = null;
+		$gitBranch = 'master';
 		if (strpos($moduleName, '/') > 0) {
 			$gitBranch = substr($moduleName, strpos($moduleName, '/') + 1);
 			$moduleName = substr($moduleName, 0, strpos($moduleName, '/'));
@@ -102,7 +102,7 @@ class LoadModulesTask extends Task
 			// check whether it's git or svn
 			if ($git) {
 				echo `git clone $svnUrl $moduleName`;
-				if ($gitBranch) {
+				if ($gitBranch != 'master') {
 					// need to make sure we've pulled from the correct branch also
 					`cd $moduleName && git checkout -f -b $gitBranch --track origin/$gitBranch && cd ..`;
 				}
