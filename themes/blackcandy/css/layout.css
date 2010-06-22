@@ -87,7 +87,7 @@ caption, th, td {
 #Navigation {
 	width: 768px;
 	margin: 0 auto;
-	padding-top: 5px;
+	padding-top: 10px;
 	overflow: hidden;
 	background: #4ea3d7 url(../images/headerRounded.gif) no-repeat center bottom;
 }
@@ -277,12 +277,9 @@ caption, th, td {
             	background: #DCDCDC url(../images/sidebarSectionBottom.png) no-repeat bottom left;
       		}
       			ul#Menu2 li ul li {
-            		width: 160px;
-            		background: #DCDCDC;
             		padding: 0;
             		font-size: 0.8em;
-            		display: inline;
-            		margin: 0;
+            		margin: 2px 0 0 0;
       			}
       				ul#Menu2 li ul li ul {
             			background: #DCDCDC;
@@ -374,7 +371,7 @@ caption, th, td {
 
 		.actionLinks li {
 		   display: inline;
-		   border-right: 1px solid;
+		   border-right: 1px solid #ddd;
 		}
 			.actionLinks li a {
 				padding-right: 3px;
@@ -396,6 +393,7 @@ caption, th, td {
 }
 #PageComments p {
 	font-size: 1em;
+	margin: 8px 0;
 }
 	#PageComments p.info {
 		color: #999;
@@ -404,6 +402,11 @@ caption, th, td {
 		line-height: 1em;
 		font-size: 0.9em;
 	}
+
+
+#PageCommentInterface_Form_PostCommentForm_action_postcomment {
+	margin-bottom: 20px;
+}
 
 /* SEARCH RESULTS STYLES
 ------------------------------------------------ */
@@ -418,28 +421,29 @@ ul#SearchResults {
 
 /* SEARCH FORM 
 -----------------------------------------------*/
-html #SearchForm_SearchForm {
+#SearchForm_SearchForm {
 	float: right;
 	width: 240px;
 	margin: 5px;
 }
-html #SearchForm_SearchForm .middleColumn {
-	float: left;
-	width: 164px;
-	margin: 0 5px 0 0;
-	padding: 2px;
-	background-color: #51a9df;
-	
-}
-	html #SearchForm_SearchForm .middleColumn input.text {
-		width: 160px;
-		border: none;
-		color: #666;
+	#SearchForm_SearchForm .middleColumn {
+		float: left;
+		width: 164px;
+		margin: 0 5px 0 0;
+		padding: 2px;
+		background-color: #51a9df;
 	}
-html #SearchForm_SearchForm #SearchForm_SearchForm_action_results {
-	float: left;
-	margin-top: 2px;
-}
+	
+		#SearchForm_SearchForm .middleColumn input.text {
+			width: 160px;
+			border: none;
+			color: #666;
+		}
+		
+	#SearchForm_SearchForm #SearchForm_SearchForm_action_results {
+		float: left;
+		margin-top: 2px;
+	}
 
 /* MESSAGEBOXS
 --------------------------------------------- */
@@ -463,8 +467,6 @@ span.middleColumn .message {
 	background: #FED0D0;
 }
 
-
-
 p#Remember label {
 	margin: -24px 0 0 20px;
 	text-align: left;
@@ -477,6 +479,7 @@ p#Remember label {
 	color: #444;
 	margin-top: -15px;
 	}
+	
 /* UNSUBSCRIBE NEWSLETTER
 ------------------------------------------------ */
 #Unsubscribe_MailingListForm_MailingListForm{
@@ -515,7 +518,7 @@ p#Remember label {
 		color: #fff;
 		font-size: 1.1em;
 		text-align: center;
-		margin-top: -0.6em;
+		margin-top: -0.8em;
 	}
   		#Footer a { 
 	   		color: #fff; 

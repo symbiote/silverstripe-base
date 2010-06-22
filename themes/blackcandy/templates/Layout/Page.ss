@@ -3,7 +3,7 @@
 		<% include SideBar %>
 		<div id="Content">
 	<% end_if %>
-			
+
 	<% if Level(2) %>
 	  	<% include BreadCrumbs %>
 	<% end_if %>
@@ -17,7 +17,3 @@
 		</div>
 	<% end_if %>
 </div>
-
-	
-	
-	
