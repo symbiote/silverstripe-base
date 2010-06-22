@@ -28,8 +28,7 @@ SSViewer::set_theme('blackcandy');
 // enable nested URLs for this site (e.g. page/sub-page/)
 SiteTree::enable_nested_urls();
 
-singleton('SiteUtils')->log("Writing log message", SS_Log::ERR);
-singleton('SiteUtils')->log("Writing log notice", SS_Log::NOTICE);
+MySQLDatabase::set_connection_charset('utf8');
 
 // necessary for now
 SQLite3Database::$vacuum = false;
