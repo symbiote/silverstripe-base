@@ -25,6 +25,40 @@
 	<taskdef name="ssmodules" classname="build.LoadModulesTask" />
 	<taskdef name="sspatches" classname="build.ApplyPatchesTask" />
 
+	<target name="help">
+		<echo>
+
+SilverStripe Australia Project Build
+------------------------------------
+
+This build file contains targets to assist in creating new SilverStripe project builds. 
+
+* Delete the .git directory! You'll eventually add this project to a new location, meaning it is unnecessary to keep the existing git info
+* Edit this build file and change the project name from rename-me to something more accurate
+* Copy the build/build.properties.sample file to build/build.properties
+* Edit that file and make any necessary adjustments. In particular, change the rewrite.base variable to match your webroot
+* Edit the build/dependent-modules.default and add in any additional modules you may need. The format for these is
+** modulename git|svn.url (the SCM url to retrieve this module) true|false (whether to run dev/build after fetching)
+* Run phing, which will fetch all needed modules and run a dev/build for the first time
+* Visit http://localhost/pathname/dev/build to ensure all caches are built correctly for the web
+
+Important targets
+
+* build - Retrieves all dependent modules (or updates them if they already exist), applies any relevant patches, and runs dev/build
+* test - Executes all unit tests. You can run tests just for a single module by passing a module name, ie phing test -Dmodule=mysite. You can
+  also optionally pass a single test case to run, eg phing test -Dmodule=mysite -Dtestcase=MyTest
+* phing-package - Creates a complete copy of this development environment repository that can be passed to another person, retaining all SVN and Git information
+* update-package - Creates a package that excludes several diretories that can be used for extracting over the top of existing installs
+* backup - Takes a database dump of the site before packaging
+
+Other features
+
+* In some cases you will want to provide custom patches to dependent modules. As these can't be committed back to this project's repository, 
+  a mechanism exists to include just the .patch diffs. Drop any diffs into build/patches, and these will be applied during the build target. 
+
+		</echo>
+	</target>
+
 	<target name="init" depends="non_interactive,check_properties">
 		<mkdir dir="${build.output.dir}" />
 	</target>
