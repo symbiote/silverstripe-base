@@ -11,7 +11,6 @@ include_once dirname(__FILE__).'/local.conf.php';
 // http://doc.silverstripe.com/doku.php?id=devmode
 // for a description of what dev mode does.
 Director::set_dev_servers(array(
-	'localhost',
 	'127.0.0.1',
 ));
 
