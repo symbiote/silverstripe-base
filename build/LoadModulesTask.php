@@ -107,7 +107,11 @@ class LoadModulesTask extends Task
 					`cd $moduleName && git checkout -f -b $gitBranch --track origin/$gitBranch && cd ..`;
 				}
 			} else {
-				echo `svn co $svnUrl $moduleName`;
+				$revision = '';
+				if ($gitBranch != 'master') {
+					$revision = " --revision $gitBranch ";
+				}
+				echo `svn co $revision $svnUrl $moduleName`;
 			}
 			
 			// make sure to append it to the .gitignore file
@@ -122,7 +126,11 @@ class LoadModulesTask extends Task
 			if ($git) {
 				echo `cd $moduleName && git checkout $gitBranch && git pull origin $gitBranch && cd ..`;
 			} else {
-				echo `svn up $moduleName`;
+				$revision = '';
+				if ($gitBranch != 'master') {
+					$revision = " --revision $gitBranch ";
+				}
+				echo `svn up $revision $moduleName`;
 			}
 		}
 
