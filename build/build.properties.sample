@@ -44,6 +44,8 @@ testing.logfile=testsuite.xml
 
 testcase=
 
+git.branch=master
+
 build.output.dir=build
 build.archive.dir=${build.output.dir}/archive
 patches.dir=build/patches

@@ -96,4 +96,14 @@ class SiteUtils {
 		SS_Log::log($message, $level);
 	}
 
+	/**
+	 * Packages a message and status for a simple ajax response
+	 */
+	public function ajaxResponse($message, $status) {
+		return Convert::raw2json(array(
+			'message' => $message,
+			'status' => $status,
+		));
+	}
+
 }

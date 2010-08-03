@@ -178,8 +178,8 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 		<phingcall target="archive-package" />
 
 		<!-- make sure we're on master... hudson kinda screws this up! -->
-		<exec command="git checkout master"></exec>
-		<exec command="git pull origin master"></exec>
+		<exec command="git checkout ${git.branch}"></exec>
+		<exec command="git pull origin ${git.branch}"></exec>
 
 		<tar destfile="${phing-package.name}" compression="gzip">
 			<fileset dir="${project.basedir}">
