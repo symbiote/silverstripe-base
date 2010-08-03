@@ -178,6 +178,7 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 		<phingcall target="archive-package" />
 
 		<!-- make sure we're on master... hudson kinda screws this up! -->
+		<exec command="git branch ${git.branch}"></exec> <!-- this might cause a fatal, but that's okay... -->
 		<exec command="git checkout ${git.branch}"></exec>
 		<exec command="git pull origin ${git.branch}"></exec>
 
