@@ -1,7 +1,7 @@
 <?php
 
 /**
- * A phing task to load modules from a specific URL via SVN checkouts
+ * A phing task to load modules from a specific URL via SVN or git checkouts
  *
  * Passes commands directly to the commandline to actually perform the
  * svn checkout/updates, so you must have these on your path when this
@@ -10,8 +10,12 @@
  * @author Marcus Nyeholt <marcus@silverstripe.com.au>
  *
  */
-class LoadModulesTask extends Task
-{
+class LoadModulesTask extends Task {
+	/**
+	 * Character used to separate the module/revision name from the output path
+	 */
+	const MODULE_SEPARATOR = ':';
+
 	/**
 	 * The file that defines the dependency
 	 *
@@ -90,10 +94,12 @@ class LoadModulesTask extends Task
 	protected function loadModule($moduleName, $svnUrl, $devBuild = true)
 	{
 		$git = strrpos($svnUrl, '.git') == (strlen($svnUrl) - 4);
-		$gitBranch = 'master';
-		if (strpos($moduleName, '/') > 0) {
-			$gitBranch = substr($moduleName, strpos($moduleName, '/') + 1);
-			$moduleName = substr($moduleName, 0, strpos($moduleName, '/'));
+		$branch = 'master';
+		$cmd = '';
+
+		if (strpos($moduleName, self::MODULE_SEPARATOR) > 0) {
+			$branch = substr($moduleName, strpos($moduleName, self::MODULE_SEPARATOR) + 1);
+			$moduleName = substr($moduleName, 0, strpos($moduleName, self::MODULE_SEPARATOR));
 		}
 
 		// check the module out if it doesn't exist
@@ -101,44 +107,52 @@ class LoadModulesTask extends Task
 			echo "Check out $moduleName from $svnUrl\n";
 			// check whether it's git or svn
 			if ($git) {
-				echo `git clone $svnUrl $moduleName`;
-				if ($gitBranch != 'master') {
+				$this->exec("git clone $svnUrl $moduleName");
+				if ($branch != 'master') {
 					// need to make sure we've pulled from the correct branch also
-					`cd $moduleName && git checkout -f -b $gitBranch --track origin/$gitBranch && cd ..`;
+					$currentDir = getcwd();
+					$this->exec("cd $moduleName && git checkout -f -b $branch --track origin/$branch && cd $currentDir");
 				}
 			} else {
 				$revision = '';
-				if ($gitBranch != 'master') {
-					$revision = " --revision $gitBranch ";
+				if ($branch != 'master') {
+					$revision = " --revision $branch ";
 				}
-				echo `svn co $revision $svnUrl $moduleName`;
+				$this->exec("svn co $revision $svnUrl $moduleName");
 			}
 			
 			// make sure to append it to the .gitignore file
 			if (file_exists('.gitignore')) {
 				$gitIgnore = file_get_contents('.gitignore');
 				if (strpos($gitIgnore, $moduleName) === false) {
-					`echo $moduleName >> .gitignore`;
+					$this->exec("echo $moduleName >> .gitignore");
 				}
 			}
 		} else {
-			echo "Updating $moduleName $gitBranch from $svnUrl\n";
+			echo "Updating $moduleName $branch from $svnUrl\n";
 			if ($git) {
-				echo `cd $moduleName && git checkout $gitBranch && git pull origin $gitBranch && cd ..`;
+				$currentDir = getcwd();
+				$this->exec("cd $moduleName && git checkout $branch && git pull origin $branch && cd $currentDir");
+
 			} else {
 				$revision = '';
-				if ($gitBranch != 'master') {
-					$revision = " --revision $gitBranch ";
+				if ($branch != 'master') {
+					$revision = " --revision $branch ";
 				}
-				echo `svn up $revision $moduleName`;
+				echo $this->exec("svn up $revision $moduleName");
 			}
 		}
-
-
 
 		if ($devBuild && file_exists('sapphire/cli-script.php')) {
 			echo "Running dev/build\n";
 			exec('php sapphire/cli-script.php dev/build', $output, $result);
+		}
+	}
+
+	protected function exec($cmd) {
+		passthru($cmd, $return);
+		if ($return != 0) {
+			throw new BuildException("Command '$cmd' failed");
 		}
 	}
 }
