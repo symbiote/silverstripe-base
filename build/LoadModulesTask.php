@@ -1,5 +1,7 @@
 <?php
 
+include_once dirname(__FILE__).'/SilverStripeBuildTask.php';
+
 /**
  * A phing task to load modules from a specific URL via SVN or git checkouts
  *
@@ -10,7 +12,7 @@
  * @author Marcus Nyeholt <marcus@silverstripe.com.au>
  *
  */
-class LoadModulesTask extends Task {
+class LoadModulesTask extends SilverStripeBuildTask {
 	/**
 	 * Character used to separate the module/revision name from the output path
 	 */
@@ -54,6 +56,8 @@ class LoadModulesTask extends Task {
 
 	public function main()
 	{
+		$this->configureEnvFile();
+
 		if ($this->name) {
 			$this->loadModule($this->name, $this->url);
 		} else {
@@ -81,6 +85,8 @@ class LoadModulesTask extends Task {
 				$this->loadModule($moduleName, $svnUrl, $devBuild);
 			}
 		}
+
+		$this->cleanEnv();
 	}
 
 	/**
@@ -148,13 +154,4 @@ class LoadModulesTask extends Task {
 			exec('php sapphire/cli-script.php dev/build', $output, $result);
 		}
 	}
-
-	protected function exec($cmd) {
-		passthru($cmd, $return);
-		if ($return != 0) {
-			throw new BuildException("Command '$cmd' failed");
-		}
-	}
 }
-
-?>
