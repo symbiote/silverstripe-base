@@ -5,7 +5,7 @@
 
 	<tstamp />
 
-	<php expression="trim(file_get_contents('${module.name}/VERSION'))" returnProperty="module.version" />
+	<php expression="trim(file_exists('${module.name}/VERSION') ? file_get_contents('${module.name}/VERSION') : '')" returnProperty="module.version" />
 
 	<!-- Make sure properties are in existence -->
 	<available file="./build/build.properties" property="properties_exist" />
