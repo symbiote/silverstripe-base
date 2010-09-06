@@ -41,9 +41,9 @@ TEXT;
 		}
 	}
 
-	protected function exec($cmd) {
+	protected function exec($cmd, $ignoreError = false) {
 		passthru($cmd, $return);
-		if ($return != 0) {
+		if ($return != 0 && !$ignoreError) {
 			throw new BuildException("Command '$cmd' failed");
 		}
 	}

@@ -46,8 +46,9 @@ class SilverStripeTestTask extends SilverStripeBuildTask
 
 		echo "Exec $testCmd\n";
 		
-		// simply call the php ss-cli-script.php dev/tests/all and parse the output
-		$this->exec('php sapphire/cli-script.php '.$testCmd);
+		// simply call the php ss-cli-script.php dev/tests/all. We ignore the errors because
+		// the test report script picks them up later on. 
+		$this->exec('php sapphire/cli-script.php '.$testCmd, true);
 
 		$this->cleanEnv();
 		
