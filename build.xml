@@ -216,6 +216,7 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 				<exclude name="**/.project" />
 				<exclude name="**/.buildpath" />
 				<exclude name="**/.settings" />
+				<exclude name="**/.git/**" />
 				<exclude name="assets/**" />
 				<exclude name="cms/**" />
 				<exclude name="sapphire/**" />
