@@ -16,7 +16,8 @@ simplewiki/
 ssautesting/logs/
 ssautesting/testing.conf.php
 mysite/*.conf.php
-mysite/error.log
+mysite/BUILD_NUMBER
+mysite/*.log
 mysite/VERSION
 mysite/configs
 build/*.tar.gz
