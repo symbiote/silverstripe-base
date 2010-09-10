@@ -117,7 +117,7 @@ class LoadModulesTask extends SilverStripeBuildTask {
 				if ($branch != 'master') {
 					// need to make sure we've pulled from the correct branch also
 					$currentDir = getcwd();
-					$this->exec("cd $moduleName && git checkout -f -b $branch --track origin/$branch && cd $currentDir");
+					$this->exec("cd $moduleName && git checkout -f -b $branch --track origin/$branch && cd '$currentDir'");
 				}
 			} else {
 				$revision = '';
@@ -138,7 +138,7 @@ class LoadModulesTask extends SilverStripeBuildTask {
 			echo "Updating $moduleName $branch from $svnUrl\n";
 			if ($git) {
 				$currentDir = getcwd();
-				$this->exec("cd $moduleName && git checkout $branch && git pull origin $branch && cd $currentDir");
+				$this->exec("cd $moduleName && git checkout $branch && git pull origin $branch && cd '$currentDir'");
 
 			} else {
 				$revision = '';
