@@ -211,7 +211,7 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 				<exclude name="mysite/*.log" />
 				<exclude name="build/**" />
 				<exclude name=".htaccess" />
-				<exclude name="**/.svn" />
+				<exclude name="**/.svn/**" />
 				<exclude name="nbproject/**" />
 				<exclude name="**/.project" />
 				<exclude name="**/.buildpath" />
