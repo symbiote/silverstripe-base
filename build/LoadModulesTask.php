@@ -115,9 +115,21 @@ class LoadModulesTask extends SilverStripeBuildTask {
 			if ($git) {
 				$this->exec("git clone $svnUrl $moduleName");
 				if ($branch != 'master') {
+					// check if we're also hooking onto a revision
+					$commitId = null;
+					if (strpos($branch, self::MODULE_SEPARATOR) > 0) {
+						$commitId = substr($branch, strpos($branch, self::MODULE_SEPARATOR) + 1);
+						$branch = substr($branch, 0, strpos($branch, self::MODULE_SEPARATOR));
+					}
 					// need to make sure we've pulled from the correct branch also
 					$currentDir = getcwd();
-					$this->exec("cd $moduleName && git checkout -f -b $branch --track origin/$branch && cd '$currentDir'");
+					if ($branch != 'master') {
+						$this->exec("cd $moduleName && git checkout -f -b $branch --track origin/$branch && cd '$currentDir'");
+					}
+					
+					if ($commitId) {
+						$this->exec("cd $moduleName && git checkout $commitId");
+					}
 				}
 			} else {
 				$revision = '';
@@ -137,8 +149,17 @@ class LoadModulesTask extends SilverStripeBuildTask {
 		} else {
 			echo "Updating $moduleName $branch from $svnUrl\n";
 			if ($git) {
+				$commitId = null;
+				if (strpos($branch, self::MODULE_SEPARATOR) > 0) {
+					$commitId = substr($branch, strpos($branch, self::MODULE_SEPARATOR) + 1);
+					$branch = substr($branch, 0, strpos($branch, self::MODULE_SEPARATOR));
+				}
+
 				$currentDir = getcwd();
 				$this->exec("cd $moduleName && git checkout $branch && git pull origin $branch && cd '$currentDir'");
+				if ($commitId) {
+					$this->exec("cd $moduleName && git checkout $commitId");
+				}
 
 			} else {
 				$revision = '';
