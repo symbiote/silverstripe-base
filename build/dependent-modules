@@ -20,8 +20,8 @@
 #
 
 sqlite3/ http://svn.silverstripe.com/open/modules/sqlite3/trunk false
-cms/ http://svn.silverstripe.com/open/modules/cms/tags/2.4.1 false
-sapphire/ http://svn.silverstripe.com/open/modules/sapphire/tags/2.4.1
+cms/ http://svn.silverstripe.com/open/modules/cms/tags/2.4.2 false
+sapphire/ http://svn.silverstripe.com/open/modules/sapphire/tags/2.4.2
 
 legacydatetimefields http://svn.silverstripe.com/open/modules/legacydatetimefields/trunk/
 

@@ -5,8 +5,6 @@
 
 	<tstamp />
 
-	<php expression="trim(file_exists('${module.name}/VERSION') ? file_get_contents('${module.name}/VERSION') : '')" returnProperty="module.version" />
-
 	<!-- Make sure properties are in existence -->
 	<available file="./build/build.properties" property="properties_exist" />
 
@@ -17,6 +15,8 @@
 	<available file="./mysite/local.conf.php" property="installed" />
 
 	<property file="./build/build.properties"></property>
+
+	<php expression="trim(file_get_contents('${module.name}/VERSION'))" returnProperty="module.version" />
 
 	<!-- Load in the custom tasks -->
 	<taskdef name="symlink" classname="build.SymlinkTask" />
