@@ -26,7 +26,7 @@ sapphire/ http://svn.silverstripe.com/open/modules/sapphire/tags/2.4.2
 legacydatetimefields http://svn.silverstripe.com/open/modules/legacydatetimefields/trunk/
 
 # For the standard base install, uncomment the following
-# securefiles http://svn.silverstripe.com/open/modules/securefiles/trunk
+# securefiles http://polemic.net.nz/svn/silverstripe/modules/SecureFiles/tags/0.30/
 # versionedfiles git://github.com/ajshort/silverstripe-versionedfiles.git 
 # memberprofiles git://github.com/ajshort/silverstripe-memberprofiles.git
 # listingpage git://github.com/nyeholt/silverstripe-listingpage.git
