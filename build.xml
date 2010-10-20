@@ -5,6 +5,8 @@
 
 	<tstamp />
 
+	
+
 	<!-- Make sure properties are in existence -->
 	<available file="./build/build.properties" property="properties_exist" />
 
@@ -182,10 +184,10 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 		<exec command="git checkout ${git.branch}"></exec>
 		<exec command="git pull origin ${git.branch}"></exec>
 
-		<tar destfile="${phing-package.name}" compression="gzip">
+		<tar destfile="${phing-package.name}" compression="gzip" defaultexcludes="false">
 			<fileset dir="${project.basedir}">
 				<include name="**/**" />
-				<include name="**/.svn" />
+
 				<exclude name="nbproject/**" />
 				<exclude name="**/.project" />
 				<exclude name="**/.buildpath" />
