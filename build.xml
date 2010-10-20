@@ -248,20 +248,17 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 	<target name="backup">
 		<echo file="README.txt" append="false">
 To restore this backup:
-* Import the database file in configs/${phing.project.name}.sql
+* Import the database file in backups/${phing.project.name}.sql
 * Copy configs/silverstripe/local.conf.php.sample to mysite/local.conf.php
 * Edit DB settings in local.conf as appropriate (typically, use MySQLDatabase as the db.type)
 * Run 'php sapphire/cli-script.php dev/build'
 		</echo>
-		<exec command="mysqldump -u${db.user} -p${db.pass} ${db.name} > ${database_dump.name}"></exec>
+		<mkdir dir="${backup.dir}" />
+		<echo file="${backup.dir}/.htaccess" append="false">
+Deny from all
+		</echo>
+		<exec command="mysqldump -u${db.user} -p${db.pass} ${db.name} > ${backup.sql}"></exec>
 		<phingcall target="package" />
-	</target>
-
-	<!-- Copy eclipse configs to the current directory -->
-	<target name="eclipse" depends="init">
-		<copy tofile=".project" file="./configs/eclipse/project.sample" overwrite="true">
-			<filterchain><expandproperties/></filterchain>
-		</copy>
 	</target>
 
 	<target name="ci_test" depends="build">

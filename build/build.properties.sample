@@ -15,13 +15,13 @@ modules.depends.file=build/dependent-modules
 # The core modules for silverstripe
 modules.core.file=build/core-modules
 
-db.config=configs/silverstripe/local.conf.sample.php
-testing.config=configs/silverstripe/testing.conf.sample.php
-htaccess.config=configs/silverstripe/htaccess.sample
+db.config=build/configs/silverstripe/local.conf.sample.php
+testing.config=build/configs/silverstripe/testing.conf.sample.php
+htaccess.config=build/configs/silverstripe/htaccess.sample
 
 # change this to the value that appears AFTER the TLD in your url 
-# the below matches http://localhost/bootstrap_env  
-rewrite.base=/bootstrap_env
+# the below matches http://localhost/silverstripe
+rewrite.base=/silverstripe
 
 # DB information
 db.type=SQLiteDatabase
@@ -62,4 +62,7 @@ module.file=${build.output.dir}/${module.prefix}${module.name}-${module.version}
 package.name=${build.output.dir}/${phing.project.name}-deploy.${DSTAMP}.tar.gz
 phing-package.name=${build.output.dir}/${phing.project.name}-development.${DSTAMP}.tar.gz
 update-package.name=${build.output.dir}/${phing.project.name}-update.${DSTAMP}.tar.gz
-database_dump.name=configs/${phing.project.name}.sql
+
+backup.dir=backups
+backup.sql=${backup.dir}/${phing.project.name}.${DSTAMP}.sql
+
