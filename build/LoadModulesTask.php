@@ -124,11 +124,11 @@ class LoadModulesTask extends SilverStripeBuildTask {
 					// need to make sure we've pulled from the correct branch also
 					$currentDir = getcwd();
 					if ($branch != 'master') {
-						$this->exec("cd $moduleName && git checkout -f -b $branch --track origin/$branch && cd '$currentDir'");
+						$this->exec("cd $moduleName && git checkout -f -b $branch --track origin/$branch && cd \"$currentDir\"");
 					}
 					
 					if ($commitId) {
-						$this->exec("cd $moduleName && git checkout $commitId && cd '$currentDir'");
+						$this->exec("cd $moduleName && git checkout $commitId && cd \"$currentDir\"");
 					}
 				}
 			} else {
@@ -156,9 +156,9 @@ class LoadModulesTask extends SilverStripeBuildTask {
 				}
 
 				$currentDir = getcwd();
-				$this->exec("cd $moduleName && git checkout $branch && git pull origin $branch && cd '$currentDir'");
+				$this->exec("cd $moduleName && git checkout $branch && git pull origin $branch && cd \"$currentDir\"");
 				if ($commitId) {
-					$this->exec("cd $moduleName && git pull && git checkout $commitId && cd '$currentDir'");
+					$this->exec("cd $moduleName && git pull && git checkout $commitId && cd \"$currentDir\"");
 				}
 
 			} else {
@@ -176,3 +176,4 @@ class LoadModulesTask extends SilverStripeBuildTask {
 		}
 	}
 }
+

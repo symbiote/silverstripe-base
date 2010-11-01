@@ -23,7 +23,7 @@ sqlite3/ http://svn.silverstripe.com/open/modules/sqlite3/trunk false
 cms/ http://svn.silverstripe.com/open/modules/cms/tags/2.4.2 false
 sapphire/ http://svn.silverstripe.com/open/modules/sapphire/tags/2.4.2
 
-legacydatetimefields http://svn.silverstripe.com/open/modules/legacydatetimefields/trunk/
+# legacydatetimefields http://svn.silverstripe.com/open/modules/legacydatetimefields/trunk/
 
 # For the standard base install, uncomment the following
 # securefiles http://polemic.net.nz/svn/silverstripe/modules/SecureFiles/tags/0.30/
