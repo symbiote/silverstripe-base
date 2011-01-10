@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- Rename this project to something relevant! -->
-<project name="rename-me" default="build" basedir=".">
+<project name="rename-me" default="build">
 
 	<tstamp />
 
-	
-
 	<!-- Make sure properties are in existence -->
-	<available file="./build/build.properties" property="properties_exist" />
+	<available file="${project.basedir}/build/build.properties" property="properties_exist" />
 
 	<!-- Has the modules file been created? -->
 	<available file="${modules.depends.file}" property="modules_file_exists" />
 
 	<!-- have we been installed? -->
-	<available file="./mysite/local.conf.php" property="installed" />
+	<available file="${project.basedir}/mysite/local.conf.php" property="installed" />
 
-	<property file="./build/build.properties"></property>
+	<property file="${project.basedir}/build/build.properties"></property>
 
 	<php expression="trim(file_get_contents('${module.name}/VERSION'))" returnProperty="module.version" />
 
 	<!-- Load in the custom tasks -->
-	<taskdef name="symlink" classname="build.SymlinkTask" />
-	<taskdef name="copyfolders" classname="build.CopyFoldersTask" />
-	<taskdef name="sstest" classname="build.SilverStripeTestTask" />
-	<taskdef name="ssmodules" classname="build.LoadModulesTask" />
-	<taskdef name="sspatches" classname="build.ApplyPatchesTask" />
+	<taskdef name="symlink" classname="build.SymlinkTask" classpath="${project.basedir}" />
+	<taskdef name="copyfolders" classname="build.CopyFoldersTask" classpath="${project.basedir}" />
+	<taskdef name="sstest" classname="build.SilverStripeTestTask" classpath="${project.basedir}" />
+	<taskdef name="ssmodules" classname="build.LoadModulesTask" classpath="${project.basedir}" />
+	<taskdef name="sspatches" classname="build.ApplyPatchesTask" classpath="${project.basedir}" />
 
 	<target name="help">
 		<echo>
@@ -91,13 +89,13 @@ Other features
 	the build is executed from a CI container -->
 	<target name="non_interactive" if="ni_build">
 		<!-- we'll make sure that there's a build.properties file, even if we're just using the default  -->
-		<delete file="./build/build.properties" />
-		<copy tofile="./build/build.properties" file="./build/build.properties.sample" />
+		<delete file="${project.basedir}/build/build.properties" />
+		<copy tofile="${project.basedir}/build/build.properties" file="${project.basedir}/build/build.properties.sample" />
 		<delete dir="assets" />
-		<delete file="./mysite/local.conf.php" />
-		<delete file="./ssautesting/testing.conf.php" />
+		<delete file="${project.basedir}/mysite/local.conf.php" />
+		<delete file="${project.basedir}/ssautesting/testing.conf.php" />
 		<property name="properties_exist" value="true" override="true" />
-		<property file="./build/build.properties"></property>
+		<property file="${project.basedir}/build/build.properties"></property>
 	</target>
 
 	<!-- Installs a freshly checked-out silverstripe project -->
@@ -265,7 +263,7 @@ Deny from all
 
 	<target name="ci_test" depends="build">
 		<!-- lets get rid of files that we don't want tested -->
-		<delete file="./sapphire/tests/WebserverRoutingTest.php" />
+		<delete file="${project.basedir}/sapphire/tests/WebserverRoutingTest.php" />
 		<phingcall target="test" />
 	</target>
 
