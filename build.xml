@@ -326,7 +326,7 @@ Deny from all
 		<exec command="cap deploy"></exec>
 	</target>
 	
-	<target name="deploy" depends="">
+	<target name="deploy" depends="package">
 		<foreach list="${deploy.targets}" param="deptarget" target="deploy-target" />
 	</target>
 
