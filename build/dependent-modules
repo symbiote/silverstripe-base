@@ -2,7 +2,7 @@
 # -----------
 # Each line represents one dependent module.
 #
-# local_module_folder[:git_branch|:svn_revision_number] repository_url [run_dev_build=false]
+# local_module_folder[:git_branch|:svn_revision_number] repository_url [run_dev_build=true]
 #
 # Note that the local_module_folder can contain subfolders delimited via '/' characters
 # A specific git branch or SVN revision can be added in by specifying after the local

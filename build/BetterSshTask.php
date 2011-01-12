@@ -62,7 +62,7 @@ class BetterSshTask extends Task {
     {
         return $this->password;
     }
-
+	
     /**
      * Sets the public key file of the user to scp
      */
