@@ -59,9 +59,9 @@ module.file=${build.output.dir}/${module.prefix}${module.name}-${module.version}
 # The name of the tarball to create when packaging
 # Note that these are output to the scripts folder so they are inaccessible from the web
 # via .htaccess rules
-package.name=${build.output.dir}/${phing.project.name}-deploy.${DSTAMP}.tar.gz
-phing-package.name=${build.output.dir}/${phing.project.name}-development.${DSTAMP}.tar.gz
-update-package.name=${build.output.dir}/${phing.project.name}-update.${DSTAMP}.tar.gz
+package.name=${phing.project.name}-deploy.${DSTAMP}.tar.gz
+phing-package.name=${phing.project.name}-development.${DSTAMP}.tar.gz
+update-package.name=${phing.project.name}-update.${DSTAMP}.tar.gz
 
 backup.dir=backups
 backup.sql=${backup.dir}/${phing.project.name}.${DSTAMP}.sql
@@ -97,4 +97,5 @@ deploy.stage.apache-group=www-data
 # deploy.prod.path=/home/deploy/prod/${phing.project.name}
 
 deploy.release.path=releases/${FULLDTIME}
-deploy.release.file=${deploy.release.path}/${phing.project.name}-deploy.${DSTAMP}.tar.gz
+deploy.release.file=${deploy.release.path}/${package.name}
+deploy.incremental.file=${deploy.release.path}/${update-package.name}
