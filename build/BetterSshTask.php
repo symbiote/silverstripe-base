@@ -161,6 +161,7 @@ class BetterSshTask extends Task {
         }
 		
 		$command = '('.$this->command.'  2>&1) && echo __COMPLETE';
+		// $command = 'sh -c '.escapeshellarg('('.$this->command.'  2>&1) && echo __COMPLETE');
 
         $stream = ssh2_exec($this->connection, $command);
         if (!$stream) {

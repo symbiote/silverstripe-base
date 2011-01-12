@@ -302,32 +302,6 @@ Deny from all
 		</delete>
 	</target>
 	
-	<!-- send a deployment to configured hosts -->
-	<target name="capdeploy" depends="build">
-		<mkdir dir="${build.deploy.dir}" />
-		<copy todir="${build.deploy.dir}">
-			<fileset dir="${project.basedir}">
-				<include name="**/**" />
-				<exclude name="build/**" />
-				<exclude name="build.xml" />
-				<exclude name="Capfile" />
-				<exclude name="config/**" />
-				<exclude name="mysite/local.conf.php" />
-				<exclude name="mysite/db.conf.php" />
-				<exclude name="mysite/*.log" />
-				<exclude name="**/.svn" />
-				<exclude name="**/.git" />
-				<exclude name="assets/**" />
-				<exclude name="nbproject/**" />
-				<exclude name="**/.htaccess" />
-				<exclude name="**/.project" />
-				<exclude name="**/.buildpath" />
-				<exclude name="**/.settings" />
-			</fileset>
-		</copy>
-		<exec command="cap deploy"></exec>
-	</target>
-	
 	<target name="deploy" depends="package">
 		<foreach list="${deploy.targets}" param="deptarget" target="deploy-target" />
 	</target>
