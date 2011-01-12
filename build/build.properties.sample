@@ -66,3 +66,35 @@ update-package.name=${build.output.dir}/${phing.project.name}-update.${DSTAMP}.t
 backup.dir=backups
 backup.sql=${backup.dir}/${phing.project.name}.${DSTAMP}.sql
 
+# Comma separated list of all places that will be deployed to
+# limited to stage to begin with, pass -Ddeploy.targets=prod,stage etc for more
+deploy.targets=stage,prod
+
+# Host to deploy to
+deploy.stage.host=localhost
+
+# user to deploy as
+deploy.stage.user=deploy
+
+# password for that user; if not specified, you will be prompted for this 
+deploy.stage.pass=deploy
+
+# The path on the remote system to store deployments at. You then must link to 
+# ${deploy.stage.path}/current as your webroot folder eg 
+#
+# ln -s ${deploy.stage.path} /var/www 
+# 
+# if your webroot is /var/www
+deploy.stage.path=/home/deploy/stage/${phing.project.name}
+
+# The group that apache runs as on the target
+deploy.stage.apache-group=www-data
+
+# eg a prod host might look like
+# deploy.prod.host=localhost
+# deploy.prod.user=deploy
+# deploy.prod.pass=deploy
+# deploy.prod.path=/home/deploy/prod/${phing.project.name}
+
+deploy.release.path=releases/${FULLDTIME}
+deploy.release.file=${deploy.release.path}/${phing.project.name}-deploy.${DSTAMP}.tar.gz

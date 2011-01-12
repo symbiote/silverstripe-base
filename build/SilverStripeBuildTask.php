@@ -40,6 +40,13 @@ TEXT;
 			}
 		}
 	}
+	
+	protected function devBuild() {
+		if (file_exists('sapphire/cli-script.php')) {
+			$this->log("Running dev/build");
+			$this->exec('php sapphire/cli-script.php dev/build');
+		}
+	}
 
 	protected function exec($cmd, $ignoreError = false) {
 		passthru($cmd, $return);

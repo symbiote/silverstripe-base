@@ -72,6 +72,7 @@ class LoadModulesTask extends SilverStripeBuildTask {
 				if (strpos($item, '#') === 0) {
 					continue;
 				}
+
 				$bits = preg_split('/\s+/', $item);
 				// skip malformed lines
 				if (count($bits) < 2) {
@@ -80,11 +81,13 @@ class LoadModulesTask extends SilverStripeBuildTask {
 
 				$moduleName = trim($bits[0], '/');
 				$svnUrl = trim($bits[1], '/');
-				$devBuild = isset($bits[2]) ? $bits[2] != 'false' : true;
+				$devBuild = isset($bits[2]) ? $bits[2] != 'true' : false;
 
 				$this->loadModule($moduleName, $svnUrl, $devBuild);
 			}
 		}
+		
+		$this->devBuild();
 
 		$this->cleanEnv();
 	}
@@ -97,7 +100,7 @@ class LoadModulesTask extends SilverStripeBuildTask {
 	 * @param boolean $devBuild
 	 * 			Do we run a dev/build?
 	 */
-	protected function loadModule($moduleName, $svnUrl, $devBuild = true)
+	protected function loadModule($moduleName, $svnUrl, $devBuild = false)
 	{
 		$git = strrpos($svnUrl, '.git') == (strlen($svnUrl) - 4);
 		$branch = 'master';
@@ -170,9 +173,8 @@ class LoadModulesTask extends SilverStripeBuildTask {
 			}
 		}
 
-		if ($devBuild && file_exists('sapphire/cli-script.php')) {
-			echo "Running dev/build\n";
-			exec('php sapphire/cli-script.php dev/build', $output, $result);
+		if ($devBuild) {
+			$this->devBuild();
 		}
 	}
 }

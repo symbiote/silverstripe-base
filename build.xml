@@ -3,7 +3,9 @@
 <!-- Rename this project to something relevant! -->
 <project name="rename-me" default="build">
 
-	<tstamp />
+	<tstamp>
+		<format property="FULLDTIME" pattern="%Y%m%d%H%M%S" />
+	</tstamp>
 
 	<!-- Make sure properties are in existence -->
 	<available file="${project.basedir}/build/build.properties" property="properties_exist" />
@@ -24,6 +26,7 @@
 	<taskdef name="sstest" classname="build.SilverStripeTestTask" classpath="${project.basedir}" />
 	<taskdef name="ssmodules" classname="build.LoadModulesTask" classpath="${project.basedir}" />
 	<taskdef name="sspatches" classname="build.ApplyPatchesTask" classpath="${project.basedir}" />
+	<taskdef name="sshcmd" classname="build.BetterSshTask" classpath="${project.basedir}" />
 
 	<target name="help">
 		<echo>
@@ -142,9 +145,10 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 		<mkdir dir="${patches.dir}" />
 		<sspatches patchdir="${patches.dir}" />
 	</target>
+	
 
-	<!-- Create a deployable package to use as the base for installing a new site. Please use the 
-	update-package target for creating a package to use for an update -->
+	<!-- Create a deployable package to use as the base for installing a new site FROM SCRATCH. 
+	Please use the update-package target for creating a package to use for an update -->
 	<target name="package" depends="build">
 		<property name="currentpackage" value="${package.name}" />
 		<property name="packagetype" value="deploy" />
@@ -294,6 +298,136 @@ Deny from all
 				<include name="*-${packagetype}*.tar.gz" />	
 			</fileset>
 		</delete>
+	</target>
+	
+	<!-- send a deployment to configured hosts -->
+	<target name="capdeploy" depends="build">
+		<mkdir dir="${build.deploy.dir}" />
+		<copy todir="${build.deploy.dir}">
+			<fileset dir="${project.basedir}">
+				<include name="**/**" />
+				<exclude name="build/**" />
+				<exclude name="build.xml" />
+				<exclude name="Capfile" />
+				<exclude name="config/**" />
+				<exclude name="mysite/local.conf.php" />
+				<exclude name="mysite/db.conf.php" />
+				<exclude name="mysite/*.log" />
+				<exclude name="**/.svn" />
+				<exclude name="**/.git" />
+				<exclude name="assets/**" />
+				<exclude name="nbproject/**" />
+				<exclude name="**/.htaccess" />
+				<exclude name="**/.project" />
+				<exclude name="**/.buildpath" />
+				<exclude name="**/.settings" />
+			</fileset>
+		</copy>
+		<exec command="cap deploy"></exec>
+	</target>
+	
+	<target name="deploy" depends="">
+		<foreach list="${deploy.targets}" param="deptarget" target="deploy-target" />
+	</target>
+
+	<target name="deploy-target">
+		<if>
+			<isset property="deploy.${deptarget}.pass" />
+			<then></then>
+			<else>
+				<input propertyName="deploy.${deptarget}.pass" promptChar=":">Deployment password</input>
+			</else>
+		</if>
+		
+		<if>
+			<isset property="deploy.${deptarget}.apache-group" />
+			<then></then>
+			<else>
+				<input propertyName="deploy.${deptarget}.apache-group" promptChar=":">Apache group for ${deptarget}@${deploy.${deptarget}.host}</input>
+			</else>
+		</if>
+			
+			
+		<!-- make sure needed directories are there -->
+		<sshcmd username="${deploy.${deptarget}.user}" 
+			password="${deploy.${deptarget}.pass}"
+			host="${deploy.${deptarget}.host}"
+			command="mkdir --mode=2775 -p ${deploy.${deptarget}.path}/${deploy.release.path}/silverstripe-cache;mkdir --mode=2775 -p ${deploy.${deptarget}.path}/${deploy.release.path}/assets" 
+			/>
+
+		<echo>Copying package to ${deptarget}@${deploy.${deptarget}.host}</echo>
+		<scp username="${deploy.${deptarget}.user}" 
+			password="${deploy.${deptarget}.pass}"
+			host="${deploy.${deptarget}.host}"
+			todir="${deploy.${deptarget}.path}/${deploy.release.path}" 
+			file="${package.name}"
+			/>
+		
+		<echo>Unzipping ${deploy.${deptarget}.path}/${deploy.release.file} on target ${deptarget}</echo>
+		<sshcmd username="${deploy.${deptarget}.user}" 
+			password="${deploy.${deptarget}.pass}"
+			host="${deploy.${deptarget}.host}"
+			command="tar -zx -C ${deploy.${deptarget}.path}/${deploy.release.path} -f ${deploy.${deptarget}.path}/${deploy.release.file}; rm ${deploy.${deptarget}.path}/${deploy.release.file};" />
+
+		<echo>Copying ${deptarget} configs</echo>
+		<sshcmd username="${deploy.${deptarget}.user}" 
+			password="${deploy.${deptarget}.pass}"
+			host="${deploy.${deptarget}.host}"
+			command="cp ${deploy.${deptarget}.path}/current/.htaccess ${deploy.${deptarget}.path}/${deploy.release.path}/; cp ${deploy.${deptarget}.path}/current/mysite/local.conf.php ${deploy.${deptarget}.path}/${deploy.release.path}/mysite/local.conf.php"
+			/>
+
+		<echo>Copying ${deptarget} assets</echo>
+		<sshcmd username="${deploy.${deptarget}.user}" 
+			password="${deploy.${deptarget}.pass}"
+			host="${deploy.${deptarget}.host}"
+			command="cp -R ${deploy.${deptarget}.path}/current/assets ${deploy.${deptarget}.path}/${deploy.release.path}"
+			/>
+			
+		<echo>Taking backup of ${deptarget} database</echo>
+		<sshcmd username="${deploy.${deptarget}.user}" 
+			password="${deploy.${deptarget}.pass}"
+			host="${deploy.${deptarget}.host}"
+			command="php ${deploy.${deptarget}.path}/current/mysite/scripts/backup_database.php"
+			/>
+
+		<echo>Fixing permissions</echo>
+		<sshcmd username="${deploy.${deptarget}.user}" 
+			password="${deploy.${deptarget}.pass}"
+			host="${deploy.${deptarget}.host}"
+			command="chgrp -R ${deploy.${deptarget}.apache-group}; find ${deploy.${deptarget}.path}/${deploy.release.path} -type f -exec chmod 664 {} \; ; find ${deploy.${deptarget}.path}/${deploy.release.path} -type d -exec chmod 2775 {} \; ;" 
+			/>
+
+
+		<!-- path of no return because this changes DB!! -->
+		<echo>Running dev/build</echo>
+		<sshcmd username="${deploy.${deptarget}.user}" 
+			password="${deploy.${deptarget}.pass}"
+			host="${deploy.${deptarget}.host}"
+			command="php ${deploy.${deptarget}.path}/${deploy.release.path}/sapphire/cli-script.php dev/build"
+			/>	
+			
+		<echo>Updating symlinks</echo>
+		<sshcmd username="${deploy.${deptarget}.user}" 
+			password="${deploy.${deptarget}.pass}"
+			host="${deploy.${deptarget}.host}"
+			command="rm ${deploy.${deptarget}.path}/current; ln -s ${deploy.${deptarget}.path}/${deploy.release.path} ${deploy.${deptarget}.path}/current"
+			/>
+			
+		<echo>Fixing permissions (again, because of dev/build)</echo>
+		<sshcmd username="${deploy.${deptarget}.user}" 
+			password="${deploy.${deptarget}.pass}"
+			host="${deploy.${deptarget}.host}"
+			command="chgrp -R ${deploy.${deptarget}.apache-group}; find ${deploy.${deptarget}.path}/${deploy.release.path} -type f -exec chmod 664 {} \; ; find ${deploy.${deptarget}.path}/${deploy.release.path} -type d -exec chmod 2775 {} \; ;" 
+			/>
+
+	</target>
+	
+	<target name="sshtest">
+		<sshcmd username="deploy" 
+			password="deploy"
+			host="localhost"
+			command="ls -la" 
+			/>	
 	</target>
 
 	<target name="clean">

@@ -19,9 +19,9 @@
 # themes/mytheme git://local.server/themes/mytheme.git false
 #
 
-sqlite3/ http://svn.silverstripe.com/open/modules/sqlite3/trunk false
-cms/ http://svn.silverstripe.com/open/modules/cms/tags/2.4.0 false
-sapphire/ http://svn.silverstripe.com/open/modules/sapphire/tags/2.4.0
+sqlite3/ http://svn.silverstripe.com/open/modules/sqlite3/trunk 
+cms/ http://svn.silverstripe.com/open/modules/cms/tags/2.4.4 
+sapphire/ http://svn.silverstripe.com/open/modules/sapphire/tags/2.4.4
 
 legacydatetimefields http://svn.silverstripe.com/open/modules/legacydatetimefields/trunk/
 
