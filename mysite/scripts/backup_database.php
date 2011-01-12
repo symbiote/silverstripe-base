@@ -26,7 +26,7 @@ switch ($databaseConfig['type']) {
 		$h = $databaseConfig['server'];
 		$d = $databaseConfig['database'];
 
-		$cmd = "mysqldump --user=$u --password=$p --host=$host $d > ".escapeshellarg($outfile);
+		$cmd = "mysqldump --user=$u --password=$p --host=$h $d > ".escapeshellarg($outfile);
 		exec($cmd);
 		break;
 	case 'SQLiteDatabase':
