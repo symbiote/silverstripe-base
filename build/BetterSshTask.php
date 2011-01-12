@@ -21,6 +21,7 @@ class BetterSshTask extends Task {
     private $pubkeyfile = '';
     private $privkeyfile = '';
     private $privkeyfilepassphrase = '';
+	private $ignoreerrors = false;
 
     public function setHost($host) 
     {
@@ -119,6 +120,19 @@ class BetterSshTask extends Task {
     {
         return $this->command;
     }
+	
+	public function setIgnoreErrors($ignore) {
+		if (!is_bool($ignore)) {
+			$ignore = $ignore == 'true' || $ignore == 1;
+		}
+
+		$this->ignoreerrors = $ignore;
+	}
+	
+	public function getIgnoreErrors() {
+		return $this->ignoreerrors;
+	}
+
 
     public function init() 
     {
@@ -159,13 +173,15 @@ class BetterSshTask extends Task {
             $data .= $buf;
         }
 
-		if (strpos($data, '__COMPLETE') !== false) {
+		if (strpos($data, '__COMPLETE') !== false || $this->ignoreerrors) {
 			$data = str_replace('__COMPLETE', '', $data);
 		} else {
 			$this->log("Command field: $command", Project::MSG_WARN);
 			throw new BuildException("Failed executing command : $data");
 		}
-
+		
+		echo $data;
+		
         fclose($stream);
     }
 }
