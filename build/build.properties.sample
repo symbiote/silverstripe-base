@@ -99,7 +99,3 @@ deploy.stage.apache-group=www-data
 # deploy.prod.user=deploy
 # deploy.prod.pass=deploy
 # deploy.prod.path=/home/deploy/prod/${phing.project.name}
-
-deploy.release.path=releases/${FULLDTIME}
-deploy.release.file=${deploy.release.path}/${package.name}
-deploy.incremental.file=${deploy.release.path}/${update-package.name}
