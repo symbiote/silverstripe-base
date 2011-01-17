@@ -76,8 +76,12 @@ deploy.stage.host=localhost
 # user to deploy as
 deploy.stage.user=deploy
 
-# password for that user; if not specified, you will be prompted for this 
+# password for that user; if this property is commented out, you will be prompted for this 
 deploy.stage.pass=deploy
+
+# Key based authentication. Note that at the moment, keys must be passwordless.
+deploy.stage.privkey=
+deploy.stage.pubkey=
 
 # The path on the remote system to store deployments at. You then must link to 
 # ${deploy.stage.path}/current as your webroot folder eg 
