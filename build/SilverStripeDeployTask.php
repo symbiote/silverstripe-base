@@ -55,7 +55,8 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 		
 		if ($this->incremental) {
 			$this->log("Copying existing deployment");
-			$this->execute("cp -Ra $currentPath/* $releasePath/");
+			// we use rsync here to be able to use --excludes
+			$this->execute("rsync -r --exclude=silverstripe-cache $currentPath/* $releasePath/");
 			
 			$this->log("Copying configs");
 			$this->execute("cp $releasePath/mysite/.assets-htaccess $releasePath/assets/.htaccess");
