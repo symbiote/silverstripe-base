@@ -68,7 +68,7 @@ backup.sql=${backup.dir}/${phing.project.name}.${DSTAMP}.sql
 
 # Comma separated list of all places that will be deployed to
 # limited to stage to begin with, pass -Ddeploy.targets=prod,stage etc for more
-deploy.targets=stage,prod
+deploy.targets=stage
 
 # Host to deploy to
 deploy.stage.host=localhost

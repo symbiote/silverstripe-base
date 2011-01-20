@@ -35,6 +35,8 @@ class ParameterisedTestRunner extends TestRunner
 			global $databaseConfig;
 			$newConfig = $databaseConfig;
 			$newConfig['database'] = $TESTING_CONFIG['database'];
+			DB::getConn()->selectDatabase($newConfig['database']);
+			$newConfig['memory'] = isset($TESTING_CONFIG['memory']) ? $TESTING_CONFIG['memory'] : true;
 			DB::connect($newConfig);
 			$dbadmin = new DatabaseAdmin();
 			$dbadmin->clearAllData();

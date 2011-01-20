@@ -1,0 +1,32 @@
+Index: sapphire/dev/SapphireTest.php
+===================================================================
+--- sapphire/dev/SapphireTest.php	(revision 115670)
++++ sapphire/dev/SapphireTest.php	(working copy)
+@@ -105,6 +105,18 @@
+ 	 */
+ 	protected $fixtures; 
+ 	
++	
++	/**
++	 * Set persistence of data between test executions to false. 
++	 */
++	public function __construct() {
++		parent::__construct();
++		
++		$this->setBackupGlobals(false);
++		$this->setBackupStaticAttributes(false);
++	}
++
++	
+ 	function setUp() {
+ 		// Mark test as being run
+ 		$this->originalIsRunningTest = self::$is_running_test;
+@@ -136,6 +148,8 @@
+ 		$className = get_class($this);
+ 		$fixtureFile = eval("return {$className}::\$fixture_file;");
+ 		
++		$conn = DB::getConn();
++		$currentDb = $conn->currentDatabase();
+ 		// Set up fixture
+ 		if($fixtureFile || !self::using_temp_db()) {
+ 			if(substr(DB::getConn()->currentDatabase(),0,5) != 'tmpdb') {
