@@ -8,6 +8,12 @@ class Page extends SiteTree {
 	public static $has_one = array(
 	);
 	
+	public function requireDefaultRecords() {
+		if (Director::isDev()) {
+			$loader = new FixtureLoader();
+			$loader->loadFixtures();
+		}
+	}
 }
 
 class Page_Controller extends ContentController {

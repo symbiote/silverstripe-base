@@ -159,7 +159,7 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
         }
 
         $could_auth = null;
-        if ( $this->pubkeyfile ) {
+        if (strlen($this->pubkeyfile)) {
             $could_auth = ssh2_auth_pubkey_file($this->connection, $this->username, $this->pubkeyfile, $this->privkeyfile, $this->privkeyfilepassphrase);
         } else {
             $could_auth = ssh2_auth_password($this->connection, $this->username, $this->password);
@@ -265,7 +265,9 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 
     public function setPassword($password) 
     {
-        $this->password = $password;
+		if (strpos($password, '${') === false) {
+			$this->password = $password;
+		}
     }
 
     public function getPassword() 
@@ -278,7 +280,9 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
      */
     public function setPubkeyfile($pubkeyfile)
     {
-        $this->pubkeyfile = $pubkeyfile;
+		if (strpos($pubkeyfile, '${') === false) {
+			$this->pubkeyfile = $pubkeyfile;
+		}
     }
 
     /**
