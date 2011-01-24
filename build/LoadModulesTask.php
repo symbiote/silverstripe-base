@@ -159,7 +159,7 @@ class LoadModulesTask extends SilverStripeBuildTask {
 				}
 
 				$currentDir = getcwd();
-				$this->exec("cd $moduleName && git checkout $branch && git pull origin $branch && cd \"$currentDir\"");
+				$this->exec("cd $moduleName && git checkout -f $branch && git pull origin $branch && cd \"$currentDir\"");
 				if ($commitId) {
 					$this->exec("cd $moduleName && git pull && git checkout $commitId && cd \"$currentDir\"");
 				}
