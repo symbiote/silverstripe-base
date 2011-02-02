@@ -1,6 +1,6 @@
 <?php
 
-include_once dirname(__FILE__).'/SilverStripeBuildTask.php';
+include_once dirname(__FILE__) . '/SilverStripeBuildTask.php';
 
 /**
  * A phing task to load modules from a specific URL via SVN or git checkouts
@@ -24,38 +24,31 @@ class LoadModulesTask extends SilverStripeBuildTask {
 	 * @var String
 	 */
 	private $file = '';
-
 	/**
 	 * Optionally specify a module name
 	 *
 	 * @var String
 	 */
 	private $name = '';
-
 	/**
 	 * And a module url
 	 * @var String
 	 */
 	private $url = '';
 
-	public function setFile($v)
-	{
+	public function setFile($v) {
 		$this->file = $v;
 	}
 
-	public function setName($v)
-	{
+	public function setName($v) {
 		$this->name = $v;
 	}
 
-	public function setUrl($v)
-	{
+	public function setUrl($v) {
 		$this->url = $v;
 	}
 
-
-	public function main()
-	{
+	public function main() {
 		$this->configureEnvFile();
 
 		if ($this->name) {
@@ -63,7 +56,7 @@ class LoadModulesTask extends SilverStripeBuildTask {
 		} else {
 			// load the items from the dependencies file
 			if (!file_exists($this->file)) {
-				throw new BuildException("Modules file ".$this->modulesFile." cannot be read");
+				throw new BuildException("Modules file " . $this->modulesFile . " cannot be read");
 			}
 
 			$items = file($this->file);
@@ -86,9 +79,8 @@ class LoadModulesTask extends SilverStripeBuildTask {
 				$this->loadModule($moduleName, $svnUrl, $devBuild);
 			}
 		}
-		
-		$this->devBuild();
 
+		$this->devBuild();
 		$this->cleanEnv();
 	}
 
@@ -100,16 +92,19 @@ class LoadModulesTask extends SilverStripeBuildTask {
 	 * @param boolean $devBuild
 	 * 			Do we run a dev/build?
 	 */
-	protected function loadModule($moduleName, $svnUrl, $devBuild = false)
-	{
+	protected function loadModule($moduleName, $svnUrl, $devBuild = false) {
 		$git = strrpos($svnUrl, '.git') == (strlen($svnUrl) - 4);
 		$branch = 'master';
 		$cmd = '';
+		
+		$originalName = $moduleName;
 
 		if (strpos($moduleName, self::MODULE_SEPARATOR) > 0) {
 			$branch = substr($moduleName, strpos($moduleName, self::MODULE_SEPARATOR) + 1);
 			$moduleName = substr($moduleName, 0, strpos($moduleName, self::MODULE_SEPARATOR));
 		}
+
+		$md = $this->loadMetadata();
 
 		// check the module out if it doesn't exist
 		if (!file_exists($moduleName)) {
@@ -129,7 +124,7 @@ class LoadModulesTask extends SilverStripeBuildTask {
 					if ($branch != 'master') {
 						$this->exec("cd $moduleName && git checkout -f -b $branch --track origin/$branch && cd \"$currentDir\"");
 					}
-					
+
 					if ($commitId) {
 						$this->exec("cd $moduleName && git checkout $commitId && cd \"$currentDir\"");
 					}
@@ -141,7 +136,7 @@ class LoadModulesTask extends SilverStripeBuildTask {
 				}
 				$this->exec("svn co $revision $svnUrl $moduleName");
 			}
-			
+
 			// make sure to append it to the .gitignore file
 			if (file_exists('.gitignore')) {
 				$gitIgnore = file_get_contents('.gitignore');
@@ -149,8 +144,22 @@ class LoadModulesTask extends SilverStripeBuildTask {
 					$this->exec("echo $moduleName >> .gitignore");
 				}
 			}
+
 		} else {
 			echo "Updating $moduleName $branch from $svnUrl\n";
+			// get the metadata and make sure it's not the same
+			if ($md && isset($md[$moduleName]) && isset($md[$moduleName]['url'])) {
+				if ($md[$moduleName]['url'] != $svnUrl) {
+					// delete the directory and reload the module
+					echo "Deleting $moduleName and reloading\n";
+					unset($md[$moduleName]);
+					$this->writeMetadata($md);
+					rrmdir($moduleName, true);
+					$this->loadModule($originalName, $svnUrl, $devBuild);
+					return;
+				}
+			}
+
 			if ($git) {
 				$commitId = null;
 				if (strpos($branch, self::MODULE_SEPARATOR) > 0) {
@@ -159,11 +168,10 @@ class LoadModulesTask extends SilverStripeBuildTask {
 				}
 
 				$currentDir = getcwd();
-				$this->exec("cd $moduleName && git checkout -f $branch && git pull origin $branch && cd \"$currentDir\"");
+				$this->exec("cd $moduleName && git checkout $branch && git pull origin $branch && cd \"$currentDir\"");
 				if ($commitId) {
 					$this->exec("cd $moduleName && git pull && git checkout $commitId && cd \"$currentDir\"");
 				}
-
 			} else {
 				$revision = '';
 				if ($branch != 'master') {
@@ -173,9 +181,52 @@ class LoadModulesTask extends SilverStripeBuildTask {
 			}
 		}
 
+		$metadata = array(
+			'url' => $svnUrl,
+			'branch' => str_replace($moduleName, '', $originalName),
+		);
+
+		$md[$moduleName] = $metadata;
+		$this->writeMetadata($md);
+		
 		if ($devBuild) {
 			$this->devBuild();
 		}
 	}
+	
+	protected function loadMetadata() {
+		$metadataFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'phing-metadata';
+		
+		$md = array();
+		if (file_exists($metadataFile)) {
+			$md = unserialize(file_get_contents($metadataFile));
+		}
+		
+		return $md;
+	}
+	
+	protected function writeMetadata($md) {
+		$metadataFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'phing-metadata';
+		file_put_contents($metadataFile, serialize($md));
+	}
+
 }
+
+if (!function_exists('rrmdir')) {
+	function rrmdir($dir) {
+		if (is_dir($dir)) {
+			$objects = scandir($dir);
+			foreach ($objects as $object) {
+				if ($object != "." && $object != "..") {
+					if (filetype($dir . "/" . $object) == "dir")
+						rrmdir($dir . "/" . $object); else
+						unlink($dir . "/" . $object);
+				}
+			}
+			reset($objects);
+			rmdir($dir);
+		}
+	}
+}
+
 
