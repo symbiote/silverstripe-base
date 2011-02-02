@@ -19,7 +19,7 @@
 # themes/mytheme git://local.server/themes/mytheme.git false
 #
 
-sqlite3/ http://svn.silverstripe.com/open/modules/sqlite3/trunk 
+sqlite3:master:1.1.0 git://github.com/smindel/silverstripe-sqlite3.git
 cms/ http://svn.silverstripe.com/open/modules/cms/tags/2.4.4
 sapphire/ http://svn.silverstripe.com/open/modules/sapphire/tags/2.4.4
 
