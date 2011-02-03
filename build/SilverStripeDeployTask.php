@@ -172,22 +172,6 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 		$this->sftp = ssh2_sftp($this->connection);
 	}
 	
-	/**
-	 * Get some input from the user
-	 *
-	 * @param string $prompt
-	 * @return string
-	 */
-	protected function getInput($prompt) {
-		$request = new InputRequest($prompt);
-        $request->setPromptChar(':');
-        
-        $this->project->getInputHandler()->handleInput($request);
-
-        $value = $request->getInput();
-		
-		return $value;
-	}
 	
 	public function setApachegroup($g) {
 		$this->apachegroup = $g;

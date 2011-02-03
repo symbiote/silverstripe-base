@@ -69,7 +69,7 @@ Other features
 
 	<!-- Load modules where sensitive dependency exists -->
 	<target name="update_modules" depends="create_modules_file">
-		<ssmodules file="${modules.depends.file}" />
+		<ssmodules file="${modules.depends.file}" noninteractive="${ni_build}"/>
 	</target>
 
 	<target name="create_modules_file" unless="modules_file_exists">

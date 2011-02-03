@@ -35,6 +35,18 @@ class LoadModulesTask extends SilverStripeBuildTask {
 	 * @var String
 	 */
 	private $url = '';
+	
+	/**
+	 * Is this a non-interactive build session?
+	 * @var boolean
+	 */
+	private $nonInteractive = false;
+	
+	public function setNoninteractive($v) {
+		if (!strpos($v, '${') && $v == 'true' || $v == 1) {
+			$this->nonInteractive = true;
+		}
+	}
 
 	public function setFile($v) {
 		$this->file = $v;
@@ -168,7 +180,23 @@ class LoadModulesTask extends SilverStripeBuildTask {
 				}
 
 				$currentDir = getcwd();
-				$this->exec("cd $moduleName && git checkout $branch && git pull origin $branch && cd \"$currentDir\"");
+				
+				$currentBranch = trim($this->exec("cd $moduleName && git branch && cd \"$currentDir\"", true));
+				$mods = trim($this->exec("cd $moduleName && git diff --name-status && cd \"$currentDir\"", true));
+				$overwrite = '';
+				if (strlen($mods)) {
+					$this->log("The following files are locally modified");
+					echo "\n $mods\n\n";
+					if (!$this->nonInteractive) {
+						$overwrite = strtolower(trim($this->getInput("Overwrite local changes? [y/N]")));
+						$overwrite = $overwrite == 'y' ? '-f' : '';
+					} else {
+						$overwrite = '-f';
+					}
+				}
+				
+				$this->exec("cd $moduleName && git checkout $overwrite $branch && git pull origin $branch && cd \"$currentDir\"");
+				
 				if ($commitId) {
 					$this->exec("cd $moduleName && git pull && git checkout $commitId && cd \"$currentDir\"");
 				}
