@@ -72,6 +72,7 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 			$this->log("Copying configs");
 			$this->execute("cp $releasePath/mysite/.assets-htaccess $releasePath/assets/.htaccess");
 			$this->execute("cp $currentPath/.htaccess $releasePath/");
+			$this->execute("cp $currentPath/_ss_environment.php $releasePath/");
 			$this->execute("cp $currentPath/mysite/local.conf.php $releasePath/mysite/local.conf.php");
 
 			$this->log("Copying site assets");
