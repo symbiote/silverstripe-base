@@ -44,11 +44,36 @@ TEXT;
 			$this->exec('php sapphire/cli-script.php dev/build');
 		}
 	}
+	
+	
+	/**
+	 * Get some input from the user
+	 *
+	 * @param string $prompt
+	 * @return string
+	 */
+	protected function getInput($prompt) {
+		$request = new InputRequest($prompt);
+        $request->setPromptChar(':');
+        
+        $this->project->getInputHandler()->handleInput($request);
+        $value = $request->getInput();
+		return $value;
+	}
 
-	protected function exec($cmd, $ignoreError = false) {
-		passthru($cmd, $return);
+	protected function exec($cmd, $returnContent = false, $ignoreError = false) {
+		$ret = null;
+		$return = null;
+		if ($returnContent) {
+			$ret = shell_exec($cmd);
+		} else {
+			passthru($cmd, $return);
+		}
+		
 		if ($return != 0 && !$ignoreError) {
 			throw new BuildException("Command '$cmd' failed");
 		}
+		
+		return $ret;
 	}
 }
