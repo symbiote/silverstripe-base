@@ -13,15 +13,12 @@ abstract class SilverStripeBuildTask extends Task {
     protected $cleanupEnv = false;
 	
 	protected function configureEnvFile() {
-		$envDir = dirname(dirname(dirname(__FILE__)));
 		// fake the _ss_environment.php file for the moment
 		$ssEnv = <<<TEXT
 <?php
 // Set the \$_FILE_MAPPING for running the test cases, it's basically a fake but useful
-define('SS_ENVIRONMENT_TYPE', 'dev');
 global \$_FILE_TO_URL_MAPPING;
-\$_FILE_TO_URL_MAPPING['$envDir'] = 'http://localhost';
-?>
+\$_FILE_TO_URL_MAPPING[dirname(__FILE__)] = 'http://localhost';
 TEXT;
 
 		$envFile = dirname(dirname(__FILE__)).'/_ss_environment.php';
@@ -40,43 +37,18 @@ TEXT;
 			}
 		}
 	}
-	
+
 	protected function devBuild() {
 		if (file_exists('sapphire/cli-script.php')) {
 			$this->log("Running dev/build");
 			$this->exec('php sapphire/cli-script.php dev/build');
 		}
 	}
-	
-	
-	/**
-	 * Get some input from the user
-	 *
-	 * @param string $prompt
-	 * @return string
-	 */
-	protected function getInput($prompt) {
-		$request = new InputRequest($prompt);
-        $request->setPromptChar(':');
-        
-        $this->project->getInputHandler()->handleInput($request);
-        $value = $request->getInput();
-		return $value;
-	}
 
-	protected function exec($cmd, $returnContent = false, $ignoreError = false) {
-		$ret = null;
-		$return = null;
-		if ($returnContent) {
-			$ret = shell_exec($cmd);
-		} else {
-			passthru($cmd, $return);
-		}
-		
+	protected function exec($cmd, $ignoreError = false) {
+		passthru($cmd, $return);
 		if ($return != 0 && !$ignoreError) {
 			throw new BuildException("Command '$cmd' failed");
 		}
-		
-		return $ret;
 	}
 }
