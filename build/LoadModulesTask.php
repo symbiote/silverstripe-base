@@ -86,9 +86,17 @@ class LoadModulesTask extends SilverStripeBuildTask {
 
 				$moduleName = trim($bits[0], '/');
 				$svnUrl = trim($bits[1], '/');
-				$devBuild = isset($bits[2]) ? $bits[2] != 'true' : false;
-
-				$this->loadModule($moduleName, $svnUrl, $devBuild);
+				$storeLocally = false;
+				
+				if (isset($bits[2])) {
+					$devBuild = $bits[2] == 'true';
+					$storeLocally = $bits[2] == 'local';
+					if (isset($bits[3])) {
+						$storeLocally = $bits[3] == 'local';
+					}
+				}
+				
+				$this->loadModule($moduleName, $svnUrl, $devBuild, $storeLocally);
 			}
 		}
 
@@ -103,8 +111,11 @@ class LoadModulesTask extends SilverStripeBuildTask {
 	 * @param String $svnUrl
 	 * @param boolean $devBuild
 	 * 			Do we run a dev/build?
+	 * @param boolean $storeLocally
+	 *			Should we store the module locally, for it to be included in 
+	 *			the local project's repository?
 	 */
-	protected function loadModule($moduleName, $svnUrl, $devBuild = false) {
+	protected function loadModule($moduleName, $svnUrl, $devBuild = false, $storeLocally=false) {
 		$git = strrpos($svnUrl, '.git') == (strlen($svnUrl) - 4);
 		$branch = 'master';
 		$cmd = '';
@@ -117,6 +128,10 @@ class LoadModulesTask extends SilverStripeBuildTask {
 		}
 
 		$md = $this->loadMetadata();
+		if (!isset($md['store'])) {
+			// backwards compatibility
+			$md['store'] = false;
+		}
 
 		// check the module out if it doesn't exist
 		if (!file_exists($moduleName)) {
@@ -141,16 +156,26 @@ class LoadModulesTask extends SilverStripeBuildTask {
 						$this->exec("cd $moduleName && git checkout $commitId && cd \"$currentDir\"");
 					}
 				}
+				
+				if ($storeLocally) {
+					rrmdir("$moduleName/.git");
+				}
 			} else {
 				$revision = '';
 				if ($branch != 'master') {
 					$revision = " --revision $branch ";
 				}
-				$this->exec("svn co $revision $svnUrl $moduleName");
+				
+				$cmd = 'co';
+				if ($storeLocally) {
+					$cmd = 'export';
+				}
+
+				$this->exec("svn $cmd $revision $svnUrl $moduleName");
 			}
 
 			// make sure to append it to the .gitignore file
-			if (file_exists('.gitignore')) {
+			if (!$storeLocally && file_exists('.gitignore')) {
 				$gitIgnore = file_get_contents('.gitignore');
 				if (strpos($gitIgnore, $moduleName) === false) {
 					$this->exec("echo $moduleName >> .gitignore");
@@ -159,58 +184,73 @@ class LoadModulesTask extends SilverStripeBuildTask {
 
 		} else {
 			echo "Updating $moduleName $branch from $svnUrl\n";
+			
+			$statCmd = $git ? "git diff --name-status" : "svn status";
+			
+			$mods = trim($this->exec("cd $moduleName && $statCmd && cd \"$currentDir\"", true));
+			$overwrite = false;
+			if (strlen($mods)) {
+				$this->log("The following files are locally modified");
+				echo "\n $mods\n\n";
+				if (!$this->nonInteractive) {
+					$overwrite = strtolower(trim($this->getInput("Overwrite local changes? [y/N]")));
+					$overwrite = $overwrite == 'y';
+				} 
+			} else {
+				$overwrite = true;
+			}
+			
 			// get the metadata and make sure it's not the same
 			if ($md && isset($md[$moduleName]) && isset($md[$moduleName]['url'])) {
-				if ($md[$moduleName]['url'] != $svnUrl) {
+				if ($md[$moduleName]['url'] != $svnUrl || $md[$moduleName]['store'] != $storeLocally) {
+					if ($overwrite) {
 					// delete the directory and reload the module
-					echo "Deleting $moduleName and reloading\n";
-					unset($md[$moduleName]);
-					$this->writeMetadata($md);
-					rrmdir($moduleName, true);
-					$this->loadModule($originalName, $svnUrl, $devBuild);
-					return;
+						echo "Deleting $moduleName and reloading\n";
+						unset($md[$moduleName]);
+						$this->writeMetadata($md);
+						rrmdir($moduleName, true);
+						$this->loadModule($originalName, $svnUrl, $devBuild, $storeLocally);
+						return;
+					} else {
+						throw new Exception("You have chosen not to overwrite changes, but also want to change your " .
+							"SCM settings. Please resolve changes and try again");
+					}
 				}
 			}
 
-			if ($git) {
-				$commitId = null;
-				if (strpos($branch, self::MODULE_SEPARATOR) > 0) {
-					$commitId = substr($branch, strpos($branch, self::MODULE_SEPARATOR) + 1);
-					$branch = substr($branch, 0, strpos($branch, self::MODULE_SEPARATOR));
-				}
-
-				$currentDir = getcwd();
-				
-				$currentBranch = trim($this->exec("cd $moduleName && git branch && cd \"$currentDir\"", true));
-				$mods = trim($this->exec("cd $moduleName && git diff --name-status && cd \"$currentDir\"", true));
-				$overwrite = '';
-				if (strlen($mods)) {
-					$this->log("The following files are locally modified");
-					echo "\n $mods\n\n";
-					if (!$this->nonInteractive) {
-						$overwrite = strtolower(trim($this->getInput("Overwrite local changes? [y/N]")));
-						$overwrite = $overwrite == 'y' ? '-f' : '';
-					} else {
-						$overwrite = '-f';
+			if (!$storeLocally) {
+				if ($git) {
+					$commitId = null;
+					if (strpos($branch, self::MODULE_SEPARATOR) > 0) {
+						$commitId = substr($branch, strpos($branch, self::MODULE_SEPARATOR) + 1);
+						$branch = substr($branch, 0, strpos($branch, self::MODULE_SEPARATOR));
 					}
+
+					$currentDir = getcwd();
+
+					$currentBranch = trim($this->exec("cd $moduleName && git branch && cd \"$currentDir\"", true));
+
+					$overwriteOpt = $overwrite ? '-f' : '';
+
+					$this->exec("cd $moduleName && git checkout $overwriteOpt $branch && git pull origin $branch && cd \"$currentDir\"");
+
+					if ($commitId) {
+						$this->exec("cd $moduleName && git pull && git checkout $commitId && cd \"$currentDir\"");
+					}
+				} else {
+					$revision = '';
+					if ($branch != 'master') {
+						$revision = " --revision $branch ";
+					}
+
+					echo $this->exec("svn up $revision $moduleName");
 				}
-				
-				$this->exec("cd $moduleName && git checkout $overwrite $branch && git pull origin $branch && cd \"$currentDir\"");
-				
-				if ($commitId) {
-					$this->exec("cd $moduleName && git pull && git checkout $commitId && cd \"$currentDir\"");
-				}
-			} else {
-				$revision = '';
-				if ($branch != 'master') {
-					$revision = " --revision $branch ";
-				}
-				echo $this->exec("svn up $revision $moduleName");
 			}
 		}
 
 		$metadata = array(
 			'url' => $svnUrl,
+			'store' => $storeLocally,
 			'branch' => str_replace($moduleName, '', $originalName),
 		);
 
@@ -256,5 +296,3 @@ if (!function_exists('rrmdir')) {
 		}
 	}
 }
-
-
