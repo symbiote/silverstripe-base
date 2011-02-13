@@ -218,6 +218,7 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 				<exclude name="mysite/*.log" />
 				<exclude name="build/**" />
 				<exclude name="build.xml" />
+				<exclude name="_ss_environment.php" />
 				<exclude name=".htaccess" />
 				<exclude name="**/.svn/**" />
 				<exclude name="nbproject/**" />
