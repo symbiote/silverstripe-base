@@ -24,11 +24,11 @@ cms http://svn.silverstripe.com/open/modules/cms/tags/2.4.5
 sapphire http://svn.silverstripe.com/open/modules/sapphire/tags/2.4.5
 
 # The following are the standard list of modules for SSAU implementations
-securefiles http://svn.polemic.net.nz/silverstripe/modules/SecureFiles/tags/0.30/
-versionedfiles:master:c3bd2ca1710a8241b99a git://github.com/ajshort/silverstripe-versionedfiles.git
-orderable:master:b02cae69fa20dfed4319 git://github.com/ajshort/silverstripe-orderable.git
-memberprofiles:master:a77c2ec7017c5d0ad014 git://github.com/ajshort/silverstripe-memberprofiles.git
-queuedjobs:master:1.2.1 git://github.com/nyeholt/silverstripe-queuedjobs.git
+# securefiles http://svn.polemic.net.nz/silverstripe/modules/SecureFiles/tags/0.30/
+# versionedfiles:master:c3bd2ca1710a8241b99a git://github.com/ajshort/silverstripe-versionedfiles.git
+# orderable:master:b02cae69fa20dfed4319 git://github.com/ajshort/silverstripe-orderable.git
+# memberprofiles:master:a77c2ec7017c5d0ad014 git://github.com/ajshort/silverstripe-memberprofiles.git
+# queuedjobs:master:1.2.1 git://github.com/nyeholt/silverstripe-queuedjobs.git
 
-userforms:master:0.3.0 git://github.com/silverstripe/silverstripe-userforms.git
+# userforms:master:0.3.0 git://github.com/silverstripe/silverstripe-userforms.git
 
