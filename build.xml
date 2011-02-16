@@ -86,7 +86,10 @@ Other features
 
 	<!-- Ensures the build.properties file exists! -->
 	<target name="check_properties" unless="properties_exist">
-		<fail>!!Please create the build/build.properties file before continuing!!</fail>
+		<!-- create a default file only if it doesn't exist --> 
+		<copy tofile="${project.basedir}/build/build.properties" file="${project.basedir}/build/build.properties.sample" />
+		<property file="${project.basedir}/build/build.properties"></property>
+		<!-- <fail>!!Please create the build/build.properties file before continuing!!</fail> -->
 	</target>
 
 	<!-- A target that gets executed if the 'ni_build' parameter is set. This is done when

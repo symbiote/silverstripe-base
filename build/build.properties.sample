@@ -35,7 +35,7 @@ admin.password=admin
 
 # Configuration details for the testing database. It is expected
 # that all other properties are the same
-testing.db.name=silverstripe_testing
+testing.db.name=tmpdb_silverstripe_testing
 
 # Configuration details for how the output of the testing should be managed - PhingXMLPHPUnit3ResultFormatter
 testing.reporter=CliTestReporter

@@ -2,7 +2,7 @@
 # -----------
 # Each line represents one dependent module.
 #
-# local_module_folder[:git_branch|:svn_revision_number] repository_url [run_dev_build=true]
+# local_module_folder[:git_branch|:svn_revision_number] repository_url [run_dev_build=true] [local]
 #
 # Note that the local_module_folder can contain subfolders delimited via '/' characters
 # A specific git branch or SVN revision can be added in by specifying after the local
@@ -29,5 +29,5 @@ orderable:master:b02cae69fa20dfed4319 git://github.com/ajshort/silverstripe-orde
 memberprofiles:master:a77c2ec7017c5d0ad014 git://github.com/ajshort/silverstripe-memberprofiles.git
 queuedjobs:master:1.2.0 git://github.com/nyeholt/silverstripe-queuedjobs.git
 
-userforms:master:a315343c39e0c9bf72b3 git://github.com/silverstripe/silverstripe-userforms.git
+userforms:master:0.3.0 git://github.com/silverstripe/silverstripe-userforms.git
 
