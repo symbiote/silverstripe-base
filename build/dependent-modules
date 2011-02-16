@@ -8,10 +8,10 @@
 # A specific git branch or SVN revision can be added in by specifying after the local
 # foldername, separated by a colon. By default, the 'master' branch of a git repository is used. 
 #
-# By default, the system will defer running dev/build until all modules have been updated.
-# If you know that a particular module requires dev/build before another module is added,
-# you can add "true" after that module's repository line (run_dev_build) to force
-# dev/build to be run earlier
+# It is recommended to have sqlite3 and cms first with [run_dev_build] set to "false".
+# Having this set to 'false' prevents the execution of the dev/build process, meaning it can be
+# deferred until all dependencies are in place, specifically the sapphire module. List
+# all additional modules after that. 
 #
 # Examples
 #
@@ -20,18 +20,13 @@
 #
 
 sqlite3:master:1.1.0 git://github.com/smindel/silverstripe-sqlite3.git
-cms/ http://svn.silverstripe.com/open/modules/cms/tags/2.4.4
-sapphire/ http://svn.silverstripe.com/open/modules/sapphire/tags/2.4.4
+cms http://svn.silverstripe.com/open/modules/cms/tags/2.4.5
+sapphire http://svn.silverstripe.com/open/modules/sapphire/tags/2.4.5
 
-# legacydatetimefields http://svn.silverstripe.com/open/modules/legacydatetimefields/trunk/
+securefiles http://svn.polemic.net.nz/silverstripe/modules/SecureFiles/tags/0.30/
+versionedfiles:master:c3bd2ca1710a8241b99a git://github.com/ajshort/silverstripe-versionedfiles.git
+memberprofiles:master:a77c2ec7017c5d0ad014 git://github.com/ajshort/silverstripe-memberprofiles.git
+queuedjobs:master:1.2.0 git://github.com/nyeholt/silverstripe-queuedjobs.git
 
-# For the standard base install, uncomment the following
-# securefiles http://polemic.net.nz/svn/silverstripe/modules/SecureFiles/tags/0.30/
-# versionedfiles git://github.com/ajshort/silverstripe-versionedfiles.git 
-# memberprofiles git://github.com/ajshort/silverstripe-memberprofiles.git
-# listingpage git://github.com/nyeholt/silverstripe-listingpage.git
-# taggable git://github.com/nyeholt/silverstripe-taggable.git
-# tagfield http://svn.silverstripe.com/open/modules/tagfield/trunk
-# frontend-editing git://github.com/nyeholt/silverstripe-frontend-editing.git
-# userforms http://svn.silverstripe.com/open/modules/userforms/trunk/
-# newsletter http://svn.silverstripe.com/open/modules/newsletter/trunk/
+userforms:master:a315343c39e0c9bf72b3 git://github.com/silverstripe/silverstripe-userforms.git
+

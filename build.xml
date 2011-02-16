@@ -41,7 +41,7 @@ This build file contains targets to assist in creating new SilverStripe project 
 * Edit this build file and change the project name from rename-me to something more accurate
 * Copy the build/build.properties.sample file to build/build.properties
 * Edit that file and make any necessary adjustments. In particular, change the rewrite.base variable to match your webroot
-* Edit the build/dependent-modules.default and add in any additional modules you may need. The format for these is
+* Edit the build/dependent-modules and add in any additional modules you may need. The format for these is
 ** modulename git|svn.url (the SCM url to retrieve this module) true|false (whether to run dev/build after fetching)
 * Run phing, which will fetch all needed modules and run a dev/build for the first time
 * Visit http://localhost/pathname/dev/build to ensure all caches are built correctly for the web

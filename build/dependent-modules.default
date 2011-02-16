@@ -19,19 +19,14 @@
 # themes/mytheme git://local.server/themes/mytheme.git false
 #
 
-sqlite3/ http://svn.silverstripe.com/open/modules/sqlite3/trunk 
-cms/ http://svn.silverstripe.com/open/modules/cms/tags/2.4.4 
-sapphire/ http://svn.silverstripe.com/open/modules/sapphire/tags/2.4.4
+sqlite3:master:1.1.0 git://github.com/smindel/silverstripe-sqlite3.git
+cms http://svn.silverstripe.com/open/modules/cms/tags/2.4.5
+sapphire http://svn.silverstripe.com/open/modules/sapphire/tags/2.4.5
 
-legacydatetimefields http://svn.silverstripe.com/open/modules/legacydatetimefields/trunk/
+securefiles http://svn.polemic.net.nz/silverstripe/modules/SecureFiles/tags/0.30/
+versionedfiles:master:c3bd2ca1710a8241b99a git://github.com/ajshort/silverstripe-versionedfiles.git
+memberprofiles:master:a77c2ec7017c5d0ad014 git://github.com/ajshort/silverstripe-memberprofiles.git
+queuedjobs:master:1.2.0 git://github.com/nyeholt/silverstripe-queuedjobs.git
 
-# For the standard base install, uncomment the following
-# securefiles http://svn.silverstripe.com/open/modules/securefiles/trunk
-# versionedfiles git://github.com/ajshort/silverstripe-versionedfiles.git 
-# memberprofiles git://github.com/ajshort/silverstripe-memberprofiles.git
-# listingpage git://github.com/nyeholt/silverstripe-listingpage.git
-# taggable git://github.com/nyeholt/silverstripe-taggable.git
-# tagfield http://svn.silverstripe.com/open/modules/tagfield/trunk
-# frontend-editing git://github.com/nyeholt/silverstripe-frontend-editing.git
-# userforms http://svn.silverstripe.com/open/modules/userforms/trunk/
-# newsletter http://svn.silverstripe.com/open/modules/newsletter/trunk/
+userforms:master:a315343c39e0c9bf72b3 git://github.com/silverstripe/silverstripe-userforms.git
+
