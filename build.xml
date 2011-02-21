@@ -337,6 +337,7 @@ Deny from all
 			pubkeyfile="${deploy.${deptarget}.pubkey}"
 			privkeyfile="${deploy.${deptarget}.privkey}"
 			host="${deploy.${deptarget}.host}"
+			port="${deploy.${deptarget}.port}"
 			ignoreerrors="${deploy.first}"
 			incremental="${deploy.incremental}"
 			localpath="${build.output.dir}"
