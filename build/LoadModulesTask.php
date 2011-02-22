@@ -101,7 +101,6 @@ class LoadModulesTask extends SilverStripeBuildTask {
 		}
 
 		$this->devBuild();
-		$this->cleanEnv();
 	}
 
 	/**
