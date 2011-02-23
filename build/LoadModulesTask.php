@@ -187,7 +187,7 @@ class LoadModulesTask extends SilverStripeBuildTask {
 			$statCmd = $git ? "git diff --name-status" : "svn status";
 			
 			$mods = trim($this->exec("cd $moduleName && $statCmd && cd \"$currentDir\"", true));
-			$overwrite = false;
+			$overwrite = true;
 			if (strlen($mods)) {
 				$this->log("The following files are locally modified");
 				echo "\n $mods\n\n";
@@ -195,8 +195,6 @@ class LoadModulesTask extends SilverStripeBuildTask {
 					$overwrite = strtolower(trim($this->getInput("Overwrite local changes? [y/N]")));
 					$overwrite = $overwrite == 'y';
 				} 
-			} else {
-				$overwrite = true;
 			}
 			
 			// get the metadata and make sure it's not the same
