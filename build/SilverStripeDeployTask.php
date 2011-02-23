@@ -231,7 +231,7 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 
     public function setPort($port) 
     {
-		if (strpos($password, '${') === false) {
+		if (strpos($port, '${') === false) {
 			$this->port = $port;
 		}
     }
