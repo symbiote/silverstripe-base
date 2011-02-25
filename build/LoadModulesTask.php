@@ -188,7 +188,7 @@ class LoadModulesTask extends SilverStripeBuildTask {
 			
 			$mods = trim($this->exec("cd $moduleName && $statCmd && cd \"$currentDir\"", true));
 			$overwrite = true;
-			if (strlen($mods)) {
+			if (strlen($mods) && !$storeLocally) {
 				$this->log("The following files are locally modified");
 				echo "\n $mods\n\n";
 				if (!$this->nonInteractive) {
