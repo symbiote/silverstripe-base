@@ -26,3 +26,4 @@ build/build.properties
 sqlite3
 legacydatetimefields
 build/phing-metadata
+_ss_environment.php
