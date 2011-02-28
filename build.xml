@@ -195,7 +195,7 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 		<tar destfile="${build.output.dir}/${phing-package.name}" compression="gzip" defaultexcludes="false">
 			<fileset dir="${project.basedir}">
 				<include name="**/**" />
-
+				<exclude name="build/archive/**" />
 				<exclude name="nbproject/**" />
 				<exclude name="**/.project" />
 				<exclude name="**/.buildpath" />
