@@ -1,6 +1,5 @@
 <?php
 
-include_once 'phing/input/InputRequest.php';
 
 /**
  * A phing task to perform a deployment of a specified
@@ -35,6 +34,7 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 	public function main() {
 		
 		if (!strlen($this->pubkeyfile) && !strlen($this->password)) {
+			require_once 'phing/input/InputRequest.php';
 			// prompt for the password
 			$this->password = $this->getInput("Password for ".$this->username.'@'.$this->host);
 		} 
