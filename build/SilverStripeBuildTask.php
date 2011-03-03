@@ -53,6 +53,7 @@ TEXT;
 	 * @return string
 	 */
 	protected function getInput($prompt) {
+		require_once 'phing/input/InputRequest.php';
 		$request = new InputRequest($prompt);
         $request->setPromptChar(':');
         
