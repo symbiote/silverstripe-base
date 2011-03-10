@@ -180,21 +180,21 @@ class LoadModulesTask extends SilverStripeBuildTask {
 					$this->exec("echo $moduleName >> .gitignore");
 				}
 			}
-
 		} else {
 			echo "Updating $moduleName $branch from $svnUrl\n";
 			
-			$statCmd = $git ? "git diff --name-status" : "svn status";
-			
-			$mods = trim($this->exec("cd $moduleName && $statCmd && cd \"$currentDir\"", true));
 			$overwrite = true;
-			if (strlen($mods) && !$storeLocally) {
-				$this->log("The following files are locally modified");
-				echo "\n $mods\n\n";
-				if (!$this->nonInteractive) {
-					$overwrite = strtolower(trim($this->getInput("Overwrite local changes? [y/N]")));
-					$overwrite = $overwrite == 'y';
-				} 
+			if (!$storeLocally) {
+				$statCmd = $git ? "git diff --name-status" : "svn status";
+				$mods = trim($this->exec("cd $moduleName && $statCmd && cd \"$currentDir\"", true));
+				if (strlen($mods) && !$storeLocally) {
+					$this->log("The following files are locally modified");
+					echo "\n $mods\n\n";
+					if (!$this->nonInteractive) {
+						$overwrite = strtolower(trim($this->getInput("Overwrite local changes? [y/N]")));
+						$overwrite = $overwrite == 'y';
+					} 
+				}
 			}
 			
 			// get the metadata and make sure it's not the same
@@ -253,6 +253,24 @@ class LoadModulesTask extends SilverStripeBuildTask {
 
 		$md[$moduleName] = $metadata;
 		$this->writeMetadata($md);
+		
+		
+		
+		// make sure to remove from the .gitignore file - don't need to do it EVERY 
+		// run, but it's better than munging code up above
+		if ($storeLocally && file_exists('.gitignore')) {
+			$gitIgnore = file('.gitignore');
+			$newIgnore = array();
+			foreach ($gitIgnore as $line) {
+				$line = trim($line);
+				if (!$line || $line == $moduleName || $line == "$moduleName/") {
+					continue;
+				}
+				$newIgnore[] = $line;
+			}
+
+			file_put_contents('.gitignore', implode("\n", $newIgnore));
+		}
 		
 		if ($devBuild) {
 			$this->devBuild();
