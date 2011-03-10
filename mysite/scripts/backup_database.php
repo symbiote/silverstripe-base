@@ -5,17 +5,11 @@ if (PHP_SAPI != 'cli') {
 	exit;
 }
 
-$outfile = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : $outfile = date('Y-m-d-H-i-s').'.sql';
+$_SERVER['SCRIPT_FILENAME'] = __FILE__;
+chdir(dirname(dirname(dirname(__FILE__))).'/sapphire');
+require_once 'core/Core.php';
 
-/**
- * dummy files just so that local.conf.php doesn't complain!
- */
-class Security { static function setDefaultAdmin() {} }
-class Email { static function setAdminEmail() {} }
-
-include_once dirname(__FILE__).'/../local.conf.php';
-
-$outfile = dirname(__FILE__).'/'.$outfile;
+$outfile = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : $outfile = Director::baseFolder().'/'.project().'/backup-'.date('Y-m-d-H-i-s').'.sql';
 
 global $databaseConfig;
 
@@ -30,6 +24,7 @@ switch ($databaseConfig['type']) {
 		exec($cmd);
 		break;
 	case 'SQLiteDatabase':
+	case 'SQLite3Database':
 		$d = $databaseConfig['database'];
 		$path = realpath(dirname(__FILE__).'/../../assets/.sqlitedb/'.$d);
 		$cmd = "sqlite3 ".escapeshellarg($path)." .dump > ".escapeshellarg($outfile);
@@ -37,3 +32,4 @@ switch ($databaseConfig['type']) {
 		break;
 	default: break;
 }
+
