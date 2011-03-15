@@ -9,7 +9,7 @@ $_SERVER['SCRIPT_FILENAME'] = __FILE__;
 chdir(dirname(dirname(dirname(__FILE__))).'/sapphire');
 require_once 'core/Core.php';
 
-$outfile = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : $outfile = Director::baseFolder().'/'.project().'/backup-'.date('Y-m-d-H-i-s').'.sql';
+$outfile = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : $outfile = Director::baseFolder().'/'.project().'/scripts/backup-'.date('Y-m-d-H-i-s').'.sql';
 
 global $databaseConfig;
 
