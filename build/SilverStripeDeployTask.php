@@ -93,6 +93,9 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 		$this->execute("chgrp -R $this->apachegroup $releasePath");
 		$this->execute("find $releasePath -type f -exec chmod 664 {} \;"); 
 		$this->execute("find $releasePath -type d -exec chmod 2775 {} \;");
+
+		$this->log("Finalising deployment");
+		$this->execute("touch $releasePath/DEPLOYED");
 		
 		@ssh2_exec($this->connection, 'exit');
 	}
