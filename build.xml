@@ -53,6 +53,7 @@ Important targets
   also optionally pass a single test case to run, eg phing test -Dmodule=mysite -Dtestcase=MyTest
 * phing-package - Creates a complete copy of this development environment repository that can be passed to another person, retaining all SVN and Git information
 * update-package - Creates a package that excludes several diretories that can be used for extracting over the top of existing installs
+* themes-package - Creates a package that contains only the themes dir.  This will take the whole themes folder and not attempt to understand changes.
 * backup - Takes a database dump of the site before packaging
 
 Other features
@@ -235,6 +236,21 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 			</fileset>
 		</tar>
 		<chmod file="${build.output.dir}/${update-package.name}" mode="0664" />
+	</target>
+
+	
+	<!-- A package that includes only the themes files -->
+	<target name="themes-package">
+		<property name="currentpackage" value="${build.output.dir}/${themes-package.name}" />
+		<property name="packagetype" value="themes" />
+		<phingcall target="archive-package" />
+
+		<tar destfile="${build.output.dir}/${themes-package.name}" compression="gzip">
+			<fileset dir="${project.basedir}">
+				<include name="**/themes**" />
+			</fileset>
+		</tar>
+		<chmod file="${build.output.dir}/${themes-package.name}" mode="0664" />
 	</target>
 
 	<target name="package-module">

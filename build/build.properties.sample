@@ -62,6 +62,7 @@ module.file=${build.output.dir}/${module.prefix}${module.name}-${module.version}
 package.name=${phing.project.name}-deploy.${DSTAMP}.tar.gz
 phing-package.name=${phing.project.name}-development.${DSTAMP}.tar.gz
 update-package.name=${phing.project.name}-update.${DSTAMP}.tar.gz
+themes-package.name=${phing.project.name}-themes.${DSTAMP}.tar.gz
 
 backup.dir=backups
 backup.sql=${backup.dir}/${phing.project.name}.${DSTAMP}.sql
