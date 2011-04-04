@@ -153,7 +153,7 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 
 	<!-- Create a deployable package to use as the base for installing a new site FROM SCRATCH. 
 	Please use the update-package target for creating a package to use for an update -->
-	<target name="package" depends="build">
+	<target name="package" depends="">
 		<property name="currentpackage" value="${build.output.dir}/${package.name}" />
 		<property name="packagetype" value="deploy" />
 		<phingcall target="archive-package" />
@@ -182,7 +182,7 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 	<!-- a package that includes all items that the phing build normally downloads, which can
 	be just extracted over the top of whatever is pulled out of git. This preserves all the
 	.svn files for dependent modules etc -->
-	<target name="phing-package" depends="clean,build">
+	<target name="phing-package" depends="">
 		<property name="currentpackage" value="${build.output.dir}/${phing-package.name}" />
 		<property name="packagetype" value="development" />
 		<phingcall target="archive-package" />
