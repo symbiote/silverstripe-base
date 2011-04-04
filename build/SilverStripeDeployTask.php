@@ -124,7 +124,7 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 		if (strpos($data, '__COMPLETE') !== false || $this->ignoreerrors) {
 			$data = str_replace('__COMPLETE', '', $data);
 		} else {
-			$this->log("Command field: $command", Project::MSG_WARN);
+			$this->log("Command failed: $command", Project::MSG_WARN);
 			throw new BuildException("Failed executing command : $data");
 		}
 		
@@ -142,7 +142,7 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 	protected function copyFile($localEndpoint, $remoteEndpoint)
     {
 		ssh2_sftp_mkdir($this->sftp, dirname($remoteEndpoint), 2775, true);
-		$ret = @ssh2_scp_send($this->connection, $localEndpoint, $remoteEndpoint);
+		$ret = ssh2_scp_send($this->connection, $localEndpoint, $remoteEndpoint);
 
 		if ($ret === false) {
 			throw new BuildException("Could not create remote file '" . $remoteEndpoint . "'");
