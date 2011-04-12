@@ -22,12 +22,44 @@
 sqlite3:master:1.1.0 git://github.com/smindel/silverstripe-sqlite3.git
 cms:master:2.4.5 git://github.com/silverstripe/silverstripe-cms.git
 sapphire:master:2.4.5 git://github.com/silverstripe/sapphire.git
-# The following are the standard list of modules for SSAU implementations
+
 # securefiles http://svn.polemic.net.nz/silverstripe/modules/SecureFiles/tags/0.30/
 # versionedfiles:master:c3bd2ca1710a8241b99a git://github.com/ajshort/silverstripe-versionedfiles.git
 # orderable:master:b02cae69fa20dfed4319 git://github.com/ajshort/silverstripe-orderable.git
 # memberprofiles:master:a77c2ec7017c5d0ad014 git://github.com/ajshort/silverstripe-memberprofiles.git
-# queuedjobs:master:1.2.1 git://github.com/nyeholt/silverstripe-queuedjobs.git
+
+# metadata:master git://github.com/ajshort/silverstripe-metadata.git
+# advancedworkflow:master git://github.com/silverstripe-australia/advancedworkflow.git
+# pixlr git://github.com/nyeholt/silverstripe-pixlr.git
+# queuedjobs:master:1.2.2 git://github.com/nyeholt/silverstripe-queuedjobs.git
+# advancedreports git://github.com/nyeholt/silverstripe-advancedreports.git
+
+# news git://github.com/nyeholt/silverstripe-news.git
+
+# external-content git://github.com/nyeholt/silverstripe-external-content.git
+# silverstripe-connector git://github.com/nyeholt/silverstripe-connector.git
+# rssconnector git://github.com/ajshort/silverstripe-rssconnector.git
+
+# listingpage git://github.com/nyeholt/silverstripe-listingpage.git
+# multivaluefield git://github.com/nyeholt/silverstripe-multivaluefield.git
+
+# pdfrendition git://github.com/nyeholt/silverstripe-pdfrendition.git
+# datalists git://github.com/nyeholt/silverstripe-datalists.git
+# frontend-editing git://github.com/nyeholt/silverstripe-frontend-editing.git
+# linkmapping git://github.com/ajshort/silverstripe-linkmapping.git
+
+# solr git://github.com/nyeholt/silverstripe-solr.git
 
 # userforms:master:0.3.0 git://github.com/silverstripe/silverstripe-userforms.git
 
+# itemsetfield:master:d8be3cd08e82730d1cfa git://github.com/ajshort/silverstripe-itemsetfield.git
+# multiform:master:61a2df4430a6c0e886c1 git://github.com/silverstripe/silverstripe-multiform.git
+# addressable git://github.com/ajshort/silverstripe-addressable.git
+# event_calendar git://github.com/unclecheese/EventCalendar.git
+# eventmanagement git@github.com:ajshort/silverstripe-eventmanagement.git 
+# eventresources git@github.com:ajshort/silverstripe-eventresources.git 
+# eventlocations git@github.com:ajshort/silverstripe-eventlocations.git 
+# eventpdftickets git@github.com:ajshort/silverstripe-eventpdftickets.git 
+# fullcalendar git@github.com:ajshort/silverstripe-fullcalendar.git 
+
+# groupedcmsmenu git@github.com:ajshort/silverstripe-groupedcmsmenu.git
