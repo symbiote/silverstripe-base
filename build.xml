@@ -154,7 +154,7 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 
 	<!-- Create a deployable package to use as the base for installing a new site FROM SCRATCH. 
 	Please use the update-package target for creating a package to use for an update -->
-	<target name="package" depends="">
+	<target name="package" depends="init">
 		<property name="currentpackage" value="${build.output.dir}/${package.name}" />
 		<property name="packagetype" value="deploy" />
 		<phingcall target="archive-package" />
