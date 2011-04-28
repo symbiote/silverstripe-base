@@ -1,18 +1,7 @@
 /.htaccess
 assets/
-alfresco-connector
-cms
-external-content/
-frontend-editing/
 jsparty/
 nbproject/
-newsletter/
-forum/
-versionedfiles/
-securefiles/
-sapphire/
-silverstripe-connector/
-simplewiki/
 ssautesting/logs/
 ssautesting/testing.conf.php
 mysite/*.conf.php
@@ -23,7 +12,5 @@ mysite/configs
 build/*.tar.gz
 build/archive
 build/build.properties
-sqlite3
-legacydatetimefields
 build/phing-metadata
 _ss_environment.php

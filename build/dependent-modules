@@ -19,9 +19,9 @@
 # themes/mytheme git://local.server/themes/mytheme.git false
 #
 
-sqlite3:master:1.1.0 git://github.com/smindel/silverstripe-sqlite3.git
-cms:master:2.4.5 git://github.com/silverstripe/silverstripe-cms.git
-sapphire:master:2.4.5 git://github.com/silverstripe/sapphire.git
+sqlite3:master:1.1.0 git://github.com/smindel/silverstripe-sqlite3.git local
+cms:master:2.4.5 git://github.com/silverstripe/silverstripe-cms.git local
+sapphire:master:2.4.5 git://github.com/silverstripe/sapphire.git local
 
 # securefiles http://svn.polemic.net.nz/silverstripe/modules/SecureFiles/tags/0.30/
 # versionedfiles:master:c3bd2ca1710a8241b99a git://github.com/ajshort/silverstripe-versionedfiles.git
