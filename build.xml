@@ -19,6 +19,19 @@
 	<property file="${project.basedir}/build/build.properties"></property>
 
 	<php expression="trim(file_get_contents('${module.name}/VERSION'))" returnProperty="module.version" />
+	
+	
+	<if>
+		<isset property="env.BUILD_NUMBER" />
+		<then>
+			<property name="BUILD_STAMP" value="${env.BUILD_NUMBER}" />
+		</then>
+		<else>
+			<property name="BUILD_STAMP" value="${DSTAMP}" />
+		</else>
+	</if>
+	
+	<echo>Creating build ${BUILD_STAMP}</echo>
 
 	<!-- Load in the custom tasks -->
 	<taskdef name="symlink" classname="build.SymlinkTask" classpath="${project.basedir}" />
@@ -115,7 +128,7 @@ RemoveHandler .php .phtml .php3 .php4 .php5 .inc
 RemoveType .php .phtml .php3 .php4 .php5 .inc
 		</echo>
 
-		<echo file="mysite/BUILD_NUMBER" append="false">Build ${DSTAMP}</echo>
+		<echo file="mysite/BUILD_NUMBER" append="false">Build ${BUILD_STAMP}</echo>
 
 		<!-- Copy the DB configs -->
 		<copy tofile="mysite/local.conf.php" file="${db.config}" overwrite="false">
@@ -258,7 +271,7 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 		<property name="packagetype" value="module" />
 		<phingcall target="archive-package" />
 
-		<echo file="${module.name}/BUILD_NUMBER" append="false">Build ${DSTAMP}</echo>
+		<echo file="${module.name}/BUILD_NUMBER" append="false">Build ${BUILD_STAMP}</echo>
 
 		<mkdir dir="${build.output.dir}" />
 		<delete file="${module.file}" />

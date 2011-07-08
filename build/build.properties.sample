@@ -59,10 +59,10 @@ module.file=${build.output.dir}/${module.prefix}${module.name}-${module.version}
 # The name of the tarball to create when packaging
 # Note that these are output to the scripts folder so they are inaccessible from the web
 # via .htaccess rules
-package.name=${phing.project.name}-deploy.${DSTAMP}.tar.gz
-phing-package.name=${phing.project.name}-development.${DSTAMP}.tar.gz
-update-package.name=${phing.project.name}-update.${DSTAMP}.tar.gz
-themes-package.name=${phing.project.name}-themes.${DSTAMP}.tar.gz
+package.name=${phing.project.name}-deploy.${BUILD_STAMP}.tar.gz
+phing-package.name=${phing.project.name}-development.${BUILD_STAMP}.tar.gz
+update-package.name=${phing.project.name}-update.${BUILD_STAMP}.tar.gz
+themes-package.name=${phing.project.name}-themes.${BUILD_STAMP}.tar.gz
 
 backup.dir=backups
 backup.sql=${backup.dir}/${phing.project.name}.${DSTAMP}.sql
