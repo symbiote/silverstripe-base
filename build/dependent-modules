@@ -19,7 +19,7 @@
 # themes/mytheme git://local.server/themes/mytheme.git false
 #
 
-sqlite3:master:1.1.0 git://github.com/smindel/silverstripe-sqlite3.git local
+sqlite3:master git://github.com/smindel/silverstripe-sqlite3.git local
 cms:master:2.4.5 git://github.com/silverstripe/silverstripe-cms.git local
 sapphire:master:2.4.5 git://github.com/silverstripe/sapphire.git local
 
