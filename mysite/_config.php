@@ -22,7 +22,7 @@ SS_Log::add_writer(new SS_LogFileWriter(SS_LOG_FILE), SS_Log::NOTICE, '<=');
 
 // This line set's the current theme. More themes can be
 // downloaded from http://www.silverstripe.com/themes/
-SSViewer::set_theme('blackcandy');
+SSViewer::set_theme('dew');
 
 // enable nested URLs for this site (e.g. page/sub-page/)
 SiteTree::enable_nested_urls();

@@ -1,0 +1,103 @@
+html { -webkit-text-size-adjust:none; }
+
+.container p, .typography p {
+	margin: 0 0 18px 0;
+}
+.container h1, .typography h1 {
+	color: #FFF;
+	font-size: 36px;
+	font-weight: normal;
+	line-height: 1.25;
+	margin: 36px 0;
+	text-shadow: rgba(0, 0, 0, 0.1) 2px 2px 2px;
+
+}
+.container h2, .typography h2 {
+	font-size: 24px;
+	font-weight: normal;
+	line-height: 1.125;
+	margin: 18px 0 18px 0;
+}
+.container h3, .typography h3 {
+	font-size: 18px;
+	font-weight: normal;
+	line-height: 1.5;
+	margin: 18px 0px 9px 0px;
+}
+.container h4, .typography h4 {
+	font-size: 16px;
+	font-weight: normal;
+	line-height: 1.125;
+	margin: 18px 0 9px 0;
+}
+.container h5, .typography h5 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 1.5;
+	margin: 0 0 9px 0;
+}
+.container h6, .typography h6 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 1.6363;
+	margin: 0;
+}
+.container .intro, .typography .intro {
+	color: #777777;
+	font-size: 16px;
+	font-weight: normal;
+	line-height: 1.6875; 
+	margin: 0 0 0 0;
+}
+
+.container img.left, .typography img.left {
+	border: 4px solid #E9E9E9;
+	float: left;
+	margin: 9px 27px 18px 0;
+}
+.container img.right, .typography img.right {
+	border: 4px solid #E9E9E9;
+	float: right;
+	margin: 9px 0 18px 27px;
+}
+
+.container blockquote, .typography blockquote {
+	background: transparent url(../images/blockquote.gif) no-repeat 0px 6px;
+	color: #777;
+	display: block;
+	font-style: italic;
+	margin: 36px 0;
+	text-indent: 27px;
+	width: 50%;
+}
+
+.container pre, .typography pre {
+	background: #F6FBFD;
+	font-family: Courier, monospace;
+	font-size: 12px;
+	margin: 0 0 18px 0;
+	padding: 18px;
+	
+}
+
+blockquote p {
+	line-height: 2.25;
+}
+
+/* --------------------------------------------------------
+ * Mobile
+ * -------------------------------------------------------- */
+@media (min-device-width:1024px) and (max-width:509px), (max-device-width:480px) {
+	body { font-size: 14px; }
+	.container h1 { font-size: 32px; line-height: 1.125; }
+	.container h2 { font-size: 24px; line-height: 1.125; }
+	.container h3 { font-size: 18px; line-height: 1; }
+	.container h4 { font-size: 16px; line-height: 1.125; }
+	.container h5 { font-size: 14px; line-height: 1.2857; }
+	.container h6 { font-size: 13px; line-height: 1.3846; }
+	.container img.left,
+	.container img.right { float: none; margin: 0; }
+	.container blockquote { width: auto; }
+}

@@ -1,0 +1,288 @@
+form {
+	margin: 18px 0 18px 0;
+}
+/* FIELDSETS
+---------------------------------------- */
+fieldset {
+	border: 0;
+}
+
+.field {
+	clear: both;
+	margin: 0 0 18px 0;
+	overflow: hidden;
+}
+
+.field.email {
+	background:none;
+}
+
+.field.confirmedpassword {
+	margin: 0;
+}
+
+.field.CompositeField {
+	margin: 0;
+}
+
+/* FIELD FORMATING
+---------------------------------------- */
+form ul {
+	list-style: none;
+}
+.middleColumn {
+}
+	#Sidebar .middleColumn {
+		margin: 0 0 0 8px;
+		display: inline;
+	}
+	
+	div.tab .field .middleColumn {
+		clear: none !important;
+ 		margin: 0 !important;
+		width: auto;
+	}
+	
+	.middleColumn .middleColumn {
+		margin-left: 0;
+		margin-right: 0;
+		padding: 0;
+	}
+	
+	.middleColumn .message {
+		background: none;
+		clear: both;
+		margin: 0;
+		padding: 9px 0 0 0;
+	}
+	
+	.middleColumn .message.required,
+	.middleColumn .message.bad,
+	.middleColumn .message.error {
+		background: none !important;
+		border: none !important;
+		color: #993333;
+		font-size: 11px;
+	}
+	
+	.requiredField input.text {
+		background-image: url(../images/required.gif);
+	}
+	.requiredField textarea {
+		background-image: url(../images/required.gif);
+	}
+	
+	.literalFieldArea {
+		font-size: 11px;
+	}
+	
+/* LABELS
+---------------------------------------- */
+label {
+	color: #545454;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 2.25;	
+}
+
+label.left {
+ 	display: block;
+}
+
+label.right {
+	display: inline;
+}	
+	
+/* INPUT BOXS
+---------------------------------------- */
+
+input.text,
+textarea,
+select {
+	background: #FFF;
+	border: 1px solid #D2D2D2;
+	-webkit-border-radius: 3px;	
+	   -moz-border-radius: 3px;	
+	        border-radius: 3px;	
+	-webkit-box-shadow: 0 2px 0 #F6F6F6;
+	   -moz-box-shadow: 0 2px 0 #F6F6F6;
+	        box-shadow: 0 2px 0 #F6F6F6;
+	color: #000;
+	display: block;
+	float: left;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 1.5;
+	padding: 6px 4px;
+	width: 300px;
+}
+
+input:focus, textarea:focus {
+	background: #F7F7F7;
+	border: 1px solid #D2D2D2;
+}
+
+.file input {
+	background: #FFF;
+	color: #000;
+	display: block;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	padding: 4px;
+	width: 300px;	
+}
+
+form .date input.month,
+form .date input.day,
+form .date input.year {
+	width: auto;
+}
+
+form .datetime .clear {
+	clear: both;
+}
+
+form .datetime .date,
+form .datetime .time {
+	float: left;
+	clear: none;
+	width: auto;
+}
+	form .datetime .middleColumn .middleColumn {
+		width: auto;
+	}
+	form .datetime .date input,
+	form .datetime .time input {
+		width: auto;
+	}
+
+input.nolabel {
+	margin: 7px 0 0 5px;
+}
+
+/* SELECT DROPDOWN
+---------------------------------------- */
+
+select {
+	/*width: auto;*/
+	padding: 5px 4px;
+	width: 310px;
+}
+
+/* MESSAGES
+---------------------------------------- */
+.required,
+.message.validation {
+	display: block;
+	clear: both;
+	color: #993333;
+	font-size: 11px;
+	font-weight: normal;
+	line-height: 1.6363;
+	margin: 0 0 0 0;
+	padding: 9px 0 0 0;
+}
+
+
+/* CHECKBOXES
+---------------------------------------- */
+
+.checkboxset {
+	margin: 0 0 9px 0;
+}
+
+.checkbox label,
+.checkboxset label,
+.optionset label {
+	line-height: 1.5;
+}
+
+.checkbox label {
+	font-weight: normal;
+}
+
+.checkbox input {
+	margin: 0 9px 0 0;
+}
+
+ul.optionset {
+	margin: 9px 0 9px 0;
+	overflow: hidden;
+}
+ul.optionset li {
+	background: none;
+	list-style-image: none;
+	margin: 0 0 9px 0;
+	padding: 0;
+	
+}
+ul.optionset li input {
+	margin: 0 9px 0 2px;
+}
+ul.optionset li label {
+	display: inline-block;
+	font-weight: normal;
+}
+
+/* ACTION BUTTONS
+---------------------------------------- */
+.Actions {
+	/*border-bottom: 1px solid #D2D2D2;*/
+	margin: 9px 0 0 0;
+	overflow: hidden;
+	padding: 0;
+}
+
+input.action {
+	background: #1D70AA;
+	border: none; 
+	-webkit-border-radius: 3px;
+	   -moz-border-radius: 3px;
+	        border-radius: 3px;
+	-webkit-box-shadow: 0 2px 0 #F6F6F6;
+	   -moz-box-shadow: 0 2px 0 #F6F6F6;
+	        box-shadow: 0 2px 0 #F6F6F6;
+	color: #FFF;
+	display: block;
+	float: left;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	margin: 0 9px 9px 0;
+	padding: 6px 18px 6px 18px;
+}
+input.action:hover,
+input.action:focus {
+	background: #5694BF;
+	cursor: pointer;
+}
+
+
+/* --------------------------------------------------------
+ * Mobile
+ * -------------------------------------------------------- */
+@media (min-device-width:1024px) and (max-width:509px), (max-device-width:480px) {
+	label,
+	input,
+	input.text,
+	textarea,
+	select {
+		font-size: 14px;
+	}	
+	input.text, textarea {
+		width: 274px;
+		-webkit-appearance: none;
+	}
+	select {
+		width: 284px;
+	}
+	input.action {
+		font-size: 18px;
+		padding: 9px 0;
+		width: 100%;
+		-webkit-border-radius: 6px;
+	   	-moz-border-radius: 6px;
+	    border-radius: 6px;
+	    -webkit-appearance: none;
+	}
+}
