@@ -227,7 +227,7 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 		<phingcall target="archive-package" />
 
 		<copy file="${db.config}" tofile="mysite/${db.config}" />
-		<tar destfile="${build.output.dir}/${update-package.name}" compression="gzip">
+		<tar destfile="${build.output.dir}/${update-package.name}" compression="gzip" includeemptydirs="false">
 			<fileset dir="${project.basedir}">
 				<include name="**/**" />
 				<exclude name="mysite/db.conf.php" />
