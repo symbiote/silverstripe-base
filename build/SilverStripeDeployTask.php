@@ -104,9 +104,12 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 	 * Executes a command over SSH
 	 *
 	 * @param string $cmd
+	 *					The command to execute
+	 * @param boolean $canFail
+	 *					Whether it's okay for the command to fail when it's executed
 	 * @return string
 	 */
-	protected function execute($cmd) {
+	protected function execute($cmd, $canFail=false) {
 		$command = '('.$cmd.'  2>&1) && echo __COMPLETE';
 		// $command = 'sh -c '.escapeshellarg('('.$this->command.'  2>&1) && echo __COMPLETE');
 
@@ -121,7 +124,7 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
             $data .= $buf;
         }
 
-		if (strpos($data, '__COMPLETE') !== false || $this->ignoreerrors) {
+		if (strpos($data, '__COMPLETE') !== false || $this->ignoreerrors || $canFail) {
 			$data = str_replace('__COMPLETE', '', $data);
 		} else {
 			$this->log("Command failed: $command", Project::MSG_WARN);
