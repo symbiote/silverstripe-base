@@ -4,6 +4,5 @@ if (file_exists(dirname(__FILE__).'/testing.conf.php')) {
 	
 	Director::addRules(100, array(
 		'dev' => 'ParameterisedDevelopmentController',
-		'__generate' => 'ContentGeneratorController'
 	));
 }

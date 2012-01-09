@@ -34,10 +34,10 @@ class ParameterisedTestRunner extends TestRunner
 		if (isset($TESTING_CONFIG['database']) && $TESTING_CONFIG['database'] != 'silverstripe_testing') {
 			global $databaseConfig;
 			$newConfig = $databaseConfig;
-			$newConfig['database'] = $TESTING_CONFIG['database'];
-			DB::getConn()->selectDatabase($newConfig['database']);
+			$newConfig = array_merge($databaseConfig, $TESTING_CONFIG);
 			$newConfig['memory'] = isset($TESTING_CONFIG['memory']) ? $TESTING_CONFIG['memory'] : true;
 			DB::connect($newConfig);
+			DB::getConn()->selectDatabase($TESTING_CONFIG['database']);
 			$dbadmin = new DatabaseAdmin();
 			$dbadmin->clearAllData();
 			$dbadmin->doBuild(true);
