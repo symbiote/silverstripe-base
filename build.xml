@@ -251,7 +251,6 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 		<chmod file="${build.output.dir}/${update-package.name}" mode="0664" />
 	</target>
 
-	
 	<!-- A package that includes only the themes files -->
 	<target name="themes-package">
 		<property name="currentpackage" value="${build.output.dir}/${themes-package.name}" />

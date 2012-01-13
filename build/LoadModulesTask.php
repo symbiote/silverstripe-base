@@ -196,13 +196,17 @@ class LoadModulesTask extends SilverStripeBuildTask {
 					} 
 				}
 			}
-			
+
+			$storedBranch = trim($md[$moduleName]['branch'], ':');
+			if (!$storedBranch) {
+				$storedBranch = 'master'; // set the same default
+			}
 			// get the metadata and make sure it's not the same
 			if ($md && isset($md[$moduleName]) && isset($md[$moduleName]['url'])) {
-				if ($md[$moduleName]['url'] != $svnUrl || $md[$moduleName]['store'] != $storeLocally) {
+				if ($md[$moduleName]['url'] != $svnUrl || $md[$moduleName]['store'] != $storeLocally || $branch != $storedBranch) {
 					if ($overwrite) {
 					// delete the directory and reload the module
-						echo "Deleting $moduleName and reloading\n";
+						echo "Deleting $moduleName on branch " . $md[$moduleName]['branch'] . " and reloading to branch $branch\n";
 						unset($md[$moduleName]);
 						$this->writeMetadata($md);
 						rrmdir($moduleName, true);
