@@ -35,6 +35,7 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 			$this->password = $this->getInput("Password for " . $this->username . '@' . $this->host);
 		}
 
+		$this->log("Connecting to $this->host");
 		$this->connect();
 
 		$currentPath = $this->remotepath . '/current';
@@ -49,6 +50,7 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 		$this->beforeDeploy($releasePath, $currentPath);
 		$this->extractPackage($remotePackage, $releasePath);
 		$this->doDeploy($releasePath, $currentPath);
+		$this->postDeploy($releasePath, $currentPath);
 
 		@ssh2_exec($this->connection, 'exit');
 	}
@@ -140,6 +142,18 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 		$this->log("Finalising deployment");
 		$this->execute("touch $releasePath/DEPLOYED");
 	}
+	
+	/**
+	 * If the project has a post_deploy.php script, execute it. 
+	 *
+	 * @param type $releasePath
+	 * @param type $currentPath 
+	 */
+	public function postDeploy($releasePath, $currentPath) {
+		$exe = escapeshellarg($releasePath .'/mysite/scripts/post_deploy.php'); 
+		$cmd = "if [ -e $exe ]; then php $exe; fi";
+		$this->execute($cmd);
+	}
 
 	/**
 	 * Executes a command over SSH
@@ -181,6 +195,10 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 	 * @param string $remote 
 	 */
 	protected function copyFile($localEndpoint, $remoteEndpoint) {
+		$port = $this->port ? " -P $this->port " : '';
+		$this->exec("scp -i $this->privkeyfile $port $localEndpoint $this->username@$this->host:$remoteEndpoint");
+		return;
+		
 		ssh2_sftp_mkdir($this->sftp, dirname($remoteEndpoint), 2775, true);
 		$ret = ssh2_scp_send($this->connection, $localEndpoint, $remoteEndpoint);
 

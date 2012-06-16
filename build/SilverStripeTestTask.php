@@ -44,6 +44,8 @@ class SilverStripeTestTask extends SilverStripeBuildTask
 			$testCmd = 'dev/tests/'.$this->testcase;
 		} 
 
+		$testCmd .= ' disable_perms=1';
+
 		echo "Exec $testCmd\n";
 		
 		// simply call the php ss-cli-script.php dev/tests/all. We ignore the errors because

@@ -15,7 +15,8 @@ modules.depends.file=build/dependent-modules
 # The core modules for silverstripe
 modules.core.file=build/core-modules
 
-db.config=build/configs/silverstripe/local.conf.sample.php
+local.php.config=build/configs/silverstripe/local.conf.sample.php
+local.yml.config=build/configs/silverstripe/local.sample.yml
 testing.config=build/configs/silverstripe/testing.conf.sample.php
 htaccess.config=build/configs/silverstripe/htaccess.sample
 

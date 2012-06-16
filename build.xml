@@ -114,6 +114,7 @@ Other features
 		<copy tofile="${project.basedir}/build/build.properties" file="${project.basedir}/build/build.properties.sample" />
 		<delete dir="assets" />
 		<delete file="${project.basedir}/mysite/local.conf.php" />
+		<delete file="${project.basedir}/mysite/_config/local.yml" />
 		<delete file="${project.basedir}/ssautesting/testing.conf.php" />
 		<property name="properties_exist" value="true" override="true" />
 		<property file="${project.basedir}/build/build.properties"></property>
@@ -131,7 +132,13 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 		<echo file="mysite/BUILD_NUMBER" append="false">Build ${BUILD_STAMP}</echo>
 
 		<!-- Copy the DB configs -->
-		<copy tofile="mysite/local.conf.php" file="${db.config}" overwrite="false">
+		<copy tofile="mysite/local.conf.php" file="${local.php.config}" overwrite="false">
+			<filterchain>
+				<expandproperties />
+			</filterchain>
+		</copy>
+		
+		<copy tofile="mysite/_config/local.yml" file="${local.yml.config}" overwrite="false">
 			<filterchain>
 				<expandproperties />
 			</filterchain>
@@ -179,6 +186,7 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 				<exclude name="build/**" />
 				<exclude name="build.xml" />
 				<exclude name="mysite/local.conf.php" />
+				<exclude name="mysite/_config/local.yml" />
 				<exclude name="mysite/db.conf.php" />
 				<exclude name="mysite/*.log" />
 				<exclude name="**/.svn/**" />
@@ -225,13 +233,13 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 		<property name="currentpackage" value="${build.output.dir}/${update-package.name}" />
 		<property name="packagetype" value="update" />
 		<phingcall target="archive-package" />
-
-		<copy file="${db.config}" tofile="mysite/${db.config}" />
+		
 		<tar destfile="${build.output.dir}/${update-package.name}" compression="gzip" includeemptydirs="false">
 			<fileset dir="${project.basedir}">
 				<include name="**/**" />
 				<exclude name="mysite/db.conf.php" />
 				<exclude name="mysite/local.conf.php" />
+				<exclude name="mysite/_config/local.yml" />
 				<exclude name="mysite/*.log" />
 				<exclude name="build/**" />
 				<exclude name="build.xml" />
