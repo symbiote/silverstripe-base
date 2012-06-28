@@ -5,6 +5,7 @@ nbproject/
 ssautesting/logs/
 ssautesting/testing.conf.php
 mysite/*.conf.php
+mysite/_config/local.yml
 mysite/BUILD_NUMBER
 mysite/*.log
 mysite/VERSION
