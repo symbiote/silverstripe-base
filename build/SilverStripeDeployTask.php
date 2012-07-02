@@ -126,7 +126,7 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 		$this->execute("php $currentPath/mysite/scripts/backup_database.php");
 
 		$this->log("Executing dev/build");
-		$this->execute("php $releasePath/sapphire/cli-script.php dev/build");
+		$this->execute("php $releasePath/framework/cli-script.php dev/build");
 
 		if (!$this->inplace) {
 			$this->log("Changing symlinks");

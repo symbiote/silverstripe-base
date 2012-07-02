@@ -163,7 +163,7 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 		<phingcall target="apply_patches" />
 
 		<!-- Trigger /dev/build for the new system -->
-		<exec command="php sapphire/cli-script.php dev/build"></exec>
+		<exec command="php framework/cli-script.php dev/build"></exec>
 	</target>
 
 	<target name="apply_patches">
@@ -253,7 +253,7 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 				<exclude name="**/.git/**" />
 				<exclude name="assets/**" />
 				<exclude name="cms/**" />
-				<exclude name="sapphire/**" />
+				<exclude name="framework/**" />
 			</fileset>
 		</tar>
 		<chmod file="${build.output.dir}/${update-package.name}" mode="0664" />
@@ -298,7 +298,7 @@ To restore this backup:
 * Import the database file in backups/${phing.project.name}.sql
 * Copy configs/silverstripe/local.conf.php.sample to mysite/local.conf.php
 * Edit DB settings in local.conf as appropriate (typically, use MySQLDatabase as the db.type)
-* Run 'php sapphire/cli-script.php dev/build'
+* Run 'php framework/cli-script.php dev/build'
 		</echo>
 		<mkdir dir="${backup.dir}" />
 		<echo file="${backup.dir}/.htaccess" append="false">
@@ -310,7 +310,7 @@ Deny from all
 
 	<target name="ci_test" depends="build">
 		<!-- lets get rid of files that we don't want tested -->
-		<delete file="${project.basedir}/sapphire/tests/WebserverRoutingTest.php" />
+		<delete file="${project.basedir}/framework/tests/WebserverRoutingTest.php" />
 		<phingcall target="test" />
 	</target>
 
@@ -325,7 +325,7 @@ Deny from all
 				<expandproperties />
 			</filterchain>
 		</copy>
-		<exec command="php sapphire/cli-script.php dev/build"></exec>
+		<exec command="php framework/cli-script.php dev/build"></exec>
 		<sstest module="${module}" testcase="${testcase}" />
 	</target>
 
