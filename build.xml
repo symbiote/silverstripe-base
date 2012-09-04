@@ -86,6 +86,22 @@ Other features
 		<ssmodules file="${modules.depends.file}" noninteractive="${ni_build}"/>
 	</target>
 
+	<target name="update-composer">
+		<if>
+			<available file="composer.json" />
+			<then>
+				<if>
+					<not><available file="composer.phar" /></not>
+					<then>
+						<exec command="curl -s http://getcomposer.org/installer | php" passthru="true" />
+					</then>
+				</if>
+
+				<exec command="php composer.phar install" passthru="true" />
+			</then>
+		</if>
+	</target>
+
 	<target name="create_modules_file" unless="modules_file_exists">
 		<copy file="${modules.depends.file}.default" tofile="${modules.depends.file}" />
 	</target>
@@ -159,7 +175,7 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 		</copy>
 
 		<phingcall target="update_modules" />
-
+		<phingcall target="update-composer" />
 		<phingcall target="apply_patches" />
 
 		<!-- Trigger /dev/build for the new system -->
@@ -325,7 +341,7 @@ Deny from all
 		<mkdir dir="${testing.logdir}" />
 		<mkdir dir="assets" />
 		<!-- Copy the configs - done so that we can override the reporter type from an exernal source -->
-		<copy tofile="ssautesting/testing.conf.php" file="${testing.config}" overwrite="true">
+		<copy tofile="ssautesting/testing.conf.php" file="${testing.config}" overwrite="false">
 			<filterchain>
 				<expandproperties />
 			</filterchain>
