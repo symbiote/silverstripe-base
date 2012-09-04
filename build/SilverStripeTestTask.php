@@ -44,7 +44,7 @@ class SilverStripeTestTask extends SilverStripeBuildTask
 			$testCmd = 'dev/tests/'.$this->testcase;
 		} 
 
-		$testCmd .= ' disable_perms=1';
+		$testCmd .= ' disable_perms=1 flush=1';
 
 		echo "Exec $testCmd\n";
 		
