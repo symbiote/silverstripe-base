@@ -137,25 +137,30 @@ class LoadModulesTask extends SilverStripeBuildTask {
 			echo "Check out $moduleName from $svnUrl\n";
 			// check whether it's git or svn
 			if ($git) {
-				$this->exec("git clone $svnUrl $moduleName");
-				if ($branch != 'master') {
-					// check if we're also hooking onto a revision
-					$commitId = null;
-					if (strpos($branch, self::MODULE_SEPARATOR) > 0) {
-						$commitId = substr($branch, strpos($branch, self::MODULE_SEPARATOR) + 1);
-						$branch = substr($branch, 0, strpos($branch, self::MODULE_SEPARATOR));
-					}
-					// need to make sure we've pulled from the correct branch also
-					$currentDir = getcwd();
-					if ($branch != 'master') {
-						$this->exec("cd $moduleName && git checkout -f -b $branch --track origin/$branch && cd \"$currentDir\"");
-					}
+				if(strpos($branch, self::MODULE_SEPARATOR)) {
+					$commit = substr($branch, strpos($branch, self::MODULE_SEPARATOR) + 1);
+				} else {
+					$commit = null;
+				}
 
-					if ($commitId) {
-						$this->exec("cd $moduleName && git checkout $commitId && cd \"$currentDir\"");
+				$this->exec("git clone $svnUrl $moduleName");
+
+				$dir = getcwd();
+				chdir($moduleName);
+
+				if($commit) {
+					$this->exec("git checkout $commit");
+				} else {
+					$currentBranch = $this->exec('git symbolic-ref HEAD', true);
+					$currentBranch = substr(trim($currentBranch), strlen('refs/heads/'));
+
+					if($currentBranch != $branch) {
+						$this->exec("git checkout -t origin/$branch");
 					}
 				}
-				
+
+				chdir($dir);
+
 				if ($storeLocally) {
 					rrmdir("$moduleName/.git");
 				}
