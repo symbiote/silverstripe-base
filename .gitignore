@@ -15,3 +15,5 @@ build/archive
 build/build.properties
 build/phing-metadata
 _ss_environment.php
+sitemap.xml
+google*.html

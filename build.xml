@@ -199,6 +199,8 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 			<fileset dir="${project.basedir}">
 				<include name="**/**" />
 				<exclude name="silverstripe-cache/" />
+				<exclude name="sitemap.xml" />
+				<exclude name="google*.html" />
 				<exclude name="assets/**" />
 				<exclude name="build/**" />
 				<exclude name="build.xml" />
@@ -235,6 +237,8 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 		<tar destfile="${build.output.dir}/${phing-package.name}" compression="gzip" defaultexcludes="false">
 			<fileset dir="${project.basedir}">
 				<include name="**/**" />
+				<exclude name="sitemap.xml" />
+				<exclude name="google*.html" />
 				<exclude name="silverstripe-cache/" />
 				<exclude name="build/archive/**" />
 				<exclude name="nbproject/**" />
@@ -256,6 +260,8 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 		<tar destfile="${build.output.dir}/${update-package.name}" compression="gzip" includeemptydirs="false">
 			<fileset dir="${project.basedir}">
 				<include name="**/**" />
+				<exclude name="sitemap.xml" />
+				<exclude name="google*.html" />
 				<exclude name="mysite/db.conf.php" />
 				<exclude name="mysite/local.conf.php" />
 				<exclude name="mysite/_config/local.yml" />
