@@ -1,0 +1,17 @@
+{
+	"name": "silverstripe-australia/base",
+	"description": "A base project that can be used for developing new SilverStripe
+		projects. Comes with build files for installing and managing a development
+		environment.",
+	"type": "silverstripe-module",
+	"keywords": ["silverstripe-australia", "silverstripe-base", "development-tool"],
+	"authors": [
+	{
+		"name": "Marcus Nyeholt"
+	}
+	],
+	"require":
+	{
+		"silverstripe/framework": "3.0.*"
+	}
+}
