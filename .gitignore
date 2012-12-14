@@ -17,3 +17,6 @@ build/phing-metadata
 _ss_environment.php
 sitemap.xml
 google*.html
+*/xhprof_lib/config.php
+xhprof_runs.php
+silverstripe-cache/
