@@ -174,8 +174,8 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 			</filterchain>
 		</copy>
 
-		<phingcall target="update_modules" />
 		<phingcall target="update-composer" />
+		<phingcall target="update_modules" />
 		<phingcall target="apply_patches" />
 
 		<!-- Trigger /dev/build for the new system -->

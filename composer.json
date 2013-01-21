@@ -1,0 +1,12 @@
+{
+	"name": "silverstripe/ozzy",
+	"description": "Ozzy: the SilverStripe Australia base project installer",
+	"require": {
+		"php": ">=5.3.2",
+		"silverstripe/cms": "3.0.*",
+		"silverstripe/framework": "3.0.*",
+		"silverstripe-themes/simple": "*"
+		"silverstripe/sqlite3": "dev-master"
+	},
+	"minimum-stability": "dev"
+}
