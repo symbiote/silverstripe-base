@@ -8,8 +8,5 @@
 		"silverstripe-themes/simple": "*",
 		"silverstripe/sqlite3": "dev-master"
 	},
-	"scripts": {
-		"post-install-cmd": "phing"
-	},
 	"minimum-stability": "dev"
 }
