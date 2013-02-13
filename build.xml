@@ -97,7 +97,16 @@ Other features
 					</then>
 				</if>
 
-				<exec command="php composer.phar install" passthru="true" />
+				<if>
+					<available file="composer.lock" />
+					<then>
+						<exec command="php composer.phar update" passthru="true" />
+					</then>
+					<else>
+						<exec command="php composer.phar install" passthru="true" />
+					</else>
+				</if>
+				
 			</then>
 		</if>
 	</target>
