@@ -15,6 +15,8 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 	private $apachegroup = 'apache';
 	private $remotepath = '';
 	private $incremental = false;
+	
+	private $sapphirepath = 'sapphire';
 
 	/* SSH configuration */
 	private $host = "";
@@ -50,7 +52,7 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 		$this->beforeDeploy($releasePath, $currentPath);
 		$this->extractPackage($remotePackage, $releasePath);
 		$this->doDeploy($releasePath, $currentPath);
-		$this->postDeploy($releasePath, $currentPath);
+		$this->postDeploy($releasePath);
 
 		@ssh2_exec($this->connection, 'exit');
 	}
@@ -81,9 +83,9 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 	protected function beforeDeploy($releasePath, $currentPath) {
 		if ($this->incremental && !$this->inplace) {
 			$this->log("Copying existing deployment");
-			// we use rsync here to be able to use --excludes, and -l to preserve symlinks (ie. for Assets folder)
+			// we use rsync here to be able to use --excludes, and -l to preserve symlinks (ie. for assets folder)
 			$this->execute("rsync -rl --exclude=silverstripe-cache $currentPath/* $releasePath/");
-			
+
 			$this->log("Copying configs");
 			$this->execute("cp $releasePath/mysite/.assets-htaccess $releasePath/assets/.htaccess");
 			$this->execute("cp $currentPath/.htaccess $releasePath/");
@@ -114,20 +116,32 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 	protected function doDeploy($releasePath, $currentPath) {
 		if (!$this->incremental && !$this->inplace) {
 			$this->log("Copying configs");
-			$this->execute("cp $releasePath/mysite/.assets-htaccess $releasePath/assets/.htaccess");
 			$this->execute("cp $currentPath/.htaccess $releasePath/");
 			$this->execute("cp $currentPath/_ss_environment.php $releasePath/");
 			$this->execute("cp $currentPath/mysite/local.conf.php $releasePath/mysite/local.conf.php");
 
 			$this->log("Copying site assets");
-			$this->execute("cp -R $currentPath/assets $releasePath");
+			$this->execute("rsync -rl $currentPath/assets $releasePath/");
+			$this->execute("cp $releasePath/mysite/.assets-htaccess $releasePath/assets/.htaccess");
 		}
 
 		$this->log("Backing up database");
 		$this->execute("php $currentPath/mysite/scripts/backup_database.php");
+		
+		$this->log("Saving .htaccess");
+		$this->execute("cp $releasePath/.htaccess $releasePath/mysite/.htaccess.bak");
+		
+		$this->log("Checking for maintenance mode, and switching if found");
+		$maintenanceHtaccess = "$releasePath/mysite/.htaccess-maintenance";
+		$cmd = "if [ -f $maintenanceHtaccess ]; then cp $maintenanceHtaccess $currentPath/.htaccess; fi";
+		$this->execute($cmd);
+		$cmd = "if [ -f $maintenanceHtaccess ]; then cp $maintenanceHtaccess $releasePath/.htaccess; fi";
+		
+		$this->log($cmd);
+		$this->execute($cmd);
 
 		$this->log("Executing dev/build");
-		$this->execute("php $releasePath/framework/cli-script.php dev/build");
+		$this->execute("php $releasePath/$this->sapphirepath/cli-script.php dev/build");
 
 		if (!$this->inplace) {
 			$this->log("Changing symlinks");
@@ -135,13 +149,19 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 			$this->execute("ln -s $releasePath $currentPath");
 		}
 
-		$this->log("Fixing permissions");
-		$this->execute("chgrp -R $this->apachegroup $releasePath");
-		$this->execute("find $releasePath -type f -exec chmod 664 {} \;");
-		$this->execute("find $releasePath -type d -exec chmod 2775 {} \;");
+		$this->log("Restoring .htaccess");
+		$htaccessBak = "$releasePath/mysite/.htaccess.bak";
+		$cmd = "if [ -f $htaccessBak ]; then cp $htaccessBak $releasePath/.htaccess; fi";
+		$this->execute($cmd);
 
 		$this->log("Finalising deployment");
 		$this->execute("touch $releasePath/DEPLOYED");
+		
+		$this->log("Fixing permissions");
+		$this->execute("chgrp -R $this->apachegroup $releasePath", true);
+		$this->execute("find $releasePath -type f -exec chmod 664 {} \;", true);
+		$this->execute("find $releasePath -type d -exec chmod 2775 {} \;", true);
+
 	}
 	
 	/**
@@ -150,9 +170,11 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 	 * @param type $releasePath
 	 * @param type $currentPath 
 	 */
-	public function postDeploy($releasePath, $currentPath) {
+	public function postDeploy($releasePath) {
 		$exe = escapeshellarg($releasePath .'/mysite/scripts/post_deploy.php'); 
-		$cmd = "if [ -e $exe ]; then php $exe; fi";
+		$arg = escapeshellarg(dirname($releasePath));
+		$cmd = "if [ -e $exe ]; then php $exe $arg; fi";
+		$this->log("Post deploy script referencing releases path $arg");
 		$this->execute($cmd);
 	}
 
@@ -162,7 +184,7 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 	 * @param string $cmd
 	 * @return string
 	 */
-	protected function execute($cmd) {
+	protected function execute($cmd, $failOkay = false) {
 		$command = '(' . $cmd . '  2>&1) && echo __COMPLETE';
 		// $command = 'sh -c '.escapeshellarg('('.$this->command.'  2>&1) && echo __COMPLETE');
 
@@ -177,7 +199,7 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 			$data .= $buf;
 		}
 
-		if (strpos($data, '__COMPLETE') !== false || $this->ignoreerrors) {
+		if (strpos($data, '__COMPLETE') !== false || $this->ignoreerrors || $failOkay) {
 			$data = str_replace('__COMPLETE', '', $data);
 		} else {
 			$this->log("Command failed: $command", Project::MSG_WARN);
@@ -233,6 +255,10 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 		}
 
 		$this->sftp = ssh2_sftp($this->connection);
+	}
+
+	public function setSapphirepath($path) {
+		$this->sapphirepath = $path;
 	}
 
 	public function setApachegroup($g) {
