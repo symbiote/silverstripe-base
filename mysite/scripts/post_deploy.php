@@ -18,7 +18,14 @@ require_once 'core/Core.php';
 $releases = dirname($SITE_BASE);
 $releases = glob($releases . '/*');
 if (count($releases)) {
-	// ignore the new release folder
+	$realReleases = array();
+	foreach ($releases as $releaseName) {
+		if (preg_match('/\d{14}$/', $releaseName)) {
+			$realReleases[] = $releaseName;
+		} 
+	}
+	$releases = $realReleases;
+	// unset the 'last' one which is the current new release
 	unset($releases[count($releases) - 1]);
 }
 
