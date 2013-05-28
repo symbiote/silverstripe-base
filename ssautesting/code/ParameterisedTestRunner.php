@@ -42,7 +42,9 @@ class ParameterisedTestRunner extends TestRunner
 			DB::getConn()->selectDatabase($TESTING_CONFIG['database']);
 			$dbadmin = new DatabaseAdmin();
 			$dbadmin->clearAllData();
-			$dbadmin->doBuild(true);
+			if (!(isset($_REQUEST['build']) && $_REQUEST['build'] == 0)) {
+				$dbadmin->doBuild(true);
+			}
 		}
 
 		// XDEBUG seem to cause problems with test execution :-(
