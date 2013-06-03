@@ -144,6 +144,7 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 		$this->execute("php $releasePath/$this->sapphirepath/cli-script.php dev/build");
 
 		if (!$this->inplace) {
+			$this->preLinkSwitch($releasePath);
 			$this->log("Changing symlinks");
 			$this->execute("rm $currentPath");
 			$this->execute("ln -s $releasePath $currentPath");
@@ -156,12 +157,21 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 
 		$this->log("Finalising deployment");
 		$this->execute("touch $releasePath/DEPLOYED");
-		
-		$this->log("Fixing permissions");
-		$this->execute("chgrp -R $this->apachegroup $releasePath", true);
-		$this->execute("find $releasePath -type f -exec chmod 664 {} \;", true);
-		$this->execute("find $releasePath -type d -exec chmod 2775 {} \;", true);
 
+	}
+	
+		/**
+	 * If the project has a post_deploy.php script, execute it. 
+	 *
+	 * @param type $releasePath
+	 * @param type $currentPath 
+	 */
+	public function preLinkSwitch($releasePath) {
+		$exe = escapeshellarg($releasePath .'/mysite/scripts/pre_switch.php'); 
+		$arg = escapeshellarg(dirname($releasePath));
+		$cmd = "if [ -e $exe ]; then php $exe $arg; fi";
+		$this->log("Pre deployment switch script referencing releases path $arg");
+		$this->execute($cmd);
 	}
 	
 	/**
@@ -176,6 +186,11 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 		$cmd = "if [ -e $exe ]; then php $exe $arg; fi";
 		$this->log("Post deploy script referencing releases path $arg");
 		$this->execute($cmd);
+
+		$this->log("Fixing permissions");
+		$this->execute("chgrp -R $this->apachegroup $releasePath", true);
+		$this->execute("find $releasePath -type f -exec chmod 664 {} \;", true);
+		$this->execute("find $releasePath -type d -exec chmod 2775 {} \;", true);
 	}
 
 	/**
