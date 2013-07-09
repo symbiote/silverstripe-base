@@ -91,7 +91,10 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 			$this->execute("cp $currentPath/.htaccess $releasePath/");
 			$this->execute("cp $currentPath/_ss_environment.php $releasePath/");
 			$this->execute("cp $currentPath/mysite/local.conf.php $releasePath/mysite/local.conf.php");
-			$this->execute("cp $currentPath/mysite/_config/local.yml $releasePath/mysite/_config/");
+			
+			$localConf = "$currentPath/mysite/_config/local.yml";
+			$cmd = "if [ -f $localConf ]; then cp $localConf $releasePath/mysite/_config/; fi";
+			$this->execute($cmd);
 		}
 	}
 
@@ -119,6 +122,10 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 			$this->execute("cp $currentPath/.htaccess $releasePath/");
 			$this->execute("cp $currentPath/_ss_environment.php $releasePath/");
 			$this->execute("cp $currentPath/mysite/local.conf.php $releasePath/mysite/local.conf.php");
+
+			$localConf = "$currentPath/mysite/_config/local.yml";
+			$cmd = "if [ -f $localConf ]; then cp $localConf $releasePath/mysite/_config/; fi";
+			$this->execute($cmd);
 
 			$this->log("Copying site assets");
 			$this->execute("rsync -rl $currentPath/assets $releasePath/");
@@ -172,6 +179,12 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 		$cmd = "if [ -e $exe ]; then php $exe $arg; fi";
 		$this->log("Pre deployment switch script referencing releases path $arg");
 		$this->execute($cmd);
+		
+		$this->log("Setting silverstripe-cache permissions");
+		
+		$this->execute("chgrp -R $this->apachegroup $releasePath/silverstripe-cache", true);
+		$this->execute("find $releasePath/silverstripe-cache -type f -exec chmod 664 {} \;", true);
+		$this->execute("find $releasePath/silverstripe-cache -type d -exec chmod 2775 {} \;", true);
 	}
 	
 	/**
@@ -188,6 +201,12 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 		$this->execute($cmd);
 
 		$this->log("Fixing permissions");
+		
+		// force silverstripe-cache permissions first before the rest. 
+		$this->execute("chgrp -R $this->apachegroup $releasePath/silverstripe-cache", true);
+		$this->execute("find $releasePath/silverstripe-cache -type f -exec chmod 664 {} \;", true);
+		$this->execute("find $releasePath/silverstripe-cache -type d -exec chmod 2775 {} \;", true);
+		
 		$this->execute("chgrp -R $this->apachegroup $releasePath", true);
 		$this->execute("find $releasePath -type f -exec chmod 664 {} \;", true);
 		$this->execute("find $releasePath -type d -exec chmod 2775 {} \;", true);
