@@ -60,7 +60,7 @@ function old_path() {
 $cwd = getcwd();
 
 $_SERVER['SCRIPT_FILENAME'] = __FILE__;
-chdir(site_base().'/sapphire');
+chdir(site_base().'/framework');
 require_once 'core/Core.php';
 
 chdir($cwd);
