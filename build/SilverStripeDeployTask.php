@@ -167,7 +167,7 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 
 	}
 	
-		/**
+	/**
 	 * If the project has a post_deploy.php script, execute it. 
 	 *
 	 * @param type $releasePath

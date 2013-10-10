@@ -11,3 +11,7 @@ $TESTING_CONFIG = array(
 //	'key'		=> 'SQLite3DatabaseKey',
 //	'memory'	=> false
 );
+
+if (Director::is_cli()) {
+	Director::set_environment_type('dev');
+}

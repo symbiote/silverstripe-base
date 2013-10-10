@@ -16,11 +16,27 @@
 	<!-- have we been installed? -->
 	<available file="${project.basedir}/mysite/local.conf.php" property="installed" />
 
+	<!-- we need this first so that it's set BEFORE the properties file is read -->
+	<if>
+		<isset property="env.GIT_BRANCH" />
+		<then>
+			<property name="git.branch" value="${env.GIT_BRANCH}" />
+		</then>
+	</if>
+	<!-- if it's been set from environment, lets clean it up a little bit -->
+	<if>
+		<isset property="git.branch" />
+		<then>
+			<php expression="str_replace('origin/','', '${git.branch}')" returnProperty="git.branch"/>
+		</then>
+	</if>
+
+	<echo>${git.branch}</echo>
+
 	<property file="${project.basedir}/build/build.properties"></property>
 
 	<php expression="trim(file_get_contents('${module.name}/VERSION'))" returnProperty="module.version" />
-	
-	
+
 	<if>
 		<isset property="env.BUILD_NUMBER" />
 		<then>
@@ -30,7 +46,7 @@
 			<property name="BUILD_STAMP" value="${DSTAMP}" />
 		</else>
 	</if>
-	
+
 	<echo>Creating build ${BUILD_STAMP}</echo>
 
 	<!-- Load in the custom tasks -->
@@ -230,6 +246,10 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 		</tar>
 	</target>
 
+	<target name="gittest">
+	<echo>This thing ${git.branch}</echo>
+	</target>
+
 	<!-- a package that includes all items that the phing build normally downloads, which can
 	be just extracted over the top of whatever is pulled out of git. This preserves all the
 	.svn files for dependent modules etc -->
@@ -368,13 +388,13 @@ Deny from all
 	<target name="archive-package">
 		<copy todir="${build.archive.dir}">
 			<fileset dir="${build.output.dir}">
-				<include name="*-${packagetype}*.tar.gz" />
+				<include name="*-${git.branch}-${packagetype}*.tar.gz" />
 			</fileset>
 		</copy>
 		<!-- delete all similar files from the output -->
 		<delete>
 			<fileset dir="${build.output.dir}">
-				<include name="*-${packagetype}*.tar.gz" />	
+				<include name="*-${git.branch}-${packagetype}*.tar.gz" />	
 			</fileset>
 		</delete>
 	</target>

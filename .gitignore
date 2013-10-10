@@ -20,3 +20,4 @@ google*.html
 */xhprof_lib/config.php
 xhprof_runs.php
 silverstripe-cache/
+vendor/
