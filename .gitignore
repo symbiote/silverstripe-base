@@ -21,3 +21,4 @@ google*.html
 xhprof_runs.php
 silverstripe-cache/
 vendor/
+themes/simple
