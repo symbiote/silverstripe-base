@@ -21,5 +21,3 @@ Security::setDefaultAdmin('${admin.username}', '${admin.password}');
 define('SS_LOG_FILE', dirname(__FILE__).'/'.basename(dirname(dirname(__FILE__))).'.log');
 
 Director::set_environment_type('dev');
-
-asdf
