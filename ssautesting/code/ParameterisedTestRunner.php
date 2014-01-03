@@ -30,7 +30,8 @@ class ParameterisedTestRunner extends TestRunner
 		global $TESTING_CONFIG;
 		
 		$startTime = microtime(true);
-
+		Config::inst()->update('Director', 'environment_type', 'dev');
+		
 		if (isset($TESTING_CONFIG['database']) && $TESTING_CONFIG['database'] != 'silverstripe_testing') {
 			global $databaseConfig;
 			$newConfig = $databaseConfig;

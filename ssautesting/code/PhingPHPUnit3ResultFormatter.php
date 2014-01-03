@@ -107,19 +107,41 @@ abstract class PhingPHPUnit3ResultFormatter implements PHPUnit_Framework_TestLis
 	function endTestSuite(PHPUnit_Framework_TestSuite $suite)
 	{
 		$lastRunCount = array_pop($this->runCounts);
-		$this->runCounts[count($this->runCounts) - 1] += $lastRunCount;
+		$index = count($this->runCounts);
+		if ($index > 0) {
+			--$index;
+		}
+		$this->runCounts[$index] = isset($this->runCounts[$index]) ? $this->runCounts[$index] + $lastRunCount : $lastRunCount;
 		
 		$lastFailureCount = array_pop($this->failureCounts);
-		$this->failureCounts[count($this->failureCounts) - 1] += $lastFailureCount;
+		$index = count($this->failureCounts);
+		if ($index > 0) {
+			--$index;
+		}
+		
+		$this->failureCounts[$index] = isset($this->failureCounts[$index]) ? $this->failureCounts[$index] + $lastFailureCount : $lastFailureCount;
 		
 		$lastErrorCount = array_pop($this->errorCounts);
-		$this->errorCounts[count($this->errorCounts) - 1] += $lastErrorCount;
+		$index = count($this->errorCounts);
+		if ($index > 0) {
+			--$index;
+		}
+		$this->errorCounts[$index] = isset($this->errorCounts[$index]) ? $this->errorCounts[$index] + $lastErrorCount : $lastErrorCount;
 		
 		$lastIncompleteCount = array_pop($this->incompleteCounts);
-		$this->incompleteCounts[count($this->incompleteCounts) - 1] += $lastIncompleteCount;
+		$index = count($this->incompleteCounts);
+		if ($index > 0) {
+			--$index;
+		}
+		$this->incompleteCounts[$index] = isset($this->incompleteCounts[$index]) ? $this->incompleteCounts[$index] + $lastIncompleteCount : $lastIncompleteCount;
 		
 		$lastSkipCount = array_pop($this->skipCounts);
-		$this->skipCounts[count($this->skipCounts) - 1] += $lastSkipCount;
+		$index = count($this->skipCounts);
+		if ($index > 0) {
+			--$index;
+		}
+		
+		$this->skipCounts[$index] = isset($this->skipCounts[$index]) ? $this->skipCounts[$index] + $lastSkipCount : $lastSkipCount;
 		
 		array_pop($this->timers);
 	}
