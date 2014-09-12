@@ -364,6 +364,26 @@ Deny from all
 		<phingcall target="package" />
 	</target>
 
+	<target name="test_report">
+		<if>
+			<available file="ssautesting/logs/testsuite.xml" />
+			<then>
+				<echo>Processing results</echo>
+				<delete dir="ssautesting/html/" quiet="true" />
+				<mkdir dir="ssautesting/html"></mkdir>
+				<phpunitreport infile="ssautesting/logs/testsuite.xml"
+							   format="noframes"
+							   todir="ssautesting/html"
+							   styledir="/usr/share/php/data/phing/etc/"
+							   />
+				<echo file="ssautesting/html/.htaccess" append="false">Allow from 127.0.0.1</echo>
+			</then>
+			<else>
+				<echo>No test results found</echo>
+			</else>
+		</if>
+	</target>
+
 	<target name="ci_test" depends="build">
 		<!-- lets get rid of files that we don't want tested -->
 		<delete file="${project.basedir}/framework/tests/WebserverRoutingTest.php" />

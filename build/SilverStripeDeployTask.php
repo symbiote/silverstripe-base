@@ -16,7 +16,7 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 	private $remotepath = '';
 	private $incremental = false;
 	
-	private $sapphirepath = 'sapphire';
+	private $sapphirepath = 'framework';
 
 	/* SSH configuration */
 	private $host = "";

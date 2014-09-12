@@ -11,6 +11,10 @@ class ParameterisedTestRunner extends TestRunner
 	// overridden on the base due to private declaration in TestRunner
 	private static $default_reporter;
 	
+	private static $allowed_actions = array(
+		'module',
+	);
+	
 	/**
 	 * Override the default reporter with a custom configured subclass.
 	 *
@@ -38,7 +42,7 @@ class ParameterisedTestRunner extends TestRunner
 			$newConfig = array_merge($databaseConfig, $TESTING_CONFIG);
 			$newConfig['memory'] = isset($TESTING_CONFIG['memory']) ? $TESTING_CONFIG['memory'] : true;
 			$type = isset($newConfig['type']) ? $newConfig['type'] : 'MySQL';
-			Debug::message("Connecting to new database $type as defined by testing config");
+			Debug::message("Connecting to new $type database ${TESTING_CONFIG['database']} as defined by testing config");
 			DB::connect($newConfig);
 			DB::getConn()->selectDatabase($TESTING_CONFIG['database']);
 			$dbadmin = new DatabaseAdmin();
@@ -143,11 +147,45 @@ class ParameterisedTestRunner extends TestRunner
 		if(Director::is_cli() && ($results->failureCount() + $results->errorCount()) > 0) exit(2);
 	}
 
+	/**
+	 * Run tests for one or more "modules".
+	 * A module is generally a toplevel folder, e.g. "mysite" or "framework".
+	 */
+	public function module($request, $coverage = false) {
+		self::use_test_manifest();
+		$classNames = array();
+		$moduleNames = explode(',', $request->param('ModuleName'));
+		
+		$testClassParent = $request->getVar('test_type');
+		if (!$testClassParent) {
+			$testClassParent = 'SapphireTest';
+		}
+		
+		$ignored = array('functionaltest', 'phpsyntaxtest');
+
+		foreach($moduleNames as $moduleName) {
+			$classesForModule = ClassInfo::classes_for_folder($moduleName);
+			
+			if($classesForModule) {
+				foreach($classesForModule as $className) {
+					if(class_exists($className) && is_subclass_of($className, $testClassParent)) {
+						if(!in_array($className, $ignored))
+							$classNames[] = $className;
+					}
+				}
+			}
+		}
+
+		$this->runTests($classNames, $coverage);
+	}
+
 	function tearDown() {
 		global $TESTING_CONFIG;
 		if (!isset($TESTING_CONFIG['database'])) {
 			parent::tearDown();
 		}
-		DB::set_alternative_database_name(null);
+		if (PHP_SAPI != 'cli') {
+			DB::set_alternative_database_name(null);
+		}
 	}
 }
