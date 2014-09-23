@@ -85,6 +85,9 @@ class ParameterisedTestRunner extends TestRunner
 			} else { 
 				$clazz = "CliTestReporter";
 			}
+			if (isset($_GET['reporter']) && class_exists($_GET['reporter'])) {
+				$clazz = $_GET['reporter'];
+			}
 		} else {
 			$clazz = "SapphireTestReporter";
 		}
