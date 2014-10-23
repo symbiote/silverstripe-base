@@ -80,13 +80,12 @@ class ParameterisedTestRunner extends TestRunner
 
 		// CUSTOMISATION
 		if (Director::is_cli()) {
-			if (isset($TESTING_CONFIG['reporter'])) {
+			if ($reporterClass = $this->request->requestVar('reporter')) {
+				$clazz = $reporterClass;
+			} else if (isset($TESTING_CONFIG['reporter'])) {
 				$clazz = $TESTING_CONFIG['reporter'];
 			} else { 
 				$clazz = "CliTestReporter";
-			}
-			if (isset($_GET['reporter']) && class_exists($_GET['reporter'])) {
-				$clazz = $_GET['reporter'];
 			}
 		} else {
 			$clazz = "SapphireTestReporter";
