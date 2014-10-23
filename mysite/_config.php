@@ -3,7 +3,6 @@
 global $project;
 $project = 'mysite';
 
-
 include_once dirname(__FILE__).'/local.conf.php';
 
 if (!defined('SS_LOG_FILE')) {
@@ -12,17 +11,6 @@ if (!defined('SS_LOG_FILE')) {
 
 SS_Log::add_writer(new SS_LogFileWriter(SS_LOG_FILE), SS_Log::NOTICE, '<=');
 
-// This line set's the current theme. More themes can be
-// downloaded from http://www.silverstripe.com/themes/
-SSViewer::set_theme('simple');
-
-// enable nested URLs for this site (e.g. page/sub-page/)
-SiteTree::enable_nested_urls();
-
-MySQLDatabase::set_connection_charset('utf8');
-
-// necessary for now
-SQLite3Database::$vacuum = false;
 
 // Sets up relevant cache settings to prevent permission errors
 SS_Cache::add_backend('default', 'File', array(

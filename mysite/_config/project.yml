@@ -1,0 +1,4 @@
+SSViewer:
+  theme: simple 
+MySQLDatabase:
+  connection_charset: utf8
