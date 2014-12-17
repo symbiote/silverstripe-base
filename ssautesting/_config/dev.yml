@@ -1,0 +1,10 @@
+---
+Name: DevelopmentAdmin
+---
+DevelopmentAdmin:
+  registered_controllers:
+    tests:
+      controller: 'ParameterisedTestRunner'
+      links:
+        tests: 'See a list of unit tests to run'
+        'tests/all': 'Run all tests'
