@@ -163,12 +163,13 @@ Other features
 
 	<!-- Installs a freshly checked-out silverstripe project -->
 	<target name="build" depends="init">
-		<!-- if it doesn't exist, create it and the default .htaccess -->
-		<mkdir dir="assets" />
-		<echo file="assets/.htaccess" append="false">
-RemoveHandler .php .phtml .php3 .php4 .php5 .inc
-RemoveType .php .phtml .php3 .php4 .php5 .inc
-		</echo>
+		<!-- if it doesn't exist, create it and ensure the .assets-htaccess from mysite is used (same file used for deployments) -->
+		<mkdir dir="assets" />		
+		<copy tofile="${project.basedir}/assets/.htaccess" file="${project.basedir}/mysite/.assets-htaccess" overwrite="true">
+			<filterchain>
+				<expandproperties />
+			</filterchain>
+		</copy>
 
 		<echo file="mysite/BUILD_NUMBER" append="false">Build ${BUILD_STAMP}</echo>
 
