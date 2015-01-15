@@ -132,6 +132,9 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 			$this->execute("cp $releasePath/mysite/.assets-htaccess $releasePath/assets/.htaccess");
 		}
 
+		$this->log("Pre-deploy");
+		$this->executeOptionalPhpScript($releasePath .'/mysite/scripts/pre_deploy.php');
+
 		$this->log("Backing up database");
 		$this->execute("php $currentPath/mysite/scripts/backup_database.php");
 		
@@ -166,22 +169,17 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 		$this->execute("touch $releasePath/DEPLOYED");
 
 	}
-	
+
 	/**
-	 * If the project has a post_deploy.php script, execute it. 
+	 * If the project has a pre_deploy.php script, execute it. 
 	 *
 	 * @param type $releasePath
 	 * @param type $currentPath 
 	 */
 	public function preLinkSwitch($releasePath) {
-		$exe = escapeshellarg($releasePath .'/mysite/scripts/pre_switch.php'); 
-		$arg = escapeshellarg(dirname($releasePath));
-		$cmd = "if [ -e $exe ]; then php $exe $arg; fi";
-		$this->log("Pre deployment switch script referencing releases path $arg");
-		$this->execute($cmd);
-		
+		$this->executeOptionalPhpScript($releasePath .'/mysite/scripts/pre_switch.php', dirname($releasePath));
+
 		$this->log("Setting silverstripe-cache permissions");
-		
 		$this->execute("chgrp -R $this->apachegroup $releasePath/silverstripe-cache", true);
 		$this->execute("find $releasePath/silverstripe-cache -type f -exec chmod 664 {} \;", true);
 		$this->execute("find $releasePath/silverstripe-cache -type d -exec chmod 2775 {} \;", true);
@@ -194,14 +192,10 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 	 * @param type $currentPath 
 	 */
 	public function postDeploy($releasePath) {
-		$exe = escapeshellarg($releasePath .'/mysite/scripts/post_deploy.php'); 
-		$arg = escapeshellarg(dirname($releasePath));
-		$cmd = "if [ -e $exe ]; then php $exe $arg; fi";
-		$this->log("Post deploy script referencing releases path $arg");
-		$this->execute($cmd);
+		$arg = dirname($releasePath);
+		$this->executeOptionalPhpScript($releasePath .'/mysite/scripts/post_deploy.php', $arg);
 
 		$this->log("Fixing permissions");
-		
 		// force silverstripe-cache permissions first before the rest. 
 		$this->execute("chgrp -R $this->apachegroup $releasePath/silverstripe-cache", true);
 		$this->execute("find $releasePath/silverstripe-cache -type f -exec chmod 664 {} \;", true);
@@ -210,6 +204,22 @@ class SilverStripeDeployTask extends SilverStripeBuildTask {
 		$this->execute("chgrp -R $this->apachegroup $releasePath", true);
 		$this->execute("find $releasePath -type f -exec chmod 664 {} \;", true);
 		$this->execute("find $releasePath -type d -exec chmod 2775 {} \;", true);
+		
+		$this->executeOptionalPhpScript($releasePath .'/mysite/scripts/finalise_deployment.php', dirname($releasePath));
+	}
+	
+	protected function executeOptionalPhpScript($script) {
+		$args = func_get_args();
+		array_shift($args);
+		
+		$exe = escapeshellarg($script); 
+		$args = array_map('escapeshellarg', $args);
+		$args = implode(' ', $args);
+		
+		$cmd = "if [ -e $exe ]; then php $exe $args; fi";
+		
+		$this->log("Executing $script with args " . $args);
+		$this->execute($cmd);
 	}
 
 	/**
