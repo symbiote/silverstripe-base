@@ -1,0 +1,6 @@
+sudo usermod -a -G www-data $USER
+sudo chown -R user:www-data /tmp/silverstripe-*
+sudo chmod g+w -R /tmp/silverstripe-*
+sudo find . -type d -exec chmod 2775 {} \;
+sudo find . -type f -exec chmod 664 {} \;
+sudo chown -R user:www-data *

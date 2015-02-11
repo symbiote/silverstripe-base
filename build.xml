@@ -116,10 +116,10 @@ Other features
 				<if>
 					<available file="composer.lock" />
 					<then>
-						<exec command="php composer.phar update" passthru="true" />
+						<exec command="php composer.phar --prefer-source update" passthru="true" />
 					</then>
 					<else>
-						<exec command="php composer.phar install" passthru="true" />
+						<exec command="php composer.phar --prefer-source install" passthru="true" />
 					</else>
 				</if>
 				

@@ -1,0 +1,8 @@
+find . -maxdepth 2 -type d -exec sh -c "(cd {} && (
+	if [ -d '.git' ]; then
+		echo '\033[1;34m {} \033[37;0m';
+		git fetch origin;
+		git config core.filemode false;
+		git status;
+	fi
+))" ";"
