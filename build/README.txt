@@ -21,9 +21,9 @@ Optional Scripts
 
 There are two scripts that may optionally be used for your projects, and can be done using the following commands.
 
-# sh build/scripts/permissions
+# sh ~/path/to/permissions
 
-This requires you to update the "user", and will apply the appropriate owner and permissions to both the cache and repository.
+This requires you to update the "user" and as such will need to be copied out to a location of your choice, and will apply the appropriate owner and permissions to both the cache and repository.
 
 # sh build/scripts/recursive-status
 
