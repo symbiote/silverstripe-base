@@ -409,13 +409,13 @@ Deny from all
 	<target name="archive-package">
 		<copy todir="${build.archive.dir}">
 			<fileset dir="${build.output.dir}">
-				<include name="*-${git.branch}-${packagetype}*.tar.gz" />
+				<include name="*${packagetype}.${git.branch}*.tar.gz" />
 			</fileset>
 		</copy>
 		<!-- delete all similar files from the output -->
 		<delete>
 			<fileset dir="${build.output.dir}">
-				<include name="*-${git.branch}-${packagetype}*.tar.gz" />	
+				<include name="*${packagetype}.${git.branch}*.tar.gz" />
 			</fileset>
 		</delete>
 	</target>
