@@ -14,7 +14,7 @@
 					<exec command="curl -s http://getcomposer.org/installer | php" passthru="true" />
 				</then>
 			</if>
-			<exec command="composer update --prefer-source silverstripe-australia/build" passthru="true" />
+			<exec command="php composer.php update --prefer-source silverstripe-australia/build" passthru="true" />
 			<import file="${project.basedir}/build/buildfile.xml"/>
 		</else>
 	</if>
