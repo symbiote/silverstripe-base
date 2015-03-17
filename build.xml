@@ -8,7 +8,14 @@
 			<import file="${project.basedir}/build/buildfile.xml"/>
 		</then>
 		<else>
-			<echo>Please include the silverstripe-australia/build module in your composer.json, then run composer update!</echo>
+			<if>
+				<not><available file="composer.phar" /></not>
+				<then>
+					<exec command="curl -s http://getcomposer.org/installer | php" passthru="true" />
+				</then>
+			</if>
+			<exec command="composer update --prefer-source silverstripe-australia/build" passthru="true" />
+			<import file="${project.basedir}/build/buildfile.xml"/>
 		</else>
 	</if>
 </project>
