@@ -3,6 +3,15 @@
 <!-- Rename this project to something relevant! -->
 <project name="rename-me" default="build">
 	<if>
+		<isset property="ni_build" />
+		<then>
+			<property name="composer.dev" value="--no-dev" />
+		</then>
+		<else>
+			<property name="composer.dev" value="" />
+		</else>
+	</if>
+	<if>
 		<not>
 			<available file="${project.basedir}/build/buildfile.xml" />
 		</not>
@@ -16,7 +25,7 @@
 					<exec command="curl -s http://getcomposer.org/installer | php" passthru="true" />
 				</then>
 			</if>
-			<exec command="php composer.phar install --prefer-source" passthru="true" />
+			<exec command="php composer.phar install ${composer.dev} --prefer-source" passthru="true" />
 		</then>
 	</if>
 	<import file="${project.basedir}/build/buildfile.xml"/>
@@ -31,10 +40,10 @@
 	</target>
 	
 	<target name="composer-install" depends="get-composer">
-		<exec command="php composer.phar install --prefer-source" passthru="true" />
+		<exec command="php composer.phar install ${composer.dev} --prefer-source" passthru="true" />
 	</target>
 	
 	<target name="composer-update" depends="get-composer">
-		<exec command="php composer.phar update --prefer-source" passthru="true" />
+		<exec command="php composer.phar update ${composer.dev} --prefer-source" passthru="true" />
 	</target>
 </project>
