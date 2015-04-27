@@ -22,7 +22,7 @@
 			<if>
 				<not><available file="composer.phar" /></not>
 				<then>
-					<exec command="curl -s http://getcomposer.org/installer | php" passthru="true" />
+					<exec command="curl -s https://getcomposer.org/installer | php" passthru="true" />
 				</then>
 			</if>
 			<exec command="php composer.phar install ${composer.dev} --prefer-source" passthru="true" />
@@ -34,7 +34,7 @@
 		<if>
 			<not><available file="composer.phar" /></not>
 			<then>
-				<exec command="curl -s http://getcomposer.org/installer | php" passthru="true" />
+				<exec command="curl -s https://getcomposer.org/installer | php" passthru="true" />
 			</then>
 		</if>
 	</target>
