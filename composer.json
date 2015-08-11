@@ -1,6 +1,6 @@
 {
 	"name": "silverstripe/ozzy",
-	"description": "Ozzy: the SilverStripe Australia base project installer",
+	"description": "Ozzy: the SilverStripe Australia project installer",
 	"require": {
 		"php": ">=5.3.2",
 		"silverstripe-australia/build": "~1.0",
