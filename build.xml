@@ -22,10 +22,10 @@
 			<if>
 				<not><available file="composer.phar" /></not>
 				<then>
-					<exec command="curl -s https://getcomposer.org/installer | php" passthru="true" />
+					<exec command="curl -s https://getcomposer.org/installer | php" passthru="true" checkreturn="true" />
 				</then>
 			</if>
-			<exec command="php composer.phar install ${composer.dev} --prefer-source" passthru="true" />
+			<exec command="php composer.phar install ${composer.dev} --prefer-source" passthru="true" checkreturn="true" />
 		</then>
 	</if>
 	<import file="${project.basedir}/build/buildfile.xml"/>
@@ -34,16 +34,16 @@
 		<if>
 			<not><available file="composer.phar" /></not>
 			<then>
-				<exec command="curl -s https://getcomposer.org/installer | php" passthru="true" />
+				<exec command="curl -s https://getcomposer.org/installer | php" passthru="true" checkreturn="true" />
 			</then>
 		</if>
 	</target>
 	
 	<target name="composer-install" depends="get-composer">
-		<exec command="php composer.phar install ${composer.dev} --prefer-source" passthru="true" />
+		<exec command="php composer.phar install ${composer.dev} --prefer-source" passthru="true" checkreturn="true" />
 	</target>
 	
 	<target name="composer-update" depends="get-composer">
-		<exec command="php composer.phar update ${composer.dev} --prefer-source" passthru="true" />
+		<exec command="php composer.phar update ${composer.dev} --prefer-source" passthru="true" checkreturn="true" />
 	</target>
 </project>
