@@ -22,3 +22,4 @@
 /ssautesting/
 /composer.phar
 /sqlite3/
+*.rej
