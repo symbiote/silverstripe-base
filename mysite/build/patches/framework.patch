@@ -1,0 +1,10 @@
+--- framework/core/manifest/ConfigManifest.php	2016-03-17 10:55:35.969239095 +1100
++++ framework/core/manifest/ConfigManifest.php	2016-03-17 11:12:10.893813283 +1100
+@@ -99,7 +99,7 @@
+ 		}
+ 
+ 		// If we don't have a variantKeySpec (because we're forcing regen, or it just wasn't in the cache), generate it
+-		if (false === $this->variantKeySpec) {
++		if (false === $this->variantKeySpec || false === $this->phpConfigSources) {
+ 			$this->regenerate($includeTests);
+ 		}
