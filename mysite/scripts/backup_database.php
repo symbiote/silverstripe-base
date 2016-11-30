@@ -9,7 +9,7 @@ $_SERVER['SCRIPT_FILENAME'] = __FILE__;
 chdir(dirname(dirname(dirname(__FILE__))).'/framework');
 require_once 'core/Core.php';
 
-$outfile = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : $outfile = Director::baseFolder().'/'.project().'/scripts/backup-'.date('Y-m-d-H-i-s').'.sql.gz';
+$outfile = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : $outfile = Director::baseFolder().'/mysite/scripts/backup-'.date('Y-m-d-H-i-s').'.sql.gz';
 
 global $databaseConfig;
 
