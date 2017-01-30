@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- Rename this project to something relevant! -->
 <project name="rename-me" default="build">
+	<property name="composer.dev" value="" />
+	<property name="composer.source" value="--prefer-source" />
 	<if>
 		<isset property="ni_build" />
 		<then>
-			<property name="composer.dev" value="--no-dev" />
+			<property name="composer.dev" value="--no-dev" override="true" />
+			<property name="composer.source" value="--prefer-dist" override="true" />
 		</then>
-		<else>
-			<property name="composer.dev" value="" />
-		</else>
+	</if>
+	<if>
+		<isset property="composer_dist" />
+		<then>
+			<property name="composer.source" value="--prefer-dist" override="true" />
+		</then>
 	</if>
 	<if>
 		<not>
@@ -25,7 +30,7 @@
 					<exec command="curl -s https://getcomposer.org/installer | php" passthru="true" checkreturn="true" />
 				</then>
 			</if>
-			<exec command="php composer.phar install ${composer.dev} --prefer-source" passthru="true" checkreturn="true" />
+			<exec command="php composer.phar install ${composer.dev} ${composer.source}" passthru="true" checkreturn="true" />
 		</then>
 	</if>
 	<import file="${project.basedir}/build/buildfile.xml"/>
@@ -40,10 +45,10 @@
 	</target>
 	
 	<target name="composer-install" depends="get-composer">
-		<exec command="php composer.phar install ${composer.dev} --prefer-source" passthru="true" checkreturn="true" />
+		<exec command="php composer.phar install ${composer.dev} ${composer.source}" passthru="true" checkreturn="true" />
 	</target>
 	
 	<target name="composer-update" depends="get-composer">
-		<exec command="php composer.phar update ${composer.dev} --prefer-source" passthru="true" checkreturn="true" />
+		<exec command="php composer.phar update ${composer.dev} ${composer.source}" passthru="true" checkreturn="true" />
 	</target>
 </project>
