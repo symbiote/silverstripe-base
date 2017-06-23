@@ -4,7 +4,7 @@
  * A set of utility functions commonly used in all sites
  *
  * @license http://silverstripe.org/bsd-license
- * @author Marcus Nyeholt <marcus@silverstripe.com.au> 
+ * @author Marcus Nyeholt <marcus@symbiote.com.au> 
  */
 class SiteUtils {
 	public function __construct() {}

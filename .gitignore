@@ -19,7 +19,7 @@
 /build/
 /cms/
 /framework/
-/ssautesting/
+/silverstripe-test-assist/
 /composer.phar
 /sqlite3/
 *.rej

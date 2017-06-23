@@ -27,7 +27,7 @@
  *
  * 
  *  
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license http://silverstripe.org/bsd-license/
  */
 class FixtureLoader {

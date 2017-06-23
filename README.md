@@ -1,6 +1,6 @@
-# SilverStripe Australia Base
+# Symbiote Base
 
-Please read the wiki at https://github.com/silverstripe-australia/silverstripe-base/wiki/Home
+Please read the wiki at https://github.com/symbiote/silverstripe-base/wiki/Home
 
 ## Requirements
 

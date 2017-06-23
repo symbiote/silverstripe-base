@@ -1,6 +1,6 @@
 {
 	"name": "symbiote/silverstripe-base",
-	"description": "Ozzy: the SilverStripe Australia project installer",
+	"description": "Ozzy: the Symbiote project installer",
 	"require": {
 		"php": ">=5.3.2",
 		"gdmedia/ss-auto-git-ignore": "^0.0.3",
