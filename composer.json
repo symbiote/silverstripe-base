@@ -21,6 +21,9 @@
 			"dev-master": "4.0.x-dev"
 		}
 	},
+	"replace": {
+		"silverstripe-australia/base": "self.version"
+	},
 	"scripts": {
 		"post-update-cmd": [
 			"GDM\\SSAutoGitIgnore\\UpdateScript::Go"
