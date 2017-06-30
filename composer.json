@@ -17,6 +17,7 @@
 		"phpunit/phpunit-selenium": ">=1.2"
 	},
 	"extra": {
+		"installer-name": "base",
 		"branch-alias": {
 			"dev-master": "3.1.x-dev"
 		}
