@@ -2,7 +2,6 @@
 /assets/
 /jsparty/
 /nbproject/
-/mysite/local.conf.php
 /mysite/_config/local.yml
 /mysite/BUILD_NUMBER
 /mysite/*.log
@@ -23,3 +22,4 @@
 /composer.phar
 /sqlite3/
 *.rej
+/.env

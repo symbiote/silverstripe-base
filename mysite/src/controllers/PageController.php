@@ -1,22 +1,8 @@
 <?php
 
-class Page extends SiteTree {
-	
-	private static $db = array(
-	);
-	
-	private static $has_one = array(
-	);
-	
-	public function requireDefaultRecords() {
-		if (Director::isDev()) {
-			$loader = new FixtureLoader();
-			$loader->loadFixtures();
-		}
-	}
-}
+use SilverStripe\CMS\Controllers\ContentController;
 
-class Page_Controller extends ContentController {
+class PageController extends ContentController {
 	/**
 	 * An array of actions that can be accessed via a request. Each array element should be an action name, and the
 	 * permissions or conditions required to allow the user to access it.

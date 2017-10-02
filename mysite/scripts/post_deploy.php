@@ -1,4 +1,6 @@
 <?php
+
+use SilverStripe\Control\Director;
 include_once dirname(__FILE__).'/deploy_helpers.php';
 
 $cwd = getcwd();

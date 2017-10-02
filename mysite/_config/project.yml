@@ -1,4 +1,6 @@
-SSViewer:
-  theme: simple 
+SilverStripe\Core\Manifest\ModuleManifest:
+  project: mysite
+SilverStripe\View\SSViewer:
+  theme: simple
 MySQLDatabase:
   connection_charset: utf8

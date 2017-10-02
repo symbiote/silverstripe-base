@@ -1,5 +1,7 @@
 <?php
 
+use SilverStripe\Core\Convert;
+
 /**
  * A set of utility functions commonly used in all sites
  *

@@ -1,5 +1,12 @@
 <?php
 
+use SilverStripe\Core\ClassInfo;
+use SilverStripe\Control\Director;
+use SilverStripe\Core\Convert;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\Dev\YamlFixture;
+use SilverStripe\ORM\DB;
+
 /**
  * A utility class used to load fixtures into the system
  * 
