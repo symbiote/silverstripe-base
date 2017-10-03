@@ -1,4 +1,19 @@
+---
+Name: mysite-project
+---
 SilverStripe\Core\Manifest\ModuleManifest:
   project: mysite
 SilverStripe\View\SSViewer:
   theme: simple
+---
+Name: mysite-errors
+---
+SilverStripe\Core\Injector\Injector:
+  Psr\Log\LoggerInterface:
+    calls:
+      LogFileHandler: [ pushHandler, [ %$LogFileHandler ] ]
+  LogFileHandler:
+    class: Monolog\Handler\StreamHandler
+    constructor:
+      - "../silverstripe.log"
+      - "info"
