@@ -21,7 +21,7 @@ class PageController extends ContentController {
 	private static $allowed_actions = array(
 	);
 	
-	public function init() {
+	protected function init() {
 		parent::init();
 
 	}

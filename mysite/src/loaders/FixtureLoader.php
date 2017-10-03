@@ -6,6 +6,7 @@ use SilverStripe\Core\Convert;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Dev\YamlFixture;
 use SilverStripe\ORM\DB;
+use SilverStripe\Subsites\Model\Subsite;
 
 /**
  * A utility class used to load fixtures into the system
@@ -42,7 +43,7 @@ class FixtureLoader {
 	);
 
 	public function loadFixtures() {
-		if (ClassInfo::exists('Subsite')) {
+		if (ClassInfo::exists(Subsite::class)) {
 			$currentSubsite = Subsite::currentSubsiteID();
 		}
 
@@ -51,7 +52,7 @@ class FixtureLoader {
 			if (file_exists(Director::baseFolder().'/'.$fixtureFile)) {
 				$siteID = null;
 				if (isset($desc['subsite'])) {
-					$site = DataObject::get_one('Subsite', '"Title" = \''.Convert::raw2sql($desc['subsite']).'\'');
+					$site = DataObject::get_one(Subsite::class, '"Title" = \''.Convert::raw2sql($desc['subsite']).'\'');
 					if ($site && $site->ID) {
 						$siteID = $site->ID;
 					}
@@ -64,14 +65,14 @@ class FixtureLoader {
 
 				// need to disable the filter when running dev/build so that it actually searches
 				// within the relevant subsite, not the 'current' one.
-				if (ClassInfo::exists('Subsite')) {
+				if (ClassInfo::exists(Subsite::class)) {
 					Subsite::$disable_subsite_filter = true;
 				}
 
 				$filter = $desc['filter'] . ($siteID ? ' AND "SubsiteID"='.$siteID : '');
 				$existing = DataObject::get_one($desc['type'], $filter);
 
-				if (ClassInfo::exists('Subsite')) {
+				if (ClassInfo::exists(Subsite::class)) {
 					Subsite::$disable_subsite_filter = false;
 				}
 
@@ -87,7 +88,7 @@ class FixtureLoader {
 			}
 		}
 
-		if (ClassInfo::exists('Subsite')) {
+		if (ClassInfo::exists(Subsite::class)) {
 			Subsite::changeSubsite($currentSubsite);
 		}
 	}
