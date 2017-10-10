@@ -1,7 +1,15 @@
-# Symbiote Base
+# [Base](https://packagist.org/packages/symbiote/silverstripe-base)
 
-Please read the wiki at https://github.com/symbiote/silverstripe-base/wiki/Home
+> The recommended foundation for a base project.
 
-## Requirements
+## Requirement
 
-* mod_headers enabled in apache configuration
+* SilverStripe 3.0 → **4.0**
+* Composer
+* [Phing](https://www.phing.info/)
+
+## Getting Started
+
+* `composer create-project symbiote/silverstripe-base . 4.0.2` for SS3
+* `composer create-project symbiote/silverstripe-base . dev-master` for SS4
+* `phing`
