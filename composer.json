@@ -8,14 +8,11 @@
 		"silverstripe/errorpage": "~2.0",
 		"silverstripe/framework": "~4.0",
 		"silverstripe/sqlite3": "~2.1",
-		"silverstripe-themes/simple": "~3.2",
-		"symbiote/silverstripe-build": "~4.0",
-		"symbiote/silverstripe-test-assist": "~4.0"
+		"silverstripe-themes/simple": "~3.2"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "3.7.*",
-		"phpunit/php-code-coverage": "~1.2",
-		"phpunit/phpunit-selenium": ">=1.2"
+		"symbiote/silverstripe-build": "~4.0",
+		"symbiote/silverstripe-test-assist": "~4.0"
 	},
 	"extra": {
 		"installer-name": "base",
