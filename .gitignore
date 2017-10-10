@@ -18,3 +18,9 @@
 *.rej
 /.env
 /resources/
+
+/themes/*/public/
+/themes/*/yarn-error.log
+/themes/*/npm-debug.log
+/themes/*/node_modules/
+
