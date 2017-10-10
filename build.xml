@@ -21,34 +21,16 @@
 			<available file="${project.basedir}/build/buildfile.xml" />
 		</not>
 		<then>
-			<!-- unfortunately we can't abstract this behind anything; we can't do a phingcall here
-			because we have no parent target as the context. We can't make this bit a target
-			because we can't <import> a file from within a target, it has to be at the root-->
-			<if>
-				<not><available file="composer.phar" /></not>
-				<then>
-					<exec command="curl -s https://getcomposer.org/installer | php" passthru="true" checkreturn="true" />
-				</then>
-			</if>
-			<exec command="php composer.phar install ${composer.dev} ${composer.source}" passthru="true" checkreturn="true" />
+			<exec command="composer install ${composer.dev} ${composer.source}" passthru="true" checkreturn="true" />
 		</then>
 	</if>
 	<import file="${project.basedir}/build/buildfile.xml"/>
 	
-	<target name="get-composer">
-		<if>
-			<not><available file="composer.phar" /></not>
-			<then>
-				<exec command="curl -s https://getcomposer.org/installer | php" passthru="true" checkreturn="true" />
-			</then>
-		</if>
+	<target name="composer-install">
+		<exec command="composer install ${composer.dev} ${composer.source}" passthru="true" checkreturn="true" />
 	</target>
 	
-	<target name="composer-install" depends="get-composer">
-		<exec command="php composer.phar install ${composer.dev} ${composer.source}" passthru="true" checkreturn="true" />
-	</target>
-	
-	<target name="composer-update" depends="get-composer">
-		<exec command="php composer.phar update ${composer.dev} ${composer.source}" passthru="true" checkreturn="true" />
+	<target name="composer-update">
+		<exec command="composer update ${composer.dev} ${composer.source}" passthru="true" checkreturn="true" />
 	</target>
 </project>
