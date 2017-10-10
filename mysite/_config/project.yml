@@ -15,5 +15,5 @@ SilverStripe\Core\Injector\Injector:
   LogFileHandler:
     class: Monolog\Handler\StreamHandler
     constructor:
-      - "../silverstripe.log"
+      - "mysite/silverstripe.log"
       - "info"
