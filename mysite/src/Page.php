@@ -2,6 +2,7 @@
 
 use SilverStripe\Control\Director;
 use SilverStripe\CMS\Model\SiteTree;
+use Symbiote\Base\FixtureLoader;
 
 class Page extends SiteTree {
 	
