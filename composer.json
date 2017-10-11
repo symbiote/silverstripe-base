@@ -20,6 +20,12 @@
 			"dev-master": "5.0.x-dev"
 		}
 	},
+	"autoload": {
+		"psr-4": {
+			"Symbiote\\Base\\": "mysite/src/",
+			"Symbiote\\Base\\Tests\\": "mysite/tests/"
+		}
+	},
 	"replace": {
 		"silverstripe-australia/base": "self.version"
 	},
