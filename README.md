@@ -10,6 +10,6 @@
 
 ## Getting Started
 
-* `composer create-project symbiote/silverstripe-base . 4.0.2` for SS3
+* `composer create-project symbiote/silverstripe-base . 4.0.3` for SS3
 * `composer create-project symbiote/silverstripe-base . dev-master` for SS4
 * `phing`
