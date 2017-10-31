@@ -1,9 +1,5 @@
 <?php
 
-use SilverStripe\Control\Director;
-use SilverStripe\ORM\Connect\MySQLDatabase;
-use SilverStripe\SQLite\SQLite3Database;
-
 if (PHP_SAPI != 'cli') {
 	header("HTTP/1.0 404 Not Found");
 	exit;
@@ -18,7 +14,7 @@ $outfile = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : $outfile = Directo
 global $databaseConfig;
 
 switch ($databaseConfig['type']) {
-	case MySQLDatabase::class:
+	case 'MySQLDatabase':
 		$u = $databaseConfig['username'];
 		$p = $databaseConfig['password'];
 		$h = $databaseConfig['server'];
@@ -28,7 +24,7 @@ switch ($databaseConfig['type']) {
 		exec($cmd);
 		break;
 	case 'SQLiteDatabase':
-	case SQLite3Database::class:
+	case 'SQLite3Database':
 		$d = $databaseConfig['database'];
 		$path = realpath(dirname(__FILE__).'/../../assets/.sqlitedb/'.$d);
 		$cmd = "sqlite3 ".escapeshellarg($path)." .dump | gzip > ".escapeshellarg($outfile);
