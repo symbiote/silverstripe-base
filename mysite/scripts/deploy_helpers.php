@@ -15,6 +15,10 @@ function site_base() {
 	return dirname(mysite_base());
 }
 
+function is_ss4() {
+    return file_exists(site_base() . '/vendor/silverstripe/framework') && is_dir(site_base() . '/vendor/silverstripe/framework');
+}
+
 function all_releases() {
 	static $releases;
 	
@@ -60,8 +64,11 @@ function old_path() {
 $cwd = getcwd();
 
 $_SERVER['SCRIPT_FILENAME'] = __FILE__;
-chdir(site_base().'/framework');
-require_once 'core/Core.php';
+
+require site_base().'/vendor/silverstripe/framework/src/includes/autoload.php';
+chdir(site_base().'/vendor/silverstripe/framework');
+require_once 'src/Core/Kernel.php';
+require_once 'src/Core/CoreKernel.php';
 
 chdir($cwd);
 
