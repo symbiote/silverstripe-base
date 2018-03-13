@@ -6,6 +6,14 @@ if (PHP_SAPI != 'cli') {
 }
 
 $_SERVER['SCRIPT_FILENAME'] = __FILE__;
+
+$project_base = dirname(dirname(dirname(__FILE__)));
+
+if (!is_dir($project_base.'/framework') && file_exists(__DIR__ . '/backup_database_ss4.php')) {
+	// let's assume SS4 and relieve ourself of duty
+	return include __DIR__ . '/backup_database_ss4.php';
+}
+
 chdir(dirname(dirname(dirname(__FILE__))).'/framework');
 require_once 'core/Core.php';
 
