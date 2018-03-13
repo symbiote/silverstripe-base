@@ -11,7 +11,7 @@ if (is_ss4()) {
     // .env file
     $env = $oldPath . '/.env';
     if (file_exists($env)) {
-        $cmd = "cp $oldPath $newPath/.env";
+        $cmd = "cp $oldPath/.env $newPath/.env";
         $cmds[] = $cmd;
         `$cmd`;
     } else {
