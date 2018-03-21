@@ -7,6 +7,8 @@ if (!file_exists(mysite_base().'/local.conf.php')) {
 $DEFAULT_ADMIN = '';
 $DEFAULT_PASS = '';
 
+$SET_AUTH = false;
+
 // dummy files for local.conf to not break
 class Email {
     public static function getAdminEmail() {
@@ -15,8 +17,10 @@ class Email {
 }
 
 class BasicAuth {
-    public static function protect_entire_site() {
+    public static function protect_entire_site($group = 'true') {
+        global $SET_AUTH;
 
+        $SET_AUTH = $group;
     }
 }
 
@@ -54,7 +58,7 @@ SS_BASE_URL="//localhost/"
 
 ## This is used to determine the cache directory name, where it should match your command line user.
 
-APACHE_RUN_USER="www-data"
+APACHE_RUN_USER="deploy"
 
 ## Database
 
@@ -67,6 +71,10 @@ SS_DATABASE_CHOOSE_NAME="true"
 SS_DATABASE_NAME="{$databaseConfig['database']}"
 
 TMPL;
+
+if ($SET_AUTH) {
+    $tmpl .= "\nSS_USE_BASIC_AUTH=$SET_AUTH\n";
+}
 
 $envfile = site_base().'/.env';
 
