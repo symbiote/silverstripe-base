@@ -18,6 +18,8 @@ if (is_ss4()) {
         $cmds[] = "Generating env file";
         include __DIR__ . '/generate_env.php';
     }
+    $cmd = "rm $newPath/_ss_environment.php";
+    `$cmd`;
 }
 
 // handles static cache output dir
