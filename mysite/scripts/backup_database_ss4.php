@@ -35,6 +35,7 @@ require site_base().'/vendor/silverstripe/framework/src/includes/autoload.php';
 // Build request and detect flush
 //$request = HTTPRequestBuilder::createFromEnvironment();
 $kernel = new CoreKernel(BASE_PATH);
+$kernel->boot(true);
 
 $outfile = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : $outfile = Director::baseFolder().'/mysite/scripts/backup-'.date('Y-m-d-H-i-s').'.sql.gz';
 
