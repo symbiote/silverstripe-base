@@ -10,7 +10,7 @@
 		"silverstripe-themes/simple": "~3.2"
 	},
 	"require-dev": {
-		"symbiote/silverstripe-build": "~4.0",
+		"symbiote/silverstripe-build": "~5.0",
 		"symbiote/silverstripe-test-assist": "~4.0"
 	},
 	"extra": {
