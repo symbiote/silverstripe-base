@@ -18,6 +18,7 @@
 *.rej
 /.env
 /resources/
+/.vscode/
 
 /themes/*/public/
 /themes/*/yarn-error.log
