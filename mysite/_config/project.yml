@@ -7,6 +7,8 @@ SilverStripe\View\SSViewer:
   theme: simple
 ---
 Name: mysite-errors
+Only:
+  environment: dev
 ---
 SilverStripe\Core\Injector\Injector:
   Psr\Log\LoggerInterface:
