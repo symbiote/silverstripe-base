@@ -10,6 +10,9 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\Dev\YamlFixture;
 use SilverStripe\ORM\DB;
 use SilverStripe\Subsites\Model\Subsite;
+use SilverStripe\Core\Config\Configurable;
+use SilverStripe\Dev\FixtureFactory;
+use SilverStripe\Core\Injector\Injector;
 
 
 
@@ -21,11 +24,13 @@ use SilverStripe\Subsites\Model\Subsite;
  * search for an existing record so that the fixture isn't bootstrapped multiple
  * times
  * 
- * FixtureLoader::$preload_fixtures[] = array(
- *		'file' => 'path/to/yaml.yml',
- *		'type' => 'ClassType',				// used to look for an existing object 
- *		'filter' => '"Field" = \'Value\'',	// used to find an existing object
- *		'subsite' => 'Subsite Title',		// the title of a subsite this item should be created in
+ * Symbiote\Base\FixtureLoader:
+ *   preload_fixtures:
+ *     key:
+ *		 file: path/to/yaml.yml
+ *       type: ClassType                // data object type to load for filtering
+ *		 filter:                        // used to find an existing object
+ *		   Field: Value	
  * );
  * 
  * To make use of it, add something like the following to your
@@ -44,57 +49,37 @@ use SilverStripe\Subsites\Model\Subsite;
  * @license http://silverstripe.org/bsd-license/
  */
 class FixtureLoader {
-	public static $preload_fixtures = array(
-	);
 
+    use Configurable;
+
+    private static $preload_fixtures = [];
+    
 	public function loadFixtures() {
-		if (ClassInfo::exists(Subsite::class)) {
-			$currentSubsite = Subsite::currentSubsiteID();
-		}
-
-		foreach (self::$preload_fixtures as $desc) {
+        
+		foreach (self::config()->preload_fixtures as $desc) {
 			$fixtureFile = $desc['file'];
 			if (file_exists(Director::baseFolder().'/'.$fixtureFile)) {
-				$siteID = null;
-				if (isset($desc['subsite'])) {
-					$site = DataObject::get_one(Subsite::class, '"Title" = \''.Convert::raw2sql($desc['subsite']).'\'');
-					if ($site && $site->ID) {
-						$siteID = $site->ID;
-					}
+                $fixtureFactory = Injector::inst()->create(FixtureFactory::class);
+                $type = isset($desc['type']) ? $desc['type'] : null;
+				$filter = isset($desc['filter']) ? $desc['filter'] : null;
+                
+                $doFixture = true;
+                
+                if ($type) {
+                    $existing = $type::get();
+                    $existing = $filter ? $existing->filter($filter) : $existing;
+                    $exists = $existing->first();
+                    if ($exists) {
+                        $doFixture = false;
+                    }
+                }
 
-					if (!$siteID) {
-						// no site, so just skip this file load
-						continue;
-					}
-				}
-
-				// need to disable the filter when running dev/build so that it actually searches
-				// within the relevant subsite, not the 'current' one.
-				if (ClassInfo::exists(Subsite::class)) {
-					Subsite::$disable_subsite_filter = true;
-				}
-
-				$filter = $desc['filter'] . ($siteID ? ' AND "SubsiteID"='.$siteID : '');
-				$existing = DataObject::get_one($desc['type'], $filter);
-
-				if (ClassInfo::exists(Subsite::class)) {
-					Subsite::$disable_subsite_filter = false;
-				}
-
-				if (!$existing) {
-					if ($siteID) {
-						Subsite::changeSubsite($siteID);
-					}
-
-					$fixture = new YamlFixture($fixtureFile);
-					$fixture->saveIntoDatabase();
+				if ($doFixture) {
+                    $fixture = YamlFixture::create($fixtureFile);
+					$fixture->writeInto($fixtureFactory);
 					DB::alteration_message('YAML bootstrap loaded from '.$fixtureFile, 'created');
 				}
 			}
-		}
-
-		if (ClassInfo::exists(Subsite::class)) {
-			Subsite::changeSubsite($currentSubsite);
 		}
 	}
 }
