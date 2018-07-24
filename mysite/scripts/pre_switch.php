@@ -7,21 +7,6 @@ $newPath = site_base();
 $MYSITE_BASE = mysite_base();
 
 
-if (is_ss4()) {
-    // .env file
-    $env = $oldPath . '/.env';
-    if (file_exists($env)) {
-        $cmd = "cp $oldPath/.env $newPath/.env";
-        $cmds[] = $cmd;
-        `$cmd`;
-    } else {
-        $cmds[] = "Generating env file";
-        include __DIR__ . '/generate_env.php';
-    }
-    $cmd = "rm $newPath/_ss_environment.php";
-    `$cmd`;
-}
-
 // handles static cache output dir
 if ($oldPath && is_dir("$oldPath/cache")) {
 	$cache = "$oldPath/cache";
