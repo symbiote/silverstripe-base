@@ -28,7 +28,7 @@ switch ($databaseConfig['type']) {
 		$h = $databaseConfig['server'];
 		$d = $databaseConfig['database'];
 
-		$cmd = "mysqldump --user=".escapeshellarg($u)." --password=".escapeshellarg($p)." --ignore-table=$d.details --host=".escapeshellarg($h)." ".escapeshellarg($d)." | gzip > ".escapeshellarg($outfile);
+		$cmd = "mysqldump --user=".escapeshellarg($u)." --password=".escapeshellarg($p)." --ignore-table=$d.details --host=".escapeshellarg($h)." ".escapeshellarg($d)." --max_allowed_packet=512M | gzip > ".escapeshellarg($outfile);
 		exec($cmd);
 		break;
 	case 'SQLiteDatabase':
@@ -40,5 +40,3 @@ switch ($databaseConfig['type']) {
 		break;
 	default: break;
 }
-
-
