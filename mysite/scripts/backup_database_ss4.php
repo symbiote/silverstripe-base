@@ -52,7 +52,7 @@ switch ($envVars['SS_DATABASE_CLASS']) {
                 $h = $envVars['SS_DATABASE_SERVER'];
                 $d = $envVars['SS_DATABASE_NAME'];
 
-                $cmd = "mysqldump --user=".escapeshellarg($u)." --password=".escapeshellarg($p)." --ignore-table=$d.details --host=".escapeshellarg($h)." ".escapeshellarg($d)." --max_allowed_packet=512M | gzip > ".escapeshellarg($outfile);
+                $cmd = "mysqldump --user=".escapeshellarg($u)." --password=".escapeshellarg($p)." --ignore-table=$d.details --host=".escapeshellarg($h)." ".escapeshellarg($d)." --max_allowed_packet=512M --set-gtid-purged=off | gzip > ".escapeshellarg($outfile);
                 exec($cmd);
                 break;
         case 'SQLiteDatabase':
