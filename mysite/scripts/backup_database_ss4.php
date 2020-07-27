@@ -52,8 +52,20 @@ switch ($envVars['SS_DATABASE_CLASS']) {
                 $h = $envVars['SS_DATABASE_SERVER'];
                 $d = $envVars['SS_DATABASE_NAME'];
 
-                $cmd = "mysqldump --user=".escapeshellarg($u)." --password=".escapeshellarg($p)." --ignore-table=$d.details --host=".escapeshellarg($h)." ".escapeshellarg($d)." --max_allowed_packet=512M --set-gtid-purged=off | gzip > ".escapeshellarg($outfile);
-                exec($cmd);
+                $cmd = "mysql --user=".escapeshellarg($u)." --password=".escapeshellarg($p)." --host=".escapeshellarg($h)." -e \"SHOW VARIABLES LIKE 'version'\" -E";
+                preg_match("/^.*Value: ([0-9]\.[0-9]+).*/", explode("\n", shell_exec($cmd))[2], $version);
+
+                $opts = "--set-gtid-purged=off";
+                if ($version[1] == "5.6") {
+                  $opts = "";
+                }
+
+                $cmd = "mysqldump --user=".escapeshellarg($u)." --password=".escapeshellarg($p)." --ignore-table=$d.details --host=".escapeshellarg($h)." ".escapeshellarg($d)." --max_allowed_packet=512M $opts | gzip > ".escapeshellarg($outfile);
+                exec($cmd, $o, $ret);
+                if ($ret != 0) {
+                  echo(join("\n", $o));
+                  exit(1);
+                }
                 break;
         case 'SQLiteDatabase':
         case 'SQList3Database':
