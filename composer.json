@@ -10,7 +10,7 @@
 		"silverstripe-themes/simple": "~3.2@stable"
 	},
 	"require-dev": {
-		"symbiote/silverstripe-build": "~5.0",
+		"symbiote/silverstripe-build": "^5.2.9",
 		"phpunit/phpunit": "~5.7.0",
 		"symbiote/silverstripe-test-assist": "~4.0"
 	},
