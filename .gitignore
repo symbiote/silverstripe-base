@@ -19,6 +19,9 @@
 /.env
 /resources/
 /.vscode/
+/public/assets/
+/public/resources/
+/public/.htaccess
 
 /themes/*/public/
 /themes/*/yarn-error.log
